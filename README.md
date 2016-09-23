@@ -6,6 +6,7 @@ Check related isbio repository at https://github.com/Fclem/isbio
 How-to :
 
 1) $ git clone https://github.com/Fclem/docker-breeze.git
+
 2) $ ./init
 
 done !
