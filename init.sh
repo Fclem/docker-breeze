@@ -2,9 +2,10 @@
 source run.conf
 git_repo=https://github.com/Fclem/isbio2.git
 END_C=\e[0m
-RED=\e[1;32m
+RED=\e[91m
 L_CYAN=\e[96m
 L_YELL=\e[93m
+GREEN=\e[32m
 
 # create empty files for easier bash completition when using docker start/attach etc.
 touch $breeze_cont_name
@@ -40,7 +41,7 @@ if [ "$(ls -A $code_folder)" ]; then
 	echo -e $L_YELL"$code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e "\e[1;32m\nWould you like to clone ${git_repo} repository in ${code_folder} folder ? "$END_C
+	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${code_folder} folder ? "$END_C
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p \
 	$'(Y/n) ' do_git_clone
