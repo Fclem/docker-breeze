@@ -10,5 +10,5 @@ docker run \
 	-p 8000:8000 \
 	--restart=on-failure \
 	$full_img_name \
-	/root/code/isbio/manage.py runserver 0.0.0.0:8000
+	$docker_root_folder/isbio/manage.py runserver 0.0.0.0:8000
  	
