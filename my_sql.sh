@@ -31,7 +31,7 @@ if hash mysql 2>/dev/null; then
 	   last_ret=$?
 	done
 	echo
-	list=`echo $list | grep -v "information_schema\|mysql\|performance_schema\|sys\|Databases"`
+	list=`echo $list | grep -v "information_schema" |grep -v "mysql" |grep -v "performance_schema" |grep -v "sys" |grep -v "Databases"`
 	echo "#"$list"#"
 	if [ -z "$list" ]; then
 		echo -e $RED"INIT FAILURE :"$END_C
