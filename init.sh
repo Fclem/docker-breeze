@@ -23,7 +23,7 @@ if [ ! -d "$project_folder" ] ; then
 	mkdir $project_folder/code
 	mkdir $db_folder $db_folder/configs $db_folder/datasets $db_folder/jobs $db_folder/mould $db_folder/pipelines \
 	$db_folder/reports $db_folder/scripts $db_folder/shinyReports $db_folder/shinyTags $db_folder/swap $db_folder/upload_temp
-	mkdir $db_folder/configs/engine $db_folder $db_folder/configs/exec $db_folder $db_folder/configs/target
+	mkdir $db_folder/configs/engine $db_folder/configs/exec $db_folder/configs/target
 else
 	echo "Already exists : "$project_folder
 fi
