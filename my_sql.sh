@@ -37,7 +37,9 @@ if hash mysql 2>/dev/null; then
 		echo -e $RED"INIT FAILURE :"$END_C
 		echo "It seems breeze DB was not loaded into mysql, c.f. container log :"
 		docker logs $mysql_cont_name
-		docker rmi -f $mysql_cont_name
+		echo -e $RED"INIT FAILURE :"$END_C
+		echo "It seems breeze DB was not loaded into mysql, c.f. container log above"
+		docker rm -f $mysql_cont_name && echo "deleted $mysql_cont_name container"
 	else
 		echo -e $GREEN"SUCCESS"$END_C
 	fi
