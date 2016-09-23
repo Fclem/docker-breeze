@@ -1,17 +1,18 @@
 #!/bin/bash
 source run.conf
 
-run_args="--name $mysql_cont_name \
+docker run --name $mysql_cont_name \
 	-e MYSQL_ROOT_PASSWORD=$mysql_secret \
 	-v $local_root_path/breeze.sql:/docker-entrypoint-initdb.d/breeze.sql \
 	--restart=on-failure \
-	-d $mysql_image"
+	-d $mysql_image
 
-echo $run_args
+echo "waiting 30 sec for the init of the databes..."
 
-docker run $run_args
-#	--name $mysql_cont_name \
-#	-e MYSQL_ROOT_PASSWORD=$mysql_secret \
-#	-v $local_root_path/breeze.sql:/docker-entrypoint-initdb.d/breeze.sql \
-#	--restart=on-failure \
-#	-d $mysql_image
+sleep 30
+
+if hash mysql 2>/dev/null; then
+	# if mysql CLI exists, we display the list of DATABASE for the user to check if breezedb was successfully created or not
+	mysql_ip=`docker inspect $mysql_cont_name | grep IPAddress | grep -v null| cut -d '"' -f 4 | head -1`
+	mysql -h $mysql_ip -u root -p$pass -e 'SHOW DATABASES;'
+fi
