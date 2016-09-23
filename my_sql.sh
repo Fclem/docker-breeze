@@ -7,9 +7,14 @@ docker run --name $mysql_cont_name \
 	--restart=on-failure \
 	-d $mysql_image
 
-echo "waiting 30 sec for the initialisation of the database..."
+echo "waiting 60 sec for the initialisation of the database..."
 
-sleep 30
+secs=$((1 * 60))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
 
 if hash mysql 2>/dev/null; then
 	# if mysql CLI exists, we display the list of DATABASE for the user to check if breezedb was successfully created or not
