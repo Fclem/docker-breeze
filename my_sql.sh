@@ -28,8 +28,8 @@ if hash mysql 2>/dev/null; then
 	   last_ret=$?
 	done
 	
-	echo $db_list
+	# echo "$db_list"
 	# mysql_ip=`docker inspect $mysql_cont_name | grep IPAddress | grep -v null| cut -d '"' -f 4 | head -1`
 	# echo "mysql_ip:"$mysql_ip";"
-	# mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;'
+	mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;'
 fi
