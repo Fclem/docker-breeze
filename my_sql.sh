@@ -7,11 +7,13 @@ docker run --name $mysql_cont_name \
 	--restart=on-failure \
 	-d $mysql_image
 
-echo "waiting 60 sec for the initialisation of the database..."
+# echo "waiting 60 sec for the initialisation of the database..."
+
+mysql -h 172.17.0.2 -u root -p$mysql_secret -e 'SHOW DATABASES;'
 
 secs=$((1 * 60))
 while [ $secs -gt 0 ]; do
-   echo -ne "$secs\033[0K\r"
+   echo -ne "waiting $secs sec for the initialisation of the database...\033[0K\r"
    sleep 1
    : $((secs--))
 done
