@@ -1,11 +1,6 @@
 #!/bin/bash
 source run.conf
 git_repo=https://github.com/Fclem/isbio2.git
-END_C="\e[0m"
-RED="\e[91m"
-L_CYAN="\e[96m"
-L_YELL="\e[93m"
-GREEN="\e[32m"
 
 # create empty files for easier bash completition when using docker start/attach etc.
 touch $breeze_cont_name
@@ -55,6 +50,8 @@ else
 	fi
 	ln $mysql_secret_file $code_folder/configs/$mysql_secret_file
 fi
+
+chmod ugo+r breeze.sql
 
 docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
 docker pull fimm/breeze && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
