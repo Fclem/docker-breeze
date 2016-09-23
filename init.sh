@@ -56,5 +56,5 @@ chmod ugo+r breeze.sql
 docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
 docker pull fimm/breeze && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
-echo -e "\e[1;32mTo start breeze, lunch ./my_sql.sh and then ./run.sh"$END_C
+echo -e "\e[1;32mTo start breeze, lunch ./my_sql.sh and then ./run.sh &"$END_C
 echo -e $GREEN"DONE"$END_C

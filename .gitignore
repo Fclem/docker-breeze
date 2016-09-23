@@ -5,3 +5,5 @@ code/
 breeze_data/
 breeze-one
 breeze-sql
+*.pem
+*/*.pem
