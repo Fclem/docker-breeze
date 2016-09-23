@@ -1,8 +1,8 @@
 #!/bin/bash
 source run.conf
 
-$failure_text="MYSQL CONTAINER INIT FAILURE :"
-$check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"
+failure_text="MYSQL CONTAINER INIT FAILURE :"
+check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"
 
 docker run --name $mysql_cont_name \
 	-e MYSQL_ROOT_PASSWORD=$mysql_secret \
