@@ -7,6 +7,8 @@ touch $breeze_cont_name
 chmod ugo-rwx $breeze_cont_name
 touch $mysql_cont_name
 chmod ugo-rwx $mysql_cont_name
+touch $nginx_cont_name
+chmod ugo-rwx $nginx_cont_name
 
 
 # creates project folder if non existant
