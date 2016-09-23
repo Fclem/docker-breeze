@@ -33,7 +33,7 @@ if hash mysql 2>/dev/null; then
 	# output DB list
 	# mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null
 	# echo $list
-	if [ "$list" -eq "$def_db_list" ]; then
+	if [ "$list" = "$def_db_list" ]; then
 		echo -e $RED"INIT FAILURE :"$END_C
 		echo "It seems breeze DB was not loaded into mysql, c.f. container log :"
 		docker logs $mysql_cont_name
