@@ -7,12 +7,13 @@ docker run --name $mysql_cont_name \
 	--restart=on-failure \
 	-d $mysql_image
 
-echo "waiting 30 sec for the init of the databes..."
+echo "waiting 30 sec for the initialisation of the database..."
 
 sleep 30
 
 if hash mysql 2>/dev/null; then
 	# if mysql CLI exists, we display the list of DATABASE for the user to check if breezedb was successfully created or not
 	mysql_ip=`docker inspect $mysql_cont_name | grep IPAddress | grep -v null| cut -d '"' -f 4 | head -1`
-	mysql -h $mysql_ip -u root -p$pass -e 'SHOW DATABASES;'
+	echo "mysql_ip:"$mysql_ip";"
+	mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;'
 fi
