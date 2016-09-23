@@ -1,6 +1,10 @@
 #!/bin/bash
 source run.conf
 git_repo=https://github.com/Fclem/isbio2.git
+END_C=\e[0m
+RED=\e[1;32m
+L_CYAN=\e[96m
+L_YELL=\e[93m
 
 # create empty files for easier bash completition when using docker start/attach etc.
 touch $breeze_cont_name
@@ -33,10 +37,10 @@ fi
 
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $code_folder)" ]; then
-	echo "$code_folder is not empty, if you whish to clone isbio into it, clear it first"
+	echo -e $L_YELL"$code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e "\e[1;32m\nWould you like to clone ${git_repo} repository in ${code_folder} folder ?\e[0m "
+	echo -n -e "\e[1;32m\nWould you like to clone ${git_repo} repository in ${code_folder} folder ? "$END_C
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p \
 	$'(Y/n) ' do_git_clone
@@ -51,8 +55,8 @@ else
 fi
 
 docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
-docker pull fimm/breeze && echo 'Breeze docker image have been downloaded from dockerhub.
-You can also customize it and build it from docker_breeze_img/'
+docker pull fimm/breeze && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
+"$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 
 echo "DONE"
-echo -e "\e[1;32mTto start breeze, lunch ./my_sql.sh and then ./run.sh\e[0m"
+echo -e "\e[1;32mTto start breeze, lunch ./my_sql.sh and then ./run.sh"$END_C
