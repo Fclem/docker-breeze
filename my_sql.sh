@@ -27,13 +27,13 @@ if hash mysql 2>/dev/null; then
 	   echo -ne "waited $secs sec for the initialisation of the database...\033[0K"
 	   sleep 1
 	   : $((secs++))
-	   list=`mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null;`
+	   list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null;`
 	   last_ret=$?
 	done
-	# output DB list
-	# mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null
-	# echo $list
-	if [ "$list" = "$def_db_list" ]; then
+	echo
+	list=echo $list | grep -v "information_schema\|mysql\|performance_schema\|sys\|Databases"
+	echo "#"$list"#"
+	if [ -z $list ]; then
 		echo -e $RED"INIT FAILURE :"$END_C
 		echo "It seems breeze DB was not loaded into mysql, c.f. container log :"
 		docker logs $mysql_cont_name
