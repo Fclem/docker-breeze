@@ -19,21 +19,21 @@ chmod ugo-rwx $mysql_cont_name
 if [ ! -d "$project_folder" ] ; then
 	db_folder=$project_folder/db
 	mkdir $project_folder
-    	echo $project_folder", created."
+    	echo "created : "$project_folder
 	mkdir $project_folder/code
 	mkdir $db_folder $db_folder/configs $db_folder/datasets $db_folder/jobs $db_folder/mould $db_folder/pipelines \
 	$db_folder/reports $db_folder/scripts $db_folder/shinyReports $db_folder/shinyTags $db_folder/swap $db_folder/upload_temp
 	mkdir $db_folder $db_folder/configs/engine $db_folder $db_folder/configs/exec $db_folder $db_folder/configs/target
 else
-	echo $project_folder" exists already."
+	echo "Already exists : "$project_folder
 fi
 
 # creates code folder if non existant
 if [ ! -d "$code_folder" ] ; then
 	mkdir $code_folder
-   	echo $code_folder", created."
+   	echo "created : "$code_folder
 else
-	echo $project_folder" exists already."
+	echo "Already exists : "$project_folder
 fi
 
 # if code folder is empty, offer to clone isbio repo
