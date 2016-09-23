@@ -53,6 +53,7 @@ else
 	else
 		echo
 	fi
+	ln $mysql_secret_file $code_folder/configs/$mysql_secret_file
 fi
 
 docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
