@@ -31,6 +31,8 @@ if hash mysql 2>/dev/null; then
 	   last_ret=$?
 	done
 	echo
+	sleep 5
+	list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null;`
 	list=`echo $list | grep -v "information_schema" |grep -v "mysql" |grep -v "performance_schema" |grep -v "sys" |grep -v "Databases"`
 	echo "#"$list"#"
 	if [ -z "$list" ]; then
