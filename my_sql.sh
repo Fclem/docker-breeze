@@ -1,6 +1,9 @@
 #!/bin/bash
 source run.conf
 
+$failure_text="MYSQL CONTAINER INIT FAILURE :"
+$check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"
+
 docker run --name $mysql_cont_name \
 	-e MYSQL_ROOT_PASSWORD=$mysql_secret \
 	-v $local_root_path/breeze.sql:/docker-entrypoint-initdb.d/breeze.sql \
@@ -30,16 +33,17 @@ if hash mysql 2>/dev/null; then
 	   list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null;`
 	   last_ret=$?
 	done
+
 	echo
 	sleep 1
 	list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null | grep -v "information_schema" |grep -v "mysql" |grep -v "performance_schema" |grep -v "sys" |grep -v "Databases" |grep -v "+"`
-	echo "#"$list"#"
+
 	if [ -z "$list" ]; then
-		echo -e $RED"INIT FAILURE :"$END_C
-		echo "It seems breeze DB was not loaded into mysql, c.f. container log :"
+		echo -e $RED$failure_text$END_C
+		echo $check_log_text" :"
 		docker logs $mysql_cont_name
-		echo -e $RED"INIT FAILURE :"$END_C
-		echo "It seems breeze DB was not loaded into mysql, c.f. container log above"
+		echo -e $RED$failure_text$END_C
+		echo  $check_log_text" above"
 		# docker rm -f $mysql_cont_name && echo "deleted $mysql_cont_name container"
 	else
 		echo -e $GREEN"SUCCESS"$END_C
