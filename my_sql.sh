@@ -11,7 +11,7 @@ mysql_ip=""
 if hash mysql 2>/dev/null; then
 	# if mysql CLI exists, we display the list of DATABASE for the user to check if breezedb was successfully created or not
 	# mysql -h 172.17.0.2 -u root -p$mysql_secret -e 'SHOW DATABASES;'
-	while [ -z $mysql_ip]; do
+	while [ -z $mysql_ip ]; do
 		echo -ne "waiting for $mysql_cont_name ip adress...\033[0K\r"
 		mysql_ip=`docker inspect $mysql_cont_name | grep IPAddress | grep -v null| cut -d '"' -f 4 | head -1`
 		sleep 1
