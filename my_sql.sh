@@ -8,7 +8,6 @@ docker run --name $mysql_cont_name \
 	-d $mysql_image
 
 mysql_ip=""
-mysql_cmd="mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null"
 # if mysql CLI exists, we display the list of DATABASE for the user to check if breezedb was successfully created or not
 if hash mysql 2>/dev/null; then
 	# wait for container to get its ip adress
@@ -26,9 +25,9 @@ if hash mysql 2>/dev/null; then
 	   echo -ne "waited $secs sec for the initialisation of the database...\033[0K"
 	   sleep 1
 	   : $((secs++))
-	   $mysql_cmd > /dev/null
+	   mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null;
 	   last_ret=$?
 	done
 	# output DB list
-	$mysql_cmd
+	mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null
 fi
