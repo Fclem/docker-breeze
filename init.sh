@@ -8,6 +8,7 @@ chmod ugo-rwx $breeze_cont_name
 touch $mysql_cont_name
 chmod ugo-rwx $mysql_cont_name
 
+
 # creates project folder if non existant
 
 if [ ! -d "$project_folder" ] ; then
@@ -49,8 +50,8 @@ else
 	fi
 fi
 
-docker pull fimm/breeze
 docker pull fimm/mysql
+docker pull fimm/breeze && echo "Breeze docker image have been downloaded from dockerhub.\nYou can also customize an build it from docker_breeze_img/"
 
 echo "DONE"
-echo "to start breeze, lunch ./my_sql.sh and then ./run.sh"
+echo "\e[1;32mTto start breeze, lunch ./my_sql.sh and then ./run.sh\e[0m"
