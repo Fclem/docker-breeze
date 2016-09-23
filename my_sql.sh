@@ -31,9 +31,9 @@ if hash mysql 2>/dev/null; then
 	   last_ret=$?
 	done
 	echo
-	list=echo $list | grep -v "information_schema\|mysql\|performance_schema\|sys\|Databases"
+	list=`echo $list | grep -v "information_schema\|mysql\|performance_schema\|sys\|Databases"`
 	echo "#"$list"#"
-	if [ -z $list ]; then
+	if [ -z "$list" ]; then
 		echo -e $RED"INIT FAILURE :"$END_C
 		echo "It seems breeze DB was not loaded into mysql, c.f. container log :"
 		docker logs $mysql_cont_name
