@@ -26,7 +26,7 @@ if hash mysql 2>/dev/null; then
 	   echo -ne "waited $secs sec for the initialisation of the database...\033[0K"
 	   sleep 1
 	   : $((secs++))
-	   db_list=`$mysql_cmd`
+	   $mysql_cmd > /dev/null
 	   last_ret=$?
 	done
 	# output DB list
