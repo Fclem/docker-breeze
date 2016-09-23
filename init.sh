@@ -51,7 +51,8 @@ else
 fi
 
 docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
-docker pull fimm/breeze && echo "Breeze docker image have been downloaded from dockerhub.\nYou can also customize an build it from docker_breeze_img/"
+docker pull fimm/breeze && echo 'Breeze docker image have been downloaded from dockerhub.
+You can also customize it and build it from docker_breeze_img/'
 
 echo "DONE"
-echo "\e[1;32mTto start breeze, lunch ./my_sql.sh and then ./run.sh\e[0m"
+echo -e "\e[1;32mTto start breeze, lunch ./my_sql.sh and then ./run.sh\e[0m"
