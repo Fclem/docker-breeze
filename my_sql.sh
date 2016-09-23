@@ -45,7 +45,9 @@ if hash mysql 2>/dev/null; then
 		echo -e $RED$failure_text$END_C
 		echo  $check_log_text" above"
 		docker rm -f $mysql_cont_name && echo "deleted $mysql_cont_name container"
+		exit 1
 	else
 		echo -e $GREEN"SUCCESS"$END_C
+		exit 0
 	fi
 fi
