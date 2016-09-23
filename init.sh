@@ -49,4 +49,8 @@ else
 	fi
 fi
 
+docker pull fimm/breeze
+docker pull fimm/mysql
+
 echo "DONE"
+echo "to start breeze, lunch ./my_sql.sh and then ./run.sh"
