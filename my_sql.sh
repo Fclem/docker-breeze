@@ -32,7 +32,7 @@ if hash mysql 2>/dev/null; then
 	done
 	echo
 	sleep 1
-	list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null; | grep -v "information_schema" |grep -v "mysql" |grep -v "performance_schema" |grep -v "sys" |grep -v "Databases"|grep -v "+"`
+	list=`mysqlshow -h $mysql_ip -u root -p$mysql_secret 2>/dev/null | grep -v "information_schema" |grep -v "mysql" |grep -v "performance_schema" |grep -v "sys" |grep -v "Databases" |grep -v "+"`
 	echo "#"$list"#"
 	if [ -z "$list" ]; then
 		echo -e $RED"INIT FAILURE :"$END_C
