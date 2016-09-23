@@ -25,9 +25,10 @@ if hash mysql 2>/dev/null; then
 	   echo -ne "waited $secs sec for the initialisation of the database...\033[0K"
 	   sleep 1
 	   : $((secs++))
-	   mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null;
+	   list=`mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null;`
 	   last_ret=$?
 	done
 	# output DB list
 	mysql -h $mysql_ip -u root -p$mysql_secret -e 'SHOW DATABASES;' 2>/dev/null
+	echo $list
 fi
