@@ -732,13 +732,13 @@ CREATE TABLE `breeze_script_categories` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `breeze_shinyreport`
+-- Table structure for table `shiny_shinyreport`
 --
 
-DROP TABLE IF EXISTS `breeze_shinyreport`;
+DROP TABLE IF EXISTS `shiny_shinyreport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `breeze_shinyreport` (
+CREATE TABLE `shiny_shinyreport` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(55) NOT NULL,
   `description` varchar(350) NOT NULL,
@@ -759,13 +759,13 @@ CREATE TABLE `breeze_shinyreport` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `breeze_shinytag`
+-- Table structure for table `shiny_shinytag`
 --
 
-DROP TABLE IF EXISTS `breeze_shinytag`;
+DROP TABLE IF EXISTS `shiny_shinytag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `breeze_shinytag` (
+CREATE TABLE `shiny_shinytag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(55) NOT NULL,
   `label` varchar(32) NOT NULL,
@@ -785,19 +785,19 @@ CREATE TABLE `breeze_shinytag` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `breeze_shinytag_attached_report`
+-- Table structure for table `shiny_shinytag_attached_report`
 --
 
-DROP TABLE IF EXISTS `breeze_shinytag_attached_report`;
+DROP TABLE IF EXISTS `shiny_shinytag_attached_report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `breeze_shinytag_attached_report` (
+CREATE TABLE `shiny_shinytag_attached_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shinytag_id` int(11) NOT NULL,
   `shinyreport_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `shinytag_id` (`shinytag_id`,`shinyreport_id`),
-  CONSTRAINT `shinytag_id_refs_id_56dde903` FOREIGN KEY (`shinytag_id`) REFERENCES `breeze_shinytag` (`id`)
+  CONSTRAINT `shinytag_id_refs_id_56dde903` FOREIGN KEY (`shinytag_id`) REFERENCES `shiny_shinytag` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -939,3 +939,5 @@ CREATE TABLE `south_migrationhistory` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-06-20 11:43:36
+
+INSERT INTO `breeze_institute` VALUES (1,'FIMM'),(2,'SciLifeLab');
