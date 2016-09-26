@@ -10,6 +10,8 @@ docker run --name $mysql_cont_name \
 	--restart=on-failure \
 	-d $mysql_image
 
+# TODO check for previously existing container, and start it if stopped
+
 mysql_ip=""
 def_db_list="Database information_schema mysql performance_schema sys"
 

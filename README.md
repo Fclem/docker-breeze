@@ -9,9 +9,7 @@ How-to :
 
 2) $ ./init
 
-3) $ ./my_sql.sh
-
-4) $ ./run.sh &
+3) $ ./run.sh
 
 done !
 
