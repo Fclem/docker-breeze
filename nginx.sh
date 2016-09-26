@@ -9,5 +9,6 @@ docker run --name breeze-nginx \
 	--restart=on-failure \
 	-d -p 443:443 \
 	-p 80:80 \
-	nginx
-	
+	nginx && exit 0
+exit 1
+

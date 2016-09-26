@@ -51,3 +51,4 @@ if hash mysql 2>/dev/null; then
 		exit 0
 	fi
 fi
+
