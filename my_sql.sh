@@ -49,6 +49,7 @@ if hash mysql 2>/dev/null; then
 		docker rm -f $mysql_cont_name && echo "deleted $mysql_cont_name container"
 		exit 1
 	else
+		sleep 5
 		echo -e $GREEN"SUCCESS"$END_C
 		exit 0
 	fi
