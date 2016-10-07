@@ -2,7 +2,6 @@ code/
 .*/
 .*
 !.gitignore
-breeze_data/
 breeze-one
 breeze-sql
 breeze-nginx
