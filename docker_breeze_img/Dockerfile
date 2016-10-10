@@ -33,3 +33,4 @@ RUN apt-get -y autoclean
 # replace any files/dir in the container with the ones from ./fs_override/
 ADD fs_override /
 
+RUN apt-get -y install openssh-client
