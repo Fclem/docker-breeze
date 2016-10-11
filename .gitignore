@@ -5,4 +5,7 @@ breeze-one
 breeze-sql
 breeze-nginx
 *.pem
-*/*.pem
+*.crt
+*.key
+*_secret
+breeze_data/fs_*
