@@ -7,11 +7,19 @@ Check related isbio repository at https://github.com/Fclem/isbio
 
 How-to :
 
-1) $ git clone https://github.com/Fclem/docker-breeze.git
+```console
+git clone https://github.com/Fclem/docker-breeze.git
 
-2) $ ./init
+./init.sh
+```
 
-3) $ ./run.sh
+Copy private and public key, config, know_host in a ```.ssh``` folder.
+
+Store any relevent secret into ```code/config/```
+
+```console
+./run.sh
+```
 
 done !
 
