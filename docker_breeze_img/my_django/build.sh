@@ -6,5 +6,5 @@ source build.conf
 
 docker build -t $repo_name/$img_name .
 echo ${version}>.version
-docker tag $repo_name/$img_name $repo_name/$img_name:$tag$version
+docker tag $repo_name/$img_name $repo_name/$img_name:$tag$version$post_tag
 docker images $repo_name/$img_name
