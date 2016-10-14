@@ -1,5 +1,5 @@
 #!/bin/bash
-source run.conf
+source run_conf.sh
 
 echo -e $L_CYAN"Running Nginx container $nginx_cont_name"$END_C
 
@@ -16,7 +16,7 @@ all_params="-d --name $nginx_cont_name \
 	-p 80:80 \
 	nginx"
 
-echo "docker run $all_params"
+echo -e $SHDOL"docker run $all_params"
 
 docker run $all_params && echo -e $GREEN"SUCCESS"$END_C && exit 0
 echo -e $RED"FAILURE"$END_C

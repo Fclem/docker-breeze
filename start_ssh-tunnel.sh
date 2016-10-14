@@ -1,5 +1,5 @@
 #!/bin/bash
-source run.conf
+source run_conf.sh
 
 echo -e $L_CYAN"Running SSH bridge container $ssh_cont_name"$END_C
 
@@ -12,7 +12,7 @@ all_params="-d --name $ssh_cont_name \
 	$ssh_image \
 	*:$ssh_local_port:$ssh_forwarded_ip:$ssh_remote_port $ssh_user@$ssh_server"
 
-echo "docker run $all_params"
+echo -e $SHDOL"docker run $all_params"
 
 docker run $all_params && echo -e $GREEN"SUCCESS"$END_C && exit 0
 echo -e $RED"FAILURE"$END_C

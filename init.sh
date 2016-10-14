@@ -1,6 +1,8 @@
 #!/bin/bash
-source run.conf
+source run_conf.sh
 git_repo=https://github.com/Fclem/isbio2.git
+
+# TODO improve & finnish. Make a python shell script instead ?
 
 # create empty files for easier bash completition when using docker start/attach etc.
 touch $breeze_cont_name
@@ -57,8 +59,10 @@ fi
 
 chmod ugo+r breeze.sql
 
-./ssh_agent.fish
+echo -e $SHDOL"init_ssh-agent.fish"
+./init_ssh-agent.fish
 
+docker pull $ssh_image
 docker pull $mysql_image # this is an un-edited copy of default docker mysql image
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C

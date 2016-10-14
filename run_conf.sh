@@ -4,6 +4,7 @@ RED="\e[91m"
 L_CYAN="\e[96m"
 L_YELL="\e[93m"
 GREEN="\e[32m"
+SHDOL=$GREEN"$"$END_C" "
 
 local_root_path=`pwd`
 ssh_folder=$local_root_path/.ssh/

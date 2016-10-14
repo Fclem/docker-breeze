@@ -1,5 +1,5 @@
 #!/bin/bash
-source run.conf
+source run_conf.sh
 
 failure_text="MYSQL CONTAINER INIT FAILURE :"
 check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"
@@ -16,11 +16,11 @@ if [ $? -eq 1 ]; then
 		--restart=on-failure \
 		-d $mysql_image"
 
-	echo "docker run $all_params"
+	echo -e $SHDOL"docker run $all_params"
 	docker run $all_params
 else
 	# run the existing one
-	echo "docker start $mysql_cont_name"
+	echo -e $SHDOL"docker start $mysql_cont_name"
 	docker start $mysql_cont_name
 fi
 

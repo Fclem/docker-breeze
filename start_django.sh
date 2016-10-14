@@ -1,5 +1,5 @@
 #!/bin/bash
-source run.conf
+source run_conf.sh
 
 echo -e $L_CYAN"Running Django / Breeze container $breeze_cont_name"$END_C
 
@@ -12,7 +12,7 @@ all_params="-d -ti --name $breeze_cont_name \
 	$full_img_name \
 	$docker_root_folder/isbio/manage.py runserver 0.0.0.0:8000"
 
-echo "docker run $all_params"
+echo -e $SHDOL"docker run $all_params"
 
 docker run $all_params && echo -e $GREEN"SUCCESS"$END_C && exit 0
 echo -e $RED"FAILURE"$END_C
