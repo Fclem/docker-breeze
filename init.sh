@@ -9,6 +9,8 @@ touch $mysql_cont_name
 chmod ugo-rwx $mysql_cont_name
 touch $nginx_cont_name
 chmod ugo-rwx $nginx_cont_name
+touch $ssh_cont_name
+chmod ugo-rwx $ssh_cont_name
 
 
 # creates project folder if non existant
@@ -55,8 +57,10 @@ fi
 
 chmod ugo+r breeze.sql
 
-docker pull fimm/mysql # this is an un-edited copy of default docker mysql image
-docker pull fimm/breeze && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
+./ssh_agent.fish
+
+docker pull $mysql_image # this is an un-edited copy of default docker mysql image
+docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e "\e[1;32mTo start breeze, lunch ./run.sh"$END_C
 echo -e $GREEN"DONE"$END_C

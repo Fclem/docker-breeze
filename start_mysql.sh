@@ -4,13 +4,31 @@ source run.conf
 failure_text="MYSQL CONTAINER INIT FAILURE :"
 check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"
 
-docker run --name $mysql_cont_name \
-	-e MYSQL_ROOT_PASSWORD=$mysql_secret \
-	-v $local_root_path/breeze.sql:/docker-entrypoint-initdb.d/breeze.sql \
-	--restart=on-failure \
-	-d $mysql_image
+echo -e $L_CYAN"Running MySql container $mysql_cont_name"$END_C
 
-# TODO check for previously existing container, and start it if stopped
+# check if container already exsits (data persistance)
+docker inspect $mysql_cont_name > /dev/null 2>/dev/null
+if [ $? -eq 1 ]; then
+	# container does not exist, we create a new one
+	all_params="--name $mysql_cont_name \
+		-e MYSQL_ROOT_PASSWORD=$mysql_secret \
+		-v $local_root_path/breeze.sql:/docker-entrypoint-initdb.d/breeze.sql \
+		--restart=on-failure \
+		-d $mysql_image"
+
+	echo "docker run $all_params"
+	docker run $all_params
+else
+	# run the existing one
+	echo "docker start $mysql_cont_name"
+	docker start $mysql_cont_name
+fi
+
+if [ $? -ge 1 ]; then
+	echo -e $L_YELL"Unable to run/start $mysql_cont_name"$END_C
+	echo -e $RED"FAILURE"$END_C
+	exit 1
+fi
 
 mysql_ip=""
 def_db_list="Database information_schema mysql performance_schema sys"
@@ -47,11 +65,16 @@ if hash mysql 2>/dev/null; then
 		echo -e $RED$failure_text$END_C
 		echo  $check_log_text" above"
 		docker rm -f $mysql_cont_name && echo "deleted $mysql_cont_name container"
+		echo -e $RED"FAILURE"$END_C
 		exit 1
 	else
-		sleep 5
-		echo -e $GREEN"SUCCESS"$END_C
-		exit 0
+		echo -ne "waiting 2 more seconds...\033[0K"
+		sleep 2
+		echo -ne "\r"
 	fi
+else
+	echo -e $L_YELL"cannot check if DB is properly setup, since there is no local mysql client"$END_C
 fi
+echo -e $GREEN"SUCCESS"$END_C
+exit 0
 

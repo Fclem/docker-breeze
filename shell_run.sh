@@ -5,8 +5,7 @@ docker run \
 	-ti \
 	--rm \
 	--name $breeze_cont_name-shell \
-	--link $mysql_cont_name:mysql \
-	--link $mysql_cont_name:$mysql_cont_name \
+	$link_param \
 	$fs_param \
 	$full_img_name \
 	/usr/bin/fish
