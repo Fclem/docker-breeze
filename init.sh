@@ -55,8 +55,8 @@ fi
 
 # creates shiny folder if non existant
 if [ ! -d "$shiny_folder" ] ; then
-	mkdir -p $shiny_folder $shiny_log_folder && \
-   	echo "created : "$shiny_folder" "$shiny_log_folder
+	mkdir $shiny_folder_list && \
+   	echo "created : "$shiny_folder_list
 else
 	echo "Already exists : "$shiny_folder
 fi

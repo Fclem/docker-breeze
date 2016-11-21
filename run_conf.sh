@@ -13,7 +13,12 @@ project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. th
 docker_root_folder=/root/code
 docker_project_folder=/projects/breeze
 shiny_folder=$local_root_path/shiny
-shiny_log_folder=$local_root_path/shiny/.log
+shiny_log_folder=$shiny_folder/.log
+shiny_serv_folder=$shiny_folder/shiny
+shiny_app_folder=$shiny_serv_folder/breeze
+shiny_pub_folder=$shiny_serv_folder/pub
+
+shiny_folder_list="$shiny_folder $shiny_log_folder $shiny_serv_folder $shiny_app_folder $shiny_pub_folder"
 
 ssh_cont_name=breeze-ssh		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
 breeze_cont_name=breeze-one		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
@@ -65,9 +70,10 @@ fs_param="-v $code_folder:$docker_root_folder \
 link_param="--link $mysql_cont_name:mysql \
 	--link $mysql_cont_name:$mysql_cont_name \
 	--link $breezedb_cont_name:$breezedb_cont_name \
+	--link $shiny_cont_name:$shiny_cont_name \
 	$ssh_sup_link"
 
-shiny_param="-v $shiny_folder:/srv/shiny-server/ \
+shiny_param="-v $shiny_serv_folder:/srv/shiny-server/ \
     -v $shiny_log_folder:/var/log/ \
     $shiny_image"
 
