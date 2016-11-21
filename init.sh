@@ -82,11 +82,16 @@ else
 		echo -e $SHDOL"git clone $git_repo $actual_code_folder"
 		git clone $git_repo $actual_code_folder
 	fi
-	echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
-	ln -s $actual_code_folder $code_ln
 
-	echo -e $SHDOL"mkdir -p $breeze_secrets_folder 2>/dev/null"
-	mkdir -p $breeze_secrets_folder 2>/dev/null
+	# create a softlink to the code repo tld
+	if [ ! -d "$actual_code_folder" ] ; then
+		echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
+		ln -s $actual_code_folder $code_ln
+	fi
+
+	# create the screts folder
+	echo -e $SHDOL"mkdir $breeze_secrets_folder 2>/dev/null"
+	mkdir $breeze_secrets_folder 2>/dev/null
 
 	echo -e $SHDOL"ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
 	ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file

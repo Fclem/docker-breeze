@@ -25,7 +25,7 @@ shiny_serv_folder=$shiny_folder/shiny
 shiny_app_folder=$shiny_serv_folder/breeze
 shiny_pub_folder=$shiny_serv_folder/pub
 shiny_ln=$local_root_path/shiny
-code_ln=$code_folder
+code_ln="code"
 
 shiny_folder_list="$shiny_folder $shiny_log_folder $shiny_serv_folder $shiny_app_folder $shiny_pub_folder"
 
