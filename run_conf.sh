@@ -56,6 +56,7 @@ full_img_name=$repo_name/$img_name # change image name here
 
 # TODO FIXME use docker-compose or else
 
+# Optional ssh bridge link and fs mount options
 ssh_sup_fs=""
 ssh_sup_link=""
 if [ "1" -eq $ssh_enabled ]; then
@@ -66,6 +67,15 @@ else
 	ssh_image=''
 fi
 
+# Optional Breeze-DB link
+docker inspect $breezedb_cont_name 2>/dev/null
+has_breezedb=$?
+breezedb_sup_link=''
+if [ "0" -eq $has_breezedb ]; then
+	breezedb_sup_link="--link $breezedb_cont_name:$breezedb_cont_name"
+fi
+
+# list of containers names, and images names
 disposable_containers_list="$nginx_cont_name $breeze_cont_name $ssh_cont_name $ssh_cont_name"
 containers_list="$disposable_containers_list $mysql_cont_name"
 image_list="$shiny_image $mysql_image $breeze_image $ssh_image"
@@ -79,10 +89,10 @@ fs_param="-v $code_folder:$docker_root_folder \
 # linking param for django/breeze : the db container, the ssh port fw container
 link_param="--link $mysql_cont_name:mysql \
 	--link $mysql_cont_name:$mysql_cont_name \
-	--link $breezedb_cont_name:$breezedb_cont_name \
 	--link $shiny_cont_name:$shiny_cont_name \
-	$ssh_sup_link"
+	$breezedb_sup_link	$ssh_sup_link"
 
+# file system mounts for shiny apps and logs
 shiny_param="-v $shiny_serv_folder/:/srv/shiny-server/ \
     -v $shiny_log_folder/:/var/log/"
 
