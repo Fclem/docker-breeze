@@ -107,7 +107,7 @@ echo -e $SHDOL"docker pull $breeze_image"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e $BOLD"N.B. before starting Breeze :"$END_C
-echo -e " _ Download static files to $BOLD$code_folder/static_source/$END_C before starting breeze !"
-echo -e " _ Copy all needed secrets to $BOLD$breeze_secrets_folder$END_C before starting breeze !"
-echo -e $BOLD_GREEN"To start breeze, lunch ./run.sh"$END_C
+echo -e " _ Copy static files to $BOLD$code_folder/static_source$END_C"
+echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C"
+echo -e $BOLD_GREEN"To start breeze, run './run.sh'"$END_C
 echo -e $GREEN"DONE"$END_C
