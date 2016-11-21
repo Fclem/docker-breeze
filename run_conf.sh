@@ -82,7 +82,7 @@ link_param="--link $mysql_cont_name:mysql \
 	--link $shiny_cont_name:$shiny_cont_name \
 	$ssh_sup_link"
 
-shiny_param="-v $shiny_serv_folder:/srv/shiny-server/ \
-    -v $shiny_log_folder:/var/log/"
+shiny_param="-v $shiny_serv_folder/:/srv/shiny-server/ \
+    -v $shiny_log_folder/:/var/log/"
 
 # --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com

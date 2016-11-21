@@ -109,5 +109,5 @@ docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downl
 echo -e $BOLD"N.B. before starting Breeze :"$END_C
 echo -e " _ Copy static files to $BOLD$code_folder/static_source$END_C"
 echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C"
-echo -e $BOLD_GREEN"To start breeze, run './run.sh'"$END_C
+echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
 echo -e $GREEN"DONE"$END_C
