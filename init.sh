@@ -3,7 +3,9 @@ source init_ssh.sh
 source run_conf.sh
 git_repo=https://github.com/Fclem/isbio2.git
 inst_list=`cat VM_pkg_list`
+echo -e $SHDOL"sudo apt-get install $inst_list"
 sudo apt-get install $inst_list
+echo -e $SHDOL"sudo apt-get update && sudo apt-get upgrade -y $inst_list"
 sudo apt-get update && sudo apt-get upgrade -y
 
 if [ ! -f $mysql_secret_file ]; then
@@ -85,8 +87,11 @@ fi
 
 chmod ugo+r breeze.sql
 
+echo -e $SHDOL"docker pull $shiny_image"
 docker pull $shiny_image # this is an un-edited copy of default docker shiny image
+echo -e $SHDOL"docker pull $mysql_image"
 docker pull $mysql_image # this is an un-edited copy of default docker mysql image
+echo -e $SHDOL"docker pull $breeze_image"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e "N.B. Download static files to $code_folder/static_source/ before starting breeze !"

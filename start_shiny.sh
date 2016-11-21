@@ -1,7 +1,7 @@
 #!/bin/bash
 source run_conf.sh
 
-launch_cmd="--rm \
+launch_cmd="-d \
 	--name $shiny_cont_name \
     $shiny_param \
     $shiny_image" # -p 3838:3838

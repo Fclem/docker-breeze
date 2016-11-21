@@ -8,7 +8,7 @@ function delete_confirm(){
 	echo -n -e $GREEN"\nProceed with deleting the following containers ? "$END_C" $disposable_containers_list "
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p \
-	$'(y/N) ' confirmation
+	$'(Y/n) ' confirmation
 	if [[ $confirmation =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 		echo -e $SHDOL"docker rm $disposable_containers_list"
