@@ -22,6 +22,8 @@ nginx_cont_name=breeze-nginx # empty file with this name will be created for bas
 ssh_image=kingsquare/tunnel:forward
 ssh_user=breeze
 # ssh_server=breeze.northeurope.cloudapp.azure.com
+# ssh_enabled=0
+source ssh_enabled.sh
 ssh_server=10.0.1.4
 ssh_local_port=3945
 ssh_forwarded_ip=127.0.0.1
@@ -34,8 +36,10 @@ if [ ! -f $mysql_secret_file ]; then
    	touch $mysql_secret_file
 	chmod go-rwx $mysql_secret_file
 	echo "Created mysql password file '$mysql_secret_file'."
-	echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
-	echo 'THIS_IS_NOT_A_VALID_PASSWORD' > $mysql_secret_file
+	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
+	rnd_pass=`pwqgen random=85`
+	echo $rnd_pass > $mysql_secret_file
+	rnd_pass=''
 fi
 mysql_secret=`cat $mysql_secret_file`
 breeze_image=$repo_name/$img_name
@@ -43,16 +47,23 @@ full_img_name=$repo_name/$img_name # change image name here
 
 # TODO FIXME use docker-compose or else
 
+ssh_sup_fs=""
+ssh_sup_link=""
+if [ "1" -eq $ssh_enabled ]; then
+	ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
+	ssh_sup_link="--link $ssh_cont_name:$ssh_cont_name"
+fi
 # file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
 	-v $project_folder/:$docker_project_folder \
-	-v $ssh_folder:/root/.ssh/ \
+	$ssh_sup_fs \
 	-w $docker_root_folder"
 
 # linking param for django/breeze : the db container, the ssh port fw container
 link_param="--link $mysql_cont_name:mysql \
 	--link $mysql_cont_name:$mysql_cont_name \
-	--link $breezedb_cont_name:$breezedb_cont_name"
+	--link $breezedb_cont_name:$breezedb_cont_name \
+	$ssh_sup_link"
 
 # --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com
 # \

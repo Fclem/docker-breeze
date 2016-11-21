@@ -1,6 +1,11 @@
 #!/bin/bash
+source init_ssh.sh
 source run_conf.sh
 git_repo=https://github.com/Fclem/isbio2.git
+
+inst_list=`cat VM_pkg_list`
+sudo apt-get install $inst_list
+sudo apt-get update && sudo apt-get upgrade -y
 
 # TODO improve & finnish. Make a python shell script instead ?
 
@@ -11,8 +16,8 @@ touch $mysql_cont_name
 chmod ugo-rwx $mysql_cont_name
 touch $nginx_cont_name
 chmod ugo-rwx $nginx_cont_name
-touch $ssh_cont_name
-chmod ugo-rwx $ssh_cont_name
+touch $breezedb_cont_name
+chmod ugo-rwx $breezedb_cont_name
 
 
 # creates project folder if non existant
@@ -59,10 +64,6 @@ fi
 
 chmod ugo+r breeze.sql
 
-echo -e $SHDOL"init_ssh-agent.fish"
-./init_ssh-agent.fish
-
-docker pull $ssh_image
 docker pull $mysql_image # this is an un-edited copy of default docker mysql image
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
