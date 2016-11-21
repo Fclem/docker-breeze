@@ -12,11 +12,12 @@ code_folder=$local_root_path/code # the root folder of your code (i.e. the one t
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 docker_root_folder=/root/code
 docker_project_folder=/projects/breeze
-shiny_folder=$local_root_path/shiny
+shiny_folder=~/shiny
 shiny_log_folder=$shiny_folder/.log
 shiny_serv_folder=$shiny_folder/shiny
 shiny_app_folder=$shiny_serv_folder/breeze
 shiny_pub_folder=$shiny_serv_folder/pub
+shiny_ln=$local_root_path/shiny
 
 shiny_folder_list="$shiny_folder $shiny_log_folder $shiny_serv_folder $shiny_app_folder $shiny_pub_folder"
 

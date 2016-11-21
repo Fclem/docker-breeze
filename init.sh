@@ -61,6 +61,8 @@ else
 	echo "Already exists : "$shiny_folder
 fi
 
+ln -s $shiny_folder $shiny_ln
+
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $code_folder)" ]; then
 	echo -e $L_YELL"$code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
