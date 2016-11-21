@@ -8,4 +8,5 @@ breeze-nginx
 *.crt
 *.key
 *_secret
-breeze_data/fs_*
+breeze_data/*
+*.log

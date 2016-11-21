@@ -16,11 +16,13 @@ docker_project_folder=/projects/breeze
 ssh_cont_name=breeze-ssh # empty file with this name will be created for bash auto completion while using docker start/attach etc.
 breeze_cont_name=breeze-one # empty file with this name will be created for bash auto completion while using docker start/attach etc.
 mysql_cont_name=breeze-sql # empty file with this name will be created for bash auto completion while using docker start/attach etc.
+breezedb_cont_name=breeze-db # empty file with this name will be created for bash auto completion while using docker start/attach etc.
 nginx_cont_name=breeze-nginx # empty file with this name will be created for bash auto completion while using docker start/attach etc.
 
 ssh_image=kingsquare/tunnel:forward
 ssh_user=breeze
-ssh_server=breeze.northeurope.cloudapp.azure.com
+# ssh_server=breeze.northeurope.cloudapp.azure.com
+ssh_server=10.0.1.4
 ssh_local_port=3945
 ssh_forwarded_ip=127.0.0.1
 ssh_remote_port=4243
@@ -44,9 +46,14 @@ full_img_name=$repo_name/$img_name # change image name here
 # file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
 	-v $project_folder/:$docker_project_folder \
+	-v $ssh_folder:/root/.ssh/ \
 	-w $docker_root_folder"
 
 # linking param for django/breeze : the db container, the ssh port fw container
 link_param="--link $mysql_cont_name:mysql \
-	--link $mysql_cont_name:$mysql_cont_name \
-	--link $ssh_cont_name:$ssh_cont_name"
+	--link $mysql_cont_name:$mysql_cont_name \
+	--link $breezedb_cont_name:$breezedb_cont_name"
+
+# --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com
+# \
+#	--link $ssh_cont_name:$ssh_cont_name"
