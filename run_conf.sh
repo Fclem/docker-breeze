@@ -31,16 +31,6 @@ ssh_remote_port=4243
 
 mysql_image=fimm/mysql
 mysql_secret_file=.mysql_root_secret
-
-if [ ! -f $mysql_secret_file ]; then
-   	touch $mysql_secret_file
-	chmod go-rwx $mysql_secret_file
-	echo "Created mysql password file '$mysql_secret_file'."
-	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
-	rnd_pass=`pwqgen random=85`
-	echo $rnd_pass > $mysql_secret_file
-	rnd_pass=''
-fi
 mysql_secret=`cat $mysql_secret_file`
 breeze_image=$repo_name/$img_name
 full_img_name=$repo_name/$img_name # change image name here

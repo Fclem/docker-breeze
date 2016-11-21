@@ -2,10 +2,19 @@
 source init_ssh.sh
 source run_conf.sh
 git_repo=https://github.com/Fclem/isbio2.git
-
 inst_list=`cat VM_pkg_list`
 sudo apt-get install $inst_list
 sudo apt-get update && sudo apt-get upgrade -y
+
+if [ ! -f $mysql_secret_file ]; then
+   	touch $mysql_secret_file
+	chmod go-rwx $mysql_secret_file
+	echo "Created mysql password file '$mysql_secret_file'."
+	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
+	rnd_pass=`pwqgen random=85`
+	echo $rnd_pass > $mysql_secret_file
+	rnd_pass=''
+fi
 
 # TODO improve & finnish. Make a python shell script instead ?
 
