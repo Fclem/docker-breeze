@@ -18,6 +18,7 @@ actual_code_folder=../$git_repo_name/
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 docker_root_folder=/root/code
 docker_project_folder=/projects/breeze
+breeze_secrets_folder=$code_folder/configs
 shiny_folder=../shiny
 shiny_log_folder=$shiny_folder/.log
 shiny_serv_folder=$shiny_folder/shiny

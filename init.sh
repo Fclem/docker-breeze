@@ -84,11 +84,13 @@ else
 	fi
 	echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
 	ln -s $actual_code_folder $code_ln
-	echo -e $SHDOL"$mysql_secret_file $actual_code_folder/configs/$mysql_secret_file"
-	ln $mysql_secret_file $actual_code_folder/configs/$mysql_secret_file
+
+	echo -e $SHDOL"-p $breeze_secrets_folder 2>/dev/null"
+	mkdir -p $breeze_secrets_folder 2>/dev/null
+
+	echo -e $SHDOL"$mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
+	ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file
 fi
-
-
 
 chmod ugo+r breeze.sql
 
@@ -99,6 +101,8 @@ docker pull $mysql_image # this is an un-edited copy of default docker mysql ima
 echo -e $SHDOL"docker pull $breeze_image"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
-echo -e "N.B. Download static files to $BOLD$code_folder/static_source/$END_C before starting breeze !"
+echo -e $BOLD"N.B.$END_C before starting Breeze :"
+echo -e " _ Download static files to $BOLD$code_folder/static_source/$END_C before starting breeze !"
+echo -e " _ Copy all needed secrets to $BOLD$code_folder/static_source/$END_C before starting breeze !"
 echo -e $BOLD_GREEN"To start breeze, lunch ./run.sh"$END_C
 echo -e $GREEN"DONE"$END_C
