@@ -14,6 +14,7 @@ echo -e $L_CYAN"Running / starting all containers..."$END_C \
 echo -e $SHDOL"./start_mysql.sh" && ./start_mysql.sh && \
 echo -e $SHDOL"./start_ssh-tunnel.sh" && ./start_ssh-tunnel.sh && \
 echo -e $SHDOL"./start_shiny.sh" && ./start_shiny.sh && \
+echo -e $SHDOL"./start_breeze-db.sh" && ./start_breeze-db.sh && \
 echo -e $SHDOL"./start_django.sh" && ./start_django.sh && \
 echo -e $SHDOL"./start_nginx.sh" && ./start_nginx.sh && echo -e $GREEN"GENERAL SUCCESS"$END_C && exit 0
 echo "something went wrong, system state is lickly to be inconsistent"
