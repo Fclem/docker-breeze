@@ -48,11 +48,11 @@ else
 fi
 
 # creates code folder if non existant
-if [ ! -d "$code_folder" ] ; then
-	mkdir $code_folder && \
-   	echo -e $L_CYAN"created : "$code_folder$END_C
+if [ ! -d "$actual_code_folder" ] ; then
+	mkdir $actual_code_folder && \
+   	echo -e $L_CYAN"created : "$actual_code_folder$END_C
 else
-	echo -e $L_YELL"Already exists : "$project_folder$END_C
+	echo -e $L_YELL"Already exists : "$actual_code_folder$END_C
 fi
 
 # creates shiny folder if non existant
@@ -67,7 +67,7 @@ echo -e $SHDOL"ln -s $shiny_folder $shiny_ln"
 ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
-if [ "$(ls -A $actual_code_folder)" ]; then
+if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	echo -e $L_YELL"$actual_code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
