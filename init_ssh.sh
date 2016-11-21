@@ -1,11 +1,11 @@
 # takes care of conditional ssh initialization
 # lies in a separate files so as to provide option to enable it later
 source run_conf.sh
-ssh_enabled=0                      # In batch mode => Default is Yes
+enable_ssh="N"                      # In batch mode => Default is Yes
 echo -n -e $GREEN"\nWould you like to enable ssh-tunneling (you can also do it at a later time using init_ssh.sh) ? "$END_C
 [[ -t 0 ]] &&                  # If tty => prompt the question
 read -n 1 -p \
-$'(Y/n) ' enable_ssh
+$'(y/N) ' enable_ssh
 if [[ $enable_ssh =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 then
     ssh_enabled=1

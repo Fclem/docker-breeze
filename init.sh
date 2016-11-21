@@ -7,8 +7,8 @@ sudo apt-get install $inst_list
 sudo apt-get update && sudo apt-get upgrade -y
 
 if [ ! -f $mysql_secret_file ]; then
-   	touch $mysql_secret_file
-	chmod go-rwx $mysql_secret_file
+   	touch $mysql_secret_file && \
+	chmod go-rwx $mysql_secret_file && \
 	echo "Created mysql password file '$mysql_secret_file'."
 	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
 	rnd_pass=`pwqgen random=85`
@@ -27,14 +27,16 @@ touch $nginx_cont_name
 chmod ugo-rwx $nginx_cont_name
 touch $breezedb_cont_name
 chmod ugo-rwx $breezedb_cont_name
+touch $shiny_cont_name
+chmod ugo-rwx $shiny_cont_name
 
 
 # creates project folder if non existant
 
 if [ ! -d "$project_folder" ] ; then
 	db_folder=$project_folder/db
-	mkdir $project_folder
-    	echo "created : "$project_folder
+	mkdir $project_folder && \
+	echo "created : "$project_folder
 	mkdir $project_folder/code
 	mkdir $db_folder $db_folder/configs $db_folder/datasets $db_folder/jobs $db_folder/mould $db_folder/pipelines \
 	$db_folder/reports $db_folder/scripts $db_folder/shinyReports $db_folder/shinyTags $db_folder/swap $db_folder/upload_temp
@@ -45,10 +47,18 @@ fi
 
 # creates code folder if non existant
 if [ ! -d "$code_folder" ] ; then
-	mkdir $code_folder
+	mkdir $code_folder && \
    	echo "created : "$code_folder
 else
 	echo "Already exists : "$project_folder
+fi
+
+# creates shiny folder if non existant
+if [ ! -d "$shiny_folder" ] ; then
+	mkdir -p $shiny_folder $shiny_log_folder && \
+   	echo "created : "$shiny_folder" "$shiny_log_folder
+else
+	echo "Already exists : "$shiny_folder
 fi
 
 # if code folder is empty, offer to clone isbio repo
@@ -73,8 +83,10 @@ fi
 
 chmod ugo+r breeze.sql
 
+docker pull $shiny_image # this is an un-edited copy of default docker shiny image
 docker pull $mysql_image # this is an un-edited copy of default docker mysql image
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
+echo -e "N.B. Download static files to $code_folder/static_source/ before starting breeze !"
 echo -e "\e[1;32mTo start breeze, lunch ./run.sh"$END_C
 echo -e $GREEN"DONE"$END_C
