@@ -1,8 +1,11 @@
 source docker_breeze_img/build.conf
+git_repo_name="isbio2"
+git_repo=https://github.com/Fclem/$git_repo_name.git
+
 END_C="\e[0m"
 RED="\e[91m"
 L_CYAN="\e[96m"
-L_GREEN="\e[1;32m"
+BOLD_GREEN="\e[1;32m"
 L_YELL="\e[93m"
 GREEN="\e[32m"
 BOLD="\e[1m"
@@ -11,15 +14,17 @@ SHDOL=$GREEN$BOLD"$"$END_C" "
 local_root_path=`pwd`
 ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
+actual_code_folder=../$git_repo_name/
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 docker_root_folder=/root/code
 docker_project_folder=/projects/breeze
-shiny_folder=~/shiny
+shiny_folder=../shiny
 shiny_log_folder=$shiny_folder/.log
 shiny_serv_folder=$shiny_folder/shiny
 shiny_app_folder=$shiny_serv_folder/breeze
 shiny_pub_folder=$shiny_serv_folder/pub
 shiny_ln=$local_root_path/shiny
+code_ln=$code_folder
 
 shiny_folder_list="$shiny_folder $shiny_log_folder $shiny_serv_folder $shiny_app_folder $shiny_pub_folder"
 

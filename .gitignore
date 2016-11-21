@@ -13,3 +13,4 @@ breeze-shiny
 breeze_data/*
 *.log
 shiny
+code

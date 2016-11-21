@@ -1,7 +1,7 @@
 #!/bin/bash
 source init_ssh.sh
 source run_conf.sh
-git_repo=https://github.com/Fclem/isbio2.git
+# git_repo=https://github.com/Fclem/isbio2.git
 inst_list=`cat VM_pkg_list`
 echo -e $SHDOL"sudo apt-get install -y $inst_list"
 sudo apt-get install -y $inst_list
@@ -67,24 +67,27 @@ echo -e $SHDOL"ln -s $shiny_folder $shiny_ln"
 ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
-if [ "$(ls -A $code_folder/)" ]; then
-	echo -e $L_YELL"$code_folder/ is not empty, if you whish to clone isbio into it, clear it first"$END_C
+if [ "$(ls -A $actual_code_folder)" ]; then
+	echo -e $L_YELL"$actual_code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${code_folder} folder ? "$END_C
+	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ? "$END_C
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p \
 	$'(Y/n) ' do_git_clone
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 	    # cd $code_folder
-		echo -e $SHDOL"git clone $git_repo $code_folder"
-		git clone $git_repo $code_folder
+		echo -e $SHDOL"git clone $git_repo $actual_code_folder"
+		git clone $git_repo $actual_code_folder
 	else
 		echo
 	fi
-	ln $mysql_secret_file $code_folder/configs/$mysql_secret_file
+	ln $mysql_secret_file $actual_code_folder/configs/$mysql_secret_file
 fi
+
+echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
+ln -s $actual_code_folder $code_ln
 
 chmod ugo+r breeze.sql
 
