@@ -5,13 +5,13 @@ git_repo=https://github.com/Fclem/isbio2.git
 inst_list=`cat VM_pkg_list`
 echo -e $SHDOL"sudo apt-get install -y $inst_list"
 sudo apt-get install -y $inst_list
-echo -e $SHDOL"sudo apt-get update && sudo apt-get upgrade -y $inst_list"
+echo -e $SHDOL"sudo apt-get update && sudo apt-get upgrade -y"
 sudo apt-get update && sudo apt-get upgrade -y
 
 if [ ! -f $mysql_secret_file ]; then
    	touch $mysql_secret_file && \
 	chmod go-rwx $mysql_secret_file && \
-	echo "Created mysql password file '$mysql_secret_file'."
+	echo -e $L_CYAN"Created mysql password file '$mysql_secret_file'."$END_C
 	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
 	rnd_pass=`pwqgen random=85`
 	echo $rnd_pass > $mysql_secret_file
@@ -38,31 +38,32 @@ chmod ugo-rwx $shiny_cont_name
 if [ ! -d "$project_folder" ] ; then
 	db_folder=$project_folder/db
 	mkdir $project_folder && \
-	echo "created : "$project_folder
+	echo -e $L_CYAN"created : "$project_folder$END_C
 	mkdir $project_folder/code
 	mkdir $db_folder $db_folder/configs $db_folder/datasets $db_folder/jobs $db_folder/mould $db_folder/pipelines \
 	$db_folder/reports $db_folder/scripts $db_folder/shinyReports $db_folder/shinyTags $db_folder/swap $db_folder/upload_temp
 	mkdir $db_folder/configs/engine $db_folder/configs/exec $db_folder/configs/target
 else
-	echo "Already exists : "$project_folder
+	echo -e $L_YELL"Already exists : "$project_folder$END_C
 fi
 
 # creates code folder if non existant
 if [ ! -d "$code_folder" ] ; then
 	mkdir $code_folder && \
-   	echo "created : "$code_folder
+   	echo -e $L_CYAN"created : "$code_folder$END_C
 else
-	echo "Already exists : "$project_folder
+	echo -e $L_YELL"Already exists : "$project_folder$END_C
 fi
 
 # creates shiny folder if non existant
 if [ ! -d "$shiny_folder" ] ; then
 	mkdir $shiny_folder_list && \
-   	echo "created : "$shiny_folder_list
+   	echo -e $L_CYAN"created : "$shiny_folder_list$END_C
 else
-	echo "Already exists : "$shiny_folder
+	echo -e $L_YELL"Already exists : "$shiny_folder$END_C
 fi
 
+echo -e $SHDOL"ln -s $shiny_folder $shiny_ln"
 ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
@@ -77,7 +78,7 @@ else
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 	    # cd $code_folder
-		echo  "git clone $git_repo $code_folder"
+		echo -e $SHDOL"git clone $git_repo $code_folder"
 		git clone $git_repo $code_folder
 	else
 		echo
@@ -95,5 +96,5 @@ echo -e $SHDOL"docker pull $breeze_image"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e "N.B. Download static files to $code_folder/static_source/ before starting breeze !"
-echo -e "\e[1;32mTo start breeze, lunch ./run.sh"$END_C
+echo -e $L_GREEN"To start breeze, lunch ./run.sh"$END_C
 echo -e $GREEN"DONE"$END_C
