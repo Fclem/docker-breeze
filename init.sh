@@ -20,6 +20,8 @@ fi
 
 # TODO improve & finnish. Make a python shell script instead ?
 
+echo -e $L_CYAN"Creating file and folder structure ..."$END_C
+
 # create empty files for easier bash completition when using docker start/attach etc.
 touch $breeze_cont_name
 chmod ugo-rwx $breeze_cont_name
@@ -96,8 +98,16 @@ else
 	echo -e $SHDOL"ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
 	ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file
 fi
-
 chmod ugo+r breeze.sql
+
+echo -e $L_CYAN"Getting GPG public keys ..."$END_C
+
+echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
+gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842
+echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
+gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8
+
+echo -e $L_CYAN"Getting docker images ..."$END_C
 
 echo -e $SHDOL"docker pull $shiny_image"
 docker pull $shiny_image # this is an un-edited copy of default docker shiny image
