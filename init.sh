@@ -3,8 +3,8 @@ source init_ssh.sh
 source run_conf.sh
 git_repo=https://github.com/Fclem/isbio2.git
 inst_list=`cat VM_pkg_list`
-echo -e $SHDOL"sudo apt-get install $inst_list"
-sudo apt-get install $inst_list
+echo -e $SHDOL"sudo apt-get install -y $inst_list"
+sudo apt-get install -y $inst_list
 echo -e $SHDOL"sudo apt-get update && sudo apt-get upgrade -y $inst_list"
 sudo apt-get update && sudo apt-get upgrade -y
 

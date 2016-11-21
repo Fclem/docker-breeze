@@ -6,6 +6,7 @@ echo -n -e $GREEN"\nWould you like to enable ssh-tunneling (you can also do it a
 [[ -t 0 ]] &&                  # If tty => prompt the question
 read -n 1 -p \
 $'(Y/n) ' enable_ssh
+echo
 if [[ $enable_ssh =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 then
     ssh_enabled=1
