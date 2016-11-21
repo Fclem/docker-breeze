@@ -75,19 +75,20 @@ else
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p \
 	$'(Y/n) ' do_git_clone
+	echo
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 	    # cd $code_folder
 		echo -e $SHDOL"git clone $git_repo $actual_code_folder"
 		git clone $git_repo $actual_code_folder
-	else
-		echo
 	fi
+	echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
+	ln -s $actual_code_folder $code_ln
+	echo -e $SHDOL"$mysql_secret_file $actual_code_folder/configs/$mysql_secret_file"
 	ln $mysql_secret_file $actual_code_folder/configs/$mysql_secret_file
 fi
 
-echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
-ln -s $actual_code_folder $code_ln
+
 
 chmod ugo+r breeze.sql
 
