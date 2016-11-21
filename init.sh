@@ -67,8 +67,8 @@ echo -e $SHDOL"ln -s $shiny_folder $shiny_ln"
 ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
-if [ "$(ls -A $code_folder)" ]; then
-	echo -e $L_YELL"$code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
+if [ "$(ls -A $code_folder/)" ]; then
+	echo -e $L_YELL"$code_folder/ is not empty, if you whish to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
 	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${code_folder} folder ? "$END_C
@@ -95,6 +95,6 @@ docker pull $mysql_image # this is an un-edited copy of default docker mysql ima
 echo -e $SHDOL"docker pull $breeze_image"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
-echo -e "N.B. Download static files to $code_folder/static_source/ before starting breeze !"
-echo -e $L_GREEN"To start breeze, lunch ./run.sh"$END_C
+echo -e "N.B. Download static files to $BOLD$code_folder/static_source/$END_C before starting breeze !"
+echo -e $BOLD_GREEN"To start breeze, lunch ./run.sh"$END_C
 echo -e $GREEN"DONE"$END_C
