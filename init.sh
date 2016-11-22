@@ -57,6 +57,9 @@ else
 	echo -e $L_YELL"Already exists : "$actual_code_folder$END_C
 fi
 
+echo -e $SHDOL"'prod'>$actual_code_folder.run_mode"
+echo 'prod'>$actual_code_folder.run_mode
+
 # creates shiny folder if non existant
 if [ ! -d "$shiny_folder" ] ; then
 	mkdir $shiny_folder_list && \
