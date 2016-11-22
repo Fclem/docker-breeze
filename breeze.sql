@@ -366,6 +366,8 @@ CREATE TABLE `breeze_institute` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+INSERT INTO `breeze_institute` SET `institute`='FIMM', `url`='https://www.fimm.fi/', `domain`='fimm.fi';
+
 --
 -- Table structure for table `breeze_jobs`
 --

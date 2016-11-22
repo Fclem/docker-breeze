@@ -121,6 +121,9 @@ docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downl
 echo -e $BOLD"N.B. before starting Breeze :"$END_C
 echo -e " _ Copy static files to $BOLD$code_folder/static_source$END_C"
 echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C"
-echo -e " _ if using Breeze-DB you need to copy apropriate files to $BOLD$breezedb_folder$END_C"
+echo -e " _ if using Breeze-DB you need to copy apropriate files to $BOLD$breezedb_folder, and run the breeze-db" \
+" container before running Breeze$END_C"
 echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
+echo -e "THEN use mysql client to insert 'site' into mysql table 'django_site' like so :"
+echo -e "mysql -u root -p$mysql_secret -h 172.17.0.2 -e 'insert into django_site set domain=\"[YOUR DOMAIN HERE]\", name=\"[DESCRIPTION]\";' breezedb"
 echo -e $GREEN"DONE"$END_C
