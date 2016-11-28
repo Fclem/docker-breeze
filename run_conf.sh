@@ -47,7 +47,7 @@ ssh_local_port=3945
 ssh_forwarded_ip=127.0.0.1
 ssh_remote_port=4243
 
-shiny_image=rocker/shiny # this is an un-edited copy of default docker shiny image
+shiny_image=fimm/shiny # this is an un-edited copy of default docker shiny image
 mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
 mysql_secret=`cat $mysql_secret_file`
@@ -57,10 +57,10 @@ full_img_name=$repo_name/$img_name # change image name here
 # TODO FIXME use docker-compose or else
 
 # Optional ssh bridge link and fs mount options
-ssh_sup_fs=""
+ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
 ssh_sup_link=""
 if [ "1" -eq $ssh_enabled ]; then
-	ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
+	# ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
 	ssh_sup_link="--link $ssh_cont_name:$ssh_cont_name"
 else
 	ssh_cont_name=''
@@ -68,7 +68,7 @@ else
 fi
 
 # Optional Breeze-DB link
-docker inspect $breezedb_cont_name 2>/dev/null
+docker inspect $breezedb_cont_name >/dev/null 2>/dev/null
 has_breezedb=$?
 breezedb_sup_link=''
 if [ "0" -eq $has_breezedb ]; then
