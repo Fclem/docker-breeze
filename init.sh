@@ -18,11 +18,11 @@ print_and_do "sudo apt-key adv \
 print_and_do "echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list"
 print_and_do "sudo apt-get update"
 
-print_and_do "sudo service docker start"
-
 inst_list=`cat VM_pkg_list`
-echo -e $SHDOL"sudo apt-get install -y $inst_list"
-sudo apt-get install -y $inst_list
+# echo -e $SHDOL"sudo apt-get install -y $inst_list"
+print_and_do "sudo apt-get install -y $inst_list"
+
+print_and_do "sudo service docker start"
 
 
 if [ ! -f $mysql_secret_file ]; then
