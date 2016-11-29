@@ -5,7 +5,7 @@ source run_conf.sh
 
 function print_and_do(){
 	echo -e $SHDOL$1
-	$($1)
+	eval $1
 }
 
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
