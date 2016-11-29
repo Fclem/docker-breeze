@@ -16,7 +16,10 @@ ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
-docker_root_folder=/root/code
+home_folder=/root
+static_source_name='static_source'
+static_source_path=`readlink -f ../$static_source_name/`
+docker_root_folder=$home_folder/code
 docker_project_folder=/projects/breeze
 breeze_secrets_folder=$code_folder/configs
 shiny_folder=`readlink -f ../shiny`
@@ -82,6 +85,7 @@ image_list="$shiny_image $mysql_image $breeze_image $ssh_image"
 
 # file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
+	-v $static_source_path:$home_folder/$static_source_name \
 	-v $project_folder/:$docker_project_folder \
 	$ssh_sup_fs \
 	-w $docker_root_folder"
