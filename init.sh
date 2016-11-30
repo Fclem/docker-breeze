@@ -21,7 +21,7 @@ print_and_do "sudo apt-get update"
 inst_list=`cat VM_pkg_list`
 # echo -e $SHDOL"sudo apt-get install -y $inst_list"
 print_and_do "sudo apt-get install -y $inst_list"
-
+print_and_do "sudo gpasswd -a ${USER} docker"
 print_and_do "sudo service docker start"
 
 
