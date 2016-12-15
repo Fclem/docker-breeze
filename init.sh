@@ -2,11 +2,28 @@
 source init_ssh.sh
 source run_conf.sh
 # git_repo=https://github.com/Fclem/isbio2.git
+
+function print_and_do(){
+	echo -e $SHDOL$1
+	eval $1
+}
+
+print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
+print_and_do "sudo apt-get install apt-transport-https ca-certificates"
+
+print_and_do "sudo apt-key adv \
+               --keyserver hkp://ha.pool.sks-keyservers.net:80 \
+               --recv-keys 58118E89F3A912897C070ADBF76221572C52609D"
+
+print_and_do "echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list"
+print_and_do "sudo apt-get update"
+
 inst_list=`cat VM_pkg_list`
-echo -e $SHDOL"sudo apt-get install -y $inst_list"
-sudo apt-get install -y $inst_list
-echo -e $SHDOL"sudo apt-get update && sudo apt-get upgrade -y"
-sudo apt-get update && sudo apt-get upgrade -y
+# echo -e $SHDOL"sudo apt-get install -y $inst_list"
+print_and_do "sudo apt-get install -y $inst_list"
+print_and_do "sudo gpasswd -a ${USER} docker"
+print_and_do "sudo service docker start"
+
 
 if [ ! -f $mysql_secret_file ]; then
    	touch $mysql_secret_file && \
@@ -56,6 +73,9 @@ if [ ! -d "$actual_code_folder" ] ; then
 else
 	echo -e $L_YELL"Already exists : "$actual_code_folder$END_C
 fi
+
+echo -e $SHDOL"'prod'>$actual_code_folder/.run_mode"
+echo 'prod'>$actual_code_folder/.run_mode
 
 # creates shiny folder if non existant
 if [ ! -d "$shiny_folder" ] ; then
@@ -107,6 +127,15 @@ gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842
 echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
 gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8
 
+echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
+read site_domain
+echo
+echo -n -e $GREEN"Enter the name of this site : "$END_C
+read site_name
+echo
+sql_line="INSERT INTO \`django_site\` SET \`domain\`='$site_domain', \`name\`='$site_name';"
+print_and_do "echo sql_line >> ./breeze.sql"
+
 echo -e $L_CYAN"Getting docker images ..."$END_C
 
 echo -e $SHDOL"docker pull $shiny_image"
@@ -124,6 +153,4 @@ echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C"
 echo -e " _ if using Breeze-DB you need to copy apropriate files to $BOLD$breezedb_folder, and run the breeze-db" \
 " container before running Breeze$END_C"
 echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
-echo -e "THEN use mysql client to insert 'site' into mysql table 'django_site' like so :"
-echo -e "mysql -u root -p$mysql_secret -h 172.17.0.2 -e 'insert into django_site set domain=\"[YOUR DOMAIN HERE]\", name=\"[DESCRIPTION]\";' breezedb"
 echo -e $GREEN"DONE"$END_C

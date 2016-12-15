@@ -16,7 +16,10 @@ ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
-docker_root_folder=/root/code
+home_folder=/root
+static_source_name='static_source'
+static_source_path=`readlink -f ../$static_source_name/`
+docker_root_folder=$home_folder/code
 docker_project_folder=/projects/breeze
 breeze_secrets_folder=$code_folder/configs
 shiny_folder=`readlink -f ../shiny`
@@ -47,7 +50,7 @@ ssh_local_port=3945
 ssh_forwarded_ip=127.0.0.1
 ssh_remote_port=4243
 
-shiny_image=rocker/shiny # this is an un-edited copy of default docker shiny image
+shiny_image=fimm/shiny # this is an un-edited copy of default docker shiny image
 mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
 mysql_secret=`cat $mysql_secret_file`
@@ -57,10 +60,10 @@ full_img_name=$repo_name/$img_name # change image name here
 # TODO FIXME use docker-compose or else
 
 # Optional ssh bridge link and fs mount options
-ssh_sup_fs=""
+ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
 ssh_sup_link=""
 if [ "1" -eq $ssh_enabled ]; then
-	ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
+	# ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
 	ssh_sup_link="--link $ssh_cont_name:$ssh_cont_name"
 else
 	ssh_cont_name=''
@@ -68,7 +71,7 @@ else
 fi
 
 # Optional Breeze-DB link
-docker inspect $breezedb_cont_name 2>/dev/null
+docker inspect $breezedb_cont_name >/dev/null 2>/dev/null
 has_breezedb=$?
 breezedb_sup_link=''
 if [ "0" -eq $has_breezedb ]; then
@@ -82,6 +85,7 @@ image_list="$shiny_image $mysql_image $breeze_image $ssh_image"
 
 # file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
+	-v $static_source_path:$home_folder/$static_source_name \
 	-v $project_folder/:$docker_project_folder \
 	$ssh_sup_fs \
 	-w $docker_root_folder"
