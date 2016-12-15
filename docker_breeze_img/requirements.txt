@@ -53,10 +53,7 @@ paramiko>=1.9.0
 docker-py>=1.7.2
 azure-storage>=0.31
 django-auth0
-#pandas>=0.13.1
-#tm>=0.1.6
-#cx-Oracle>=5.1.2
-#django-cerner-auth
-#elementtree>=1.2.7-20070827-preview
-#elementtree
-#drmaa==0.5
+django-suit==0.2.22
+ipython[notebook]
+django_extensions
+django-cas-ng
