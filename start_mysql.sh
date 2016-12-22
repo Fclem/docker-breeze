@@ -1,5 +1,6 @@
 #!/bin/bash
-source run_conf.sh
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/run_conf.sh
 
 failure_text="MYSQL CONTAINER INIT FAILURE :"
 check_log_text="It seems breeze DB was not loaded into mysql, c.f. container log"

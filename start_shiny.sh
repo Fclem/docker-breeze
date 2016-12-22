@@ -1,5 +1,6 @@
 #!/bin/bash
-source run_conf.sh
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/run_conf.sh
 
 echo -e $L_CYAN"Running Shiny Server $shiny_cont_name"$END_C
 

@@ -1,5 +1,6 @@
 #!/bin/bash
-source run_conf.sh
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/run_conf.sh
 
 function conditional_ssh_start(){
 	if [ "1" -eq $ssh_enabled ]; then

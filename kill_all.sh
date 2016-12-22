@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source run_conf.sh
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/run_conf.sh
 
 function delete_confirm(){
 	confirmation="N"

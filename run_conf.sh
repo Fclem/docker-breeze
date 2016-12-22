@@ -1,4 +1,5 @@
-source docker_breeze_img/build.conf
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/docker_breeze_img/build.conf
 git_repo_name="isbio2"
 git_repo=https://github.com/Fclem/$git_repo_name.git
 
@@ -11,7 +12,9 @@ GREEN="\e[32m"
 BOLD="\e[1m"
 SHDOL=$GREEN$BOLD"$"$END_C" "
 
-local_root_path=`pwd`
+# local_root_path=`pwd`
+
+cd $local_root_path
 ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`

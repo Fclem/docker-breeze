@@ -1,6 +1,7 @@
 #!/bin/bash
-source init_ssh.sh
-source run_conf.sh
+local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/init_ssh.sh
+source $local_root_path/run_conf.sh
 # git_repo=https://github.com/Fclem/isbio2.git
 
 function print_and_do(){
