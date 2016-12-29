@@ -11,7 +11,7 @@ function conditional_ssh_start(){
 
 echo -e $L_CYAN"Running / starting all containers..."$END_C \
 "(any already running container will be killed and removed, except for MySql container)"
-echo -e "N.B. If you intend to use Breeze-DB you need to run $breezedb_folder/start_mysql.sh beforehand"$END_C
+# echo -e "N.B. If you intend to use Breeze-DB you need to run $breezedb_folder/start_mysql.sh beforehand"$END_C
 # chain run the 5 docker containers
 echo -e $SHDOL"./start_mysql.sh" && ./start_mysql.sh && \
 echo -e $SHDOL"./start_ssh-tunnel.sh" && ./start_ssh-tunnel.sh && \
