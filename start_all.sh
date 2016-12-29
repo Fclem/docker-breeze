@@ -16,6 +16,7 @@ echo -e "N.B. If you intend to use Breeze-DB you need to run $breezedb_folder/st
 echo -e $SHDOL"./start_mysql.sh" && ./start_mysql.sh && \
 echo -e $SHDOL"./start_ssh-tunnel.sh" && ./start_ssh-tunnel.sh && \
 echo -e $SHDOL"./start_shiny.sh" && ./start_shiny.sh && \
+echo -e $SHDOL"./start_bio-db.sh" && ./start_bio-db.sh && \
 echo -e $SHDOL"./start_django.sh" && ./start_django.sh && \
 echo -e $SHDOL"./start_nginx.sh" && ./start_nginx.sh && echo -e $GREEN"GENERAL SUCCESS"$END_C && exit 0
 echo "something went wrong, system state is lickly to be inconsistent"
