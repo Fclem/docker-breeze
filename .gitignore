@@ -14,3 +14,4 @@ breeze_data/*
 *.log
 shiny
 code
+nginx/nginx.conf
