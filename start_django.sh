@@ -18,4 +18,4 @@ docker run $all_params && echo -e $GREEN"SUCCESS"$END_C && exit 0
 echo -e $RED"FAILURE"$END_C
 exit 1
 # 	-p 8000:8000 \
-# 	--restart=on-failure \ 	
+# 	--restart=on-failure \ 	4.4.0-47-generic

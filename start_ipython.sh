@@ -11,7 +11,7 @@ docker rm -f /$breeze_cont_name
 all_params="-d -ti --name $breeze_cont_name \
 	$link_param \
 	$fs_param \
-	-p 127.0.0.1:8888:8888 \
+	-p 8888:8888 \
 	$full_img_name \
 	$docker_root_folder/notebook.sh"
 

@@ -16,7 +16,7 @@ ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
-home_folder=/root
+home_folder=/home/breeze
 static_source_name='static_source'
 static_source_path=`readlink -f ../$static_source_name/`
 docker_root_folder=$home_folder/code
@@ -55,7 +55,7 @@ mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
 mysql_secret=`cat $mysql_secret_file`
 breeze_image=$repo_name/$img_name
-full_img_name=$repo_name/$img_name # change image name here
+full_img_name=$repo_name/$img_name:ph1 # change image name here
 
 # TODO FIXME use docker-compose or else
 
@@ -83,21 +83,33 @@ disposable_containers_list="$nginx_cont_name $breeze_cont_name $ssh_cont_name $s
 containers_list="$disposable_containers_list $mysql_cont_name"
 image_list="$shiny_image $mysql_image $breeze_image $ssh_image"
 
+#pharma="--add-host=\"qmaster.giu.fi:10.69.1.1\" \
+#-v /var/lib/gridengine:/var/lib/gridengine"
+pharma="-v /var/lib/gridengine:/var/lib/gridengine \
+-v /usr/lib/gridengine:/usr/lib/gridengine \
+-v /usr/lib/gridengine-drmaa:/usr/lib/gridengine-drmaa"
+# 	-v /opt/gridengine/lib/lx26-amd64
+#	-v /var/lib/gridengine:/var/lib/gridengine
+
 # file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
-	-v $static_source_path:$home_folder/$static_source_name \
+	-v $local_root_path/hello.sh:$home_folder/hello.sh \
+	-v $static_source_path:$home_folder/$static_source_name:ro \
 	-v $project_folder/:$docker_project_folder \
+	-v $project_folder/:$docker_project_folder-ph2 \
 	$ssh_sup_fs \
+	$pharma \
 	-w $docker_root_folder"
 
 # linking param for django/breeze : the db container, the ssh port fw container
 link_param="--link $mysql_cont_name:mysql \
 	--link $mysql_cont_name:$mysql_cont_name \
 	--link $shiny_cont_name:$shiny_cont_name \
+	-h breeze-pharma \
 	$breezedb_sup_link	$ssh_sup_link"
 
 # file system mounts for shiny apps and logs
 shiny_param="-v $shiny_serv_folder/:/srv/shiny-server/ \
-    -v $shiny_log_folder/:/var/log/"
+-v $shiny_log_folder/:/var/log/"
 
 # --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com

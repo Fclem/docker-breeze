@@ -2,7 +2,6 @@
 source run_conf.sh
 
 all_params="-ti --rm \
-	--name $breeze_cont_name-shell \
 	$link_param \
 	$fs_param \
 	$full_img_name \
@@ -14,4 +13,5 @@ docker run $all_params && exit 0
 exit 1
 
 # 	-p 8001:8000 \
+# 	--name $breeze_cont_name-shell \
 
