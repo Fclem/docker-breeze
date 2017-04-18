@@ -1,6 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `breezedb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `breezedb`;
--- MySQL dump 10.13  Distrib 5.7.16, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
 --
 -- Host: localhost    Database: breezedb
 -- ------------------------------------------------------
@@ -17,11 +15,14 @@ USE `breezedb`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+CREATE DATABASE  IF NOT EXISTS `breezedb` /*!40100 DEFAULT CHARACTER SET utf8 */;;
+USE `breezedb`;
+
 --
 -- Table structure for table `auth_group`
 --
 
-DROP TABLE IF EXISTS `auth_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_group` (
@@ -36,7 +37,6 @@ CREATE TABLE `auth_group` (
 -- Table structure for table `auth_group_permissions`
 --
 
-DROP TABLE IF EXISTS `auth_group_permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_group_permissions` (
@@ -56,7 +56,6 @@ CREATE TABLE `auth_group_permissions` (
 -- Table structure for table `auth_permission`
 --
 
-DROP TABLE IF EXISTS `auth_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_permission` (
@@ -75,7 +74,6 @@ CREATE TABLE `auth_permission` (
 -- Table structure for table `auth_user`
 --
 
-DROP TABLE IF EXISTS `auth_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_user` (
@@ -92,14 +90,13 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `auth_user_groups`
 --
 
-DROP TABLE IF EXISTS `auth_user_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_user_groups` (
@@ -119,7 +116,6 @@ CREATE TABLE `auth_user_groups` (
 -- Table structure for table `auth_user_user_permissions`
 --
 
-DROP TABLE IF EXISTS `auth_user_user_permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `auth_user_user_permissions` (
@@ -139,7 +135,6 @@ CREATE TABLE `auth_user_user_permissions` (
 -- Table structure for table `breeze_cartinfo`
 --
 
-DROP TABLE IF EXISTS `breeze_cartinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_cartinfo` (
@@ -162,7 +157,6 @@ CREATE TABLE `breeze_cartinfo` (
 -- Table structure for table `breeze_computeclass`
 --
 
-DROP TABLE IF EXISTS `breeze_computeclass`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_computeclass` (
@@ -177,7 +171,6 @@ CREATE TABLE `breeze_computeclass` (
 -- Table structure for table `breeze_computeresource`
 --
 
-DROP TABLE IF EXISTS `breeze_computeresource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_computeresource` (
@@ -197,7 +190,6 @@ CREATE TABLE `breeze_computeresource` (
 -- Table structure for table `breeze_computetarget`
 --
 
-DROP TABLE IF EXISTS `breeze_computetarget`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_computetarget` (
@@ -210,14 +202,13 @@ CREATE TABLE `breeze_computetarget` (
   PRIMARY KEY (`id`),
   KEY `institute_id_refs_id_d18a48d0` (`institute_id`),
   CONSTRAINT `institute_id_refs_id_d18a48d0` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_dataset`
 --
 
-DROP TABLE IF EXISTS `breeze_dataset`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_dataset` (
@@ -237,7 +228,6 @@ CREATE TABLE `breeze_dataset` (
 -- Table structure for table `breeze_engineclass`
 --
 
-DROP TABLE IF EXISTS `breeze_engineclass`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_engineclass` (
@@ -251,7 +241,6 @@ CREATE TABLE `breeze_engineclass` (
 -- Table structure for table `breeze_engineconfig`
 --
 
-DROP TABLE IF EXISTS `breeze_engineconfig`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_engineconfig` (
@@ -265,14 +254,13 @@ CREATE TABLE `breeze_engineconfig` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `institute_id_refs_id_e855b9a9` (`institute_id`),
   CONSTRAINT `institute_id_refs_id_e855b9a9` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_execconfig`
 --
 
-DROP TABLE IF EXISTS `breeze_execconfig`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_execconfig` (
@@ -286,14 +274,13 @@ CREATE TABLE `breeze_execconfig` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `institute_id_refs_id_119307e8` (`institute_id`),
   CONSTRAINT `institute_id_refs_id_119307e8` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_group`
 --
 
-DROP TABLE IF EXISTS `breeze_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_group` (
@@ -301,17 +288,15 @@ CREATE TABLE `breeze_group` (
   `name` varchar(50) NOT NULL,
   `author_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
   KEY `breeze_group_cc846901` (`author_id`),
   CONSTRAINT `author_id_refs_id_731e9cc017519c57` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_group_team`
 --
 
-DROP TABLE IF EXISTS `breeze_group_team`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_group_team` (
@@ -324,14 +309,13 @@ CREATE TABLE `breeze_group_team` (
   KEY `breeze_group_team_fbfc09f1` (`user_id`),
   CONSTRAINT `group_id_refs_id_753e28b0f8d2f0e6` FOREIGN KEY (`group_id`) REFERENCES `breeze_group` (`id`),
   CONSTRAINT `user_id_refs_id_1beb75369b8510be` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_inputtemplate`
 --
 
-DROP TABLE IF EXISTS `breeze_inputtemplate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_inputtemplate` (
@@ -344,14 +328,13 @@ CREATE TABLE `breeze_inputtemplate` (
   UNIQUE KEY `name` (`name`),
   KEY `breeze_inputtemplate_cc846901` (`author_id`),
   CONSTRAINT `author_id_refs_id_9f5365085938d36` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_institute`
 --
 
-DROP TABLE IF EXISTS `breeze_institute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_institute` (
@@ -361,9 +344,8 @@ CREATE TABLE `breeze_institute` (
   `domain` varchar(32) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `institute_UNIQUE` (`institute`),
-  UNIQUE KEY `url_UNIQUE` (`url`),
   UNIQUE KEY `domain_UNIQUE` (`domain`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 INSERT INTO `breeze_institute` SET `institute`='FIMM', `url`='https://www.fimm.fi/', `domain`='fimm.fi';
@@ -372,7 +354,6 @@ INSERT INTO `breeze_institute` SET `institute`='FIMM', `url`='https://www.fimm.f
 -- Table structure for table `breeze_jobs`
 --
 
-DROP TABLE IF EXISTS `breeze_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_jobs` (
@@ -402,7 +383,6 @@ CREATE TABLE `breeze_jobs` (
 -- Table structure for table `breeze_offsiteuser`
 --
 
-DROP TABLE IF EXISTS `breeze_offsiteuser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_offsiteuser` (
@@ -427,7 +407,6 @@ CREATE TABLE `breeze_offsiteuser` (
 -- Table structure for table `breeze_offsiteuser_belongs_to`
 --
 
-DROP TABLE IF EXISTS `breeze_offsiteuser_belongs_to`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_offsiteuser_belongs_to` (
@@ -446,7 +425,6 @@ CREATE TABLE `breeze_offsiteuser_belongs_to` (
 -- Table structure for table `breeze_offsiteuser_shiny_access`
 --
 
-DROP TABLE IF EXISTS `breeze_offsiteuser_shiny_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_offsiteuser_shiny_access` (
@@ -465,7 +443,6 @@ CREATE TABLE `breeze_offsiteuser_shiny_access` (
 -- Table structure for table `breeze_post`
 --
 
-DROP TABLE IF EXISTS `breeze_post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_post` (
@@ -477,14 +454,13 @@ CREATE TABLE `breeze_post` (
   PRIMARY KEY (`id`),
   KEY `breeze_post_cc846901` (`author_id`),
   CONSTRAINT `author_id_refs_id_123a0bf611045a41` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_project`
 --
 
-DROP TABLE IF EXISTS `breeze_project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_project` (
@@ -504,14 +480,13 @@ CREATE TABLE `breeze_project` (
   KEY `breeze_project_da5f2290` (`institute_id`),
   CONSTRAINT `author_id_refs_id_289c997f31e3bfcd` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `institute_id_refs_id_7a3b0470f37ac5a5` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_report`
 --
 
-DROP TABLE IF EXISTS `breeze_report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_report` (
@@ -546,14 +521,13 @@ CREATE TABLE `breeze_report` (
   CONSTRAINT `institute_id_refs_id_26c9b9e5c39c9995` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`),
   CONSTRAINT `project_id_refs_id_76b6af59e871ccad` FOREIGN KEY (`project_id`) REFERENCES `breeze_project` (`id`),
   CONSTRAINT `type_id_refs_id_4ff079d67a90ceef` FOREIGN KEY (`type_id`) REFERENCES `breeze_reporttype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_report_shared`
 --
 
-DROP TABLE IF EXISTS `breeze_report_shared`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_report_shared` (
@@ -566,14 +540,32 @@ CREATE TABLE `breeze_report_shared` (
   KEY `breeze_report_shared_fbfc09f1` (`user_id`),
   CONSTRAINT `report_id_refs_id_60293b4b1e60dfd0` FOREIGN KEY (`report_id`) REFERENCES `breeze_report` (`id`),
   CONSTRAINT `user_id_refs_id_47cd941fcdcc97fe` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `breeze_report_shared_g`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `breeze_report_shared_g` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `report_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `breeze_report_shared_g_report_id_5301f7bdf9b8d8a5_uniq` (`report_id`,`group_id`),
+  KEY `breeze_report_shared_g_32fa1030` (`report_id`),
+  KEY `breeze_report_shared_g_fbfc09f2` (`group_id`),
+  CONSTRAINT `report_id_refs_id_60293b4c4e60dfd0` FOREIGN KEY (`report_id`) REFERENCES `breeze_report` (`id`),
+  CONSTRAINT `user_id_refs_id_47cd941fcccc97fe` FOREIGN KEY (`group_id`) REFERENCES `breeze_group` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_reporttype`
 --
 
-DROP TABLE IF EXISTS `breeze_reporttype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_reporttype` (
@@ -593,14 +585,13 @@ CREATE TABLE `breeze_reporttype` (
   KEY `breeze_reporttype_da5f2290` (`institute_id`),
   CONSTRAINT `author_id_refs_id_28c40c9178414c19` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `institute_id_refs_id_6751322f0246a641` FOREIGN KEY (`institute_id`) REFERENCES `breeze_institute` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_reporttype_access`
 --
 
-DROP TABLE IF EXISTS `breeze_reporttype_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_reporttype_access` (
@@ -613,14 +604,13 @@ CREATE TABLE `breeze_reporttype_access` (
   KEY `breeze_reporttype_access_fbfc09f1` (`user_id`),
   CONSTRAINT `reporttype_id_refs_id_17aafbaaab719b15` FOREIGN KEY (`reporttype_id`) REFERENCES `breeze_reporttype` (`id`),
   CONSTRAINT `user_id_refs_id_40fbbd5aede380bf` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_reporttype_targets`
 --
 
-DROP TABLE IF EXISTS `breeze_reporttype_targets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_reporttype_targets` (
@@ -632,14 +622,13 @@ CREATE TABLE `breeze_reporttype_targets` (
   KEY `computetarget_id_refs_id_2754d9db` (`computetarget_id`),
   CONSTRAINT `computetarget_id_refs_id_2754d9db` FOREIGN KEY (`computetarget_id`) REFERENCES `breeze_computetarget` (`id`),
   CONSTRAINT `reporttype_id_refs_id_bb178b4e` FOREIGN KEY (`reporttype_id`) REFERENCES `breeze_reporttype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_rscripts`
 --
 
-DROP TABLE IF EXISTS `breeze_rscripts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_rscripts` (
@@ -663,14 +652,13 @@ CREATE TABLE `breeze_rscripts` (
   UNIQUE KEY `name` (`name`),
   KEY `breeze_rscripts_cc846901` (`author_id`),
   CONSTRAINT `author_id_refs_id_5c0414386020a003` FOREIGN KEY (`author_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_rscripts_access`
 --
 
-DROP TABLE IF EXISTS `breeze_rscripts_access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_rscripts_access` (
@@ -690,7 +678,6 @@ CREATE TABLE `breeze_rscripts_access` (
 -- Table structure for table `breeze_rscripts_install_date`
 --
 
-DROP TABLE IF EXISTS `breeze_rscripts_install_date`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_rscripts_install_date` (
@@ -710,7 +697,6 @@ CREATE TABLE `breeze_rscripts_install_date` (
 -- Table structure for table `breeze_rscripts_report_type`
 --
 
-DROP TABLE IF EXISTS `breeze_rscripts_report_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_rscripts_report_type` (
@@ -723,14 +709,13 @@ CREATE TABLE `breeze_rscripts_report_type` (
   KEY `breeze_rscripts_report_type_d00d86a4` (`reporttype_id`),
   CONSTRAINT `reporttype_id_refs_id_157267ac5bb028d5` FOREIGN KEY (`reporttype_id`) REFERENCES `breeze_reporttype` (`id`),
   CONSTRAINT `rscripts_id_refs_id_2c1561ef1ef62d9` FOREIGN KEY (`rscripts_id`) REFERENCES `breeze_rscripts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_script_categories`
 --
 
-DROP TABLE IF EXISTS `breeze_script_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_script_categories` (
@@ -739,14 +724,13 @@ CREATE TABLE `breeze_script_categories` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `breeze_user_date`
 --
 
-DROP TABLE IF EXISTS `breeze_user_date`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_user_date` (
@@ -763,7 +747,6 @@ CREATE TABLE `breeze_user_date` (
 -- Table structure for table `breeze_userprofile`
 --
 
-DROP TABLE IF EXISTS `breeze_userprofile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `breeze_userprofile` (
@@ -779,14 +762,13 @@ CREATE TABLE `breeze_userprofile` (
   KEY `breeze_userprofile_30b79ea6` (`institute_info_id`),
   CONSTRAINT `institute_info_id_refs_id_2af96cc28720b8fa` FOREIGN KEY (`institute_info_id`) REFERENCES `breeze_institute` (`id`),
   CONSTRAINT `user_id_refs_id_5c2e4c902790e52e` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `django_admin_log`
 --
 
-DROP TABLE IF EXISTS `django_admin_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `django_admin_log` (
@@ -803,14 +785,13 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_e4470c6e` (`content_type_id`),
   CONSTRAINT `content_type_id_refs_id_288599e6` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `user_id_refs_id_c8665aa` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `django_content_type`
 --
 
-DROP TABLE IF EXISTS `django_content_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `django_content_type` (
@@ -819,14 +800,13 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_label` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `django_migrations`
 --
 
-DROP TABLE IF EXISTS `django_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `django_migrations` (
@@ -842,7 +822,6 @@ CREATE TABLE `django_migrations` (
 -- Table structure for table `django_session`
 --
 
-DROP TABLE IF EXISTS `django_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `django_session` (
@@ -858,7 +837,6 @@ CREATE TABLE `django_session` (
 -- Table structure for table `django_site`
 --
 
-DROP TABLE IF EXISTS `django_site`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `django_site` (
@@ -866,14 +844,13 @@ CREATE TABLE `django_site` (
   `domain` varchar(100) NOT NULL,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `shiny_shinyreport`
 --
 
-DROP TABLE IF EXISTS `shiny_shinyreport`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shiny_shinyreport` (
@@ -900,7 +877,6 @@ CREATE TABLE `shiny_shinyreport` (
 -- Table structure for table `shiny_shinytag`
 --
 
-DROP TABLE IF EXISTS `shiny_shinytag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shiny_shinytag` (
@@ -926,7 +902,6 @@ CREATE TABLE `shiny_shinytag` (
 -- Table structure for table `shiny_shinytag_attached_report`
 --
 
-DROP TABLE IF EXISTS `shiny_shinytag_attached_report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shiny_shinytag_attached_report` (
@@ -943,7 +918,6 @@ CREATE TABLE `shiny_shinytag_attached_report` (
 -- Table structure for table `south_migrationhistory`
 --
 
-DROP TABLE IF EXISTS `south_migrationhistory`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `south_migrationhistory` (
@@ -964,4 +938,4 @@ CREATE TABLE `south_migrationhistory` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-07 19:08:22
+-- Dump completed on 2017-04-18 15:48:44
