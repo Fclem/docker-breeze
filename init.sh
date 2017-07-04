@@ -40,8 +40,8 @@ run_mode=''
 read run_mode
 while [ "$run_mode" != 'dev' ] && [ "$run_mode" != 'pharma' ] && [ "$run_mode" != 'pharma_dev' ] && [ "$run_mode" != 'prod' ]
 do
-	echo "Invalid run-mode '$run_mode'"
-	echo -n "$choose_line"
+	echo -e  $GREEN"Invalid run-mode"$END_C" '$run_mode'"
+	echo -n -e "$choose_line"
 	read run_mode
 done
 # download repo
