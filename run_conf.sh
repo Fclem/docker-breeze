@@ -1,7 +1,8 @@
 local_root_path=$(readlink -f $(dirname "$0"))
-source $local_root_path/docker_breeze_img/build.conf
+source docker_breeze_img/build.conf
+source ${local_root_path}/docker_breeze_img/build.conf
 git_repo_name="isbio2"
-git_repo=https://github.com/Fclem/$git_repo_name.git
+git_repo=https://github.com/Fclem/${git_repo_name}.git
 
 END_C="\e[0m"
 RED="\e[91m"
@@ -10,37 +11,37 @@ BOLD_GREEN="\e[1;32m"
 L_YELL="\e[93m"
 GREEN="\e[32m"
 BOLD="\e[1m"
-SHDOL=$GREEN$BOLD"$"$END_C" "
+SHDOL=${GREEN}${BOLD}"$"${END_C}" "
 
 # local_root_path=`pwd`
 
-cd $local_root_path
-nginx_folder=$local_root_path/nginx
-nginx_conf_file=$nginx_folder/nginx.conf
-ssh_folder=$local_root_path/.ssh/
-code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
-rel_actual_code_folder=../$git_repo_name/
-actual_code_folder=`readlink -f $rel_actual_code_folder`
-project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
+cd ${local_root_path}
+nginx_folder=${local_root_path}/nginx
+nginx_conf_file=${nginx_folder}/nginx.conf
+ssh_folder=${local_root_path}/.ssh/
+code_folder=${local_root_path}/code # the root folder of your code (i.e. the one that has requirement.txt)
+rel_actual_code_folder=../${git_repo_name}/
+actual_code_folder=`readlink -f ${rel_actual_code_folder}`
+project_folder=${local_root_path}/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 home_folder=/root
 static_source_name='static_source'
-rel_static_source_path=../$static_source_name/
-static_source_path=`readlink -f $rel_static_source_path`
+rel_static_source_path=../${static_source_name}/
+static_source_path=`readlink -f ${rel_static_source_path}`
 docker_root_folder=$home_folder/code
 docker_project_folder=/projects/breeze
-breeze_secrets_folder=$code_folder/configs
+breeze_secrets_folder=${code_folder}/configs
 rel_shiny_folder=../shiny/
-shiny_folder=`readlink -f $rel_shiny_folder`
-shiny_log_folder=$shiny_folder/.log
-shiny_serv_folder=$shiny_folder/shiny
-shiny_app_folder=$shiny_serv_folder/breeze
-shiny_pub_folder=$shiny_serv_folder/pub
-shiny_ln=$local_root_path/shiny
+shiny_folder=`readlink -f ${rel_shiny_folder}`
+shiny_log_folder=${shiny_folder}/.log
+shiny_serv_folder=${shiny_folder}/shiny
+shiny_app_folder=${shiny_serv_folder}/breeze
+shiny_pub_folder=${shiny_serv_folder}/pub
+shiny_ln=${local_root_path}/shiny
 code_ln="code"
 rel_breezedb_folder=../breeze-db/
-breezedb_folder=`readlink -f $rel_breezedb_folder`
+breezedb_folder=`readlink -f ${rel_breezedb_folder}`
 
-shiny_folder_list="$shiny_folder $shiny_log_folder $shiny_serv_folder $shiny_app_folder $shiny_pub_folder"
+shiny_folder_list="${shiny_folder} ${shiny_log_folder} ${shiny_serv_folder} ${shiny_app_folder} ${shiny_pub_folder}"
 
 ssh_cont_name=breeze-ssh		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
 breeze_cont_name=breeze-one		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
@@ -62,33 +63,32 @@ ssh_remote_port=4243
 shiny_image=fimm/shiny # this is an un-edited copy of default docker shiny image
 mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
-if [ -f $mysql_secret_file ]; then
-	mysql_secret=`cat $mysql_secret_file`
+if [ -f ${mysql_secret_file} ]; then
+	mysql_secret=`cat ${mysql_secret_file}`
 else
 	mysql_secret=''
 fi
-breeze_image=$repo_name/$img_name
-full_img_name=$repo_name/$img_name # change image name here
+breeze_image=${repo_name}/${img_name}
+full_img_name=${repo_name}/${img_name} # change image name here
 
 # TODO FIXME use docker-compose or else
 
 # Optional ssh bridge link and fs mount options
-ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
+ssh_sup_fs="-v ${ssh_folder}:/root/.ssh/"
 ssh_sup_link=""
-if [ "1" -eq $ssh_enabled ]; then
-	# ssh_sup_fs="-v $ssh_folder:/root/.ssh/"
-	ssh_sup_link="--link $ssh_cont_name:$ssh_cont_name"
+if [ "1" -eq ${ssh_enabled} ]; then
+	ssh_sup_link="--link ${ssh_cont_name}:${ssh_cont_name}"
 else
 	ssh_cont_name=''
 	ssh_image=''
 fi
 
 # Optional Breeze-DB link
-docker inspect $breezedb_cont_name >/dev/null 2>/dev/null
+docker inspect ${breezedb_cont_name} >/dev/null 2>/dev/null
 has_breezedb=$?
 breezedb_sup_link=''
-if [ "0" -eq $has_breezedb ]; then
-	breezedb_sup_link="--link $breezedb_cont_name:$breezedb_cont_name"
+if [ "0" -eq ${has_breezedb} ]; then
+	breezedb_sup_link="--link ${breezedb_cont_name}:${breezedb_cont_name}"
 fi
 
 # list of containers names, and images names
@@ -96,7 +96,7 @@ disposable_containers_list="$nginx_cont_name $breeze_cont_name $ssh_cont_name $s
 containers_list="$disposable_containers_list $mysql_cont_name"
 image_list="$shiny_image $mysql_image $breeze_image $ssh_image"
 
-# file system mountig param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
+# file system mounting param for django/breeze : code folder, project folder, and setting the working folder # , and ssh config
 fs_param="-v $code_folder:$docker_root_folder \
 	-v $static_source_path:$home_folder/$static_source_name \
 	-v $project_folder/:$docker_project_folder \
