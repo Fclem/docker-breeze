@@ -84,8 +84,8 @@ else
 	echo -e $L_YELL"Already exists : "$shiny_folder$END_C
 fi
 
-echo -e $SHDOL"ln -s $shiny_folder $shiny_ln"
-ln -s $shiny_folder $shiny_ln
+print_and_do "ln -s $rel_shiny_folder $shiny_ln"
+# ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
@@ -100,22 +100,24 @@ else
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 	    # cd $code_folder
-		echo -e $SHDOL"git clone $git_repo $actual_code_folder"
-		git clone $git_repo $actual_code_folder
+		# echo -e $SHDOL"git clone $git_repo $actual_code_folder"
+		print_and_do "git clone $git_repo $actual_code_folder"
 	fi
 
 	# create a softlink to the code repo tld
 	if [ ! -d "$actual_code_folder" ] ; then
-		echo -e $SHDOL"ln -s $actual_code_folder $code_ln"
-		ln -s $actual_code_folder $code_ln
+		# echo -e $SHDOL"ln -s $actual_code_folder/ $code_ln"
+		print_and_do "ln -s $actual_code_folder $code_ln"
 	fi
+	# create a softlink to the static source folder
+	print_and_do "ln -s $rel_static_source_path $static_source_name"
 
-	# create the screts folder
-	echo -e $SHDOL"mkdir $breeze_secrets_folder 2>/dev/null"
-	mkdir $breeze_secrets_folder 2>/dev/null
+	# create the secrets folder
+	# echo -e $SHDOL"mkdir $breeze_secrets_folder 2>/dev/null"
+	print_and_do "mkdir $breeze_secrets_folder 2>/dev/null"
 
-	echo -e $SHDOL"ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
-	ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file
+	# echo -e $SHDOL"ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
+	print_and_do "ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
 fi
 chmod ugo+r breeze.sql
 
@@ -130,16 +132,16 @@ do
 	echo -n "$choose_line"
 	read run_mode
 done
-echo -e $SHDOL"'"$run_mode"'>$actual_code_folder/.run_mode"
-echo $run_mode>$actual_code_folder/.run_mode
+# echo -e $SHDOL"'"$run_mode"'>$actual_code_folder/.run_mode"
+print_and_do "echo '$run_mode'>$actual_code_folder/.run_mode"
 
 # GPG
 echo -e $L_CYAN"Getting GPG public keys ..."$END_C
 
-echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
-gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842
-echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
-gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8
+# echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
+print_and_do "gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
+# echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
+print_and_do "gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
 
 # SQL conf
 echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
@@ -158,13 +160,13 @@ print_and_do "git clone https://github.com/Fclem/breeze-static.git $static_sourc
 # DOCKER
 echo -e $L_CYAN"Getting docker images ..."$END_C
 
-echo -e $SHDOL"docker pull $shiny_image"
-docker pull $shiny_image # this is an un-edited copy of default docker shiny image
-echo -e $SHDOL"docker pull $mysql_image"
-docker pull $mysql_image # this is an un-edited copy of default docker mysql image
-echo -e $SHDOL"docker pull $breeze_image"
-docker pull nginx # this is an un-edited copy of default docker mysql image
-echo -e $SHDOL"docker pull nginx"
+# echo -e $SHDOL"docker pull $shiny_image"
+print_and_do "docker pull $shiny_image" # this is an un-edited copy of default docker shiny image
+# echo -e $SHDOL"docker pull $mysql_image"
+print_and_do "docker pull $mysql_image" # this is an un-edited copy of default docker mysql image
+# echo -e $SHDOL"docker pull $breeze_image"
+print_and_do "docker pull nginx" # this is an un-edited copy of default docker mysql image
+# echo -e $SHDOL"docker pull nginx"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e $BOLD"N.B. before starting Breeze :"$END_C
