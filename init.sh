@@ -149,7 +149,7 @@ echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
 sql_line="INSERT INTO \`django_site\` SET \`domain\`='$site_domain', \`name\`='$site_name';"
-print_and_do "echo sql_line >> ./breeze.sql"
+print_and_do "echo $sql_line >> ./breeze.sql"
 
 # static content
 echo -e $L_CYAN"Getting static content ..."$END_C
