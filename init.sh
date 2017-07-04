@@ -58,8 +58,9 @@ read site_domain
 echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
-
-echo -e $L_CYAN"Init might take some minutes to complete and will run, from here-on, unattended."$END_C
+echo -e $L_CYAN"Init might take some minutes to complete"$END_C
+echo -e $L_CYAN"Init will now run fully unattended"$END_C
+echo
 
 # APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
@@ -157,8 +158,8 @@ print_and_do "echo '$sql_line' >> ./breeze.sql"
 echo -e $L_CYAN"Getting static content ..."$END_C
 print_and_do "git clone https://github.com/Fclem/breeze-static.git $static_source_path"
 
-# create a softlink to the static source folder
-print_and_do "ln -s $rel_static_source_path $static_source_name"
+# create a soft link to the static source folder
+print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
 
 # DOCKER
 echo -e $L_CYAN"Getting docker images ..."$END_C
