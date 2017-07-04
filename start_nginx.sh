@@ -8,9 +8,9 @@ echo "Removing any previously running $nginx_cont_name"
 docker rm -f /$nginx_cont_name
 
 all_params="-d --name $nginx_cont_name \
-	-v $local_root_path/nginx/:/root:ro \
-	-v $local_root_path/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
-	-v $code_folder/static_source/:/www/data/static:ro \
+	-v $nginx_folder/:/root:ro \
+	-v $nginx_conf_file:/etc/nginx/nginx.conf:ro \
+	-v $static_source_path/:/www/data/static:ro \
 	-v $project_folder/db/reports/_cache/:/www/data/reports/:ro \
 	--link $breeze_cont_name:$breeze_cont_name \
 	--link $shiny_cont_name:$shiny_cont_name \

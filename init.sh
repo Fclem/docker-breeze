@@ -133,6 +133,7 @@ done
 echo -e $SHDOL"'"$run_mode"'>$actual_code_folder/.run_mode"
 echo $run_mode>$actual_code_folder/.run_mode
 
+# GPG
 echo -e $L_CYAN"Getting GPG public keys ..."$END_C
 
 echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
@@ -140,6 +141,7 @@ gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842
 echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
 gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8
 
+# SQL conf
 echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
 read site_domain
 echo
@@ -149,6 +151,11 @@ echo
 sql_line="INSERT INTO \`django_site\` SET \`domain\`='$site_domain', \`name\`='$site_name';"
 print_and_do "echo sql_line >> ./breeze.sql"
 
+# static content
+echo -e $L_CYAN"Getting static content ..."$END_C
+print_and_do "git clone https://github.com/Fclem/breeze-static.git $static_source_path"
+
+# DOCKER
 echo -e $L_CYAN"Getting docker images ..."$END_C
 
 echo -e $SHDOL"docker pull $shiny_image"
@@ -161,9 +168,11 @@ echo -e $SHDOL"docker pull nginx"
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
 echo -e $BOLD"N.B. before starting Breeze :"$END_C
-echo -e " _ Copy static files to $BOLD$code_folder/static_source$END_C"
-echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C"
-echo -e " _ if using Breeze-DB you need to copy apropriate files to $BOLD$breezedb_folder, and run the breeze-db" \
-" container before running Breeze$END_C"
+# echo -e " _ Copy static files to $BOLD$static_source_path$END_C (TODO automatize)"
+echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C or use ./init_secret.sh (TODO automatize)"
+echo -e " _ Create the nginx configuration file at $BOLD$nginx_conf_file$END_C (TODO automatize)"
+echo -e " _ Add the SSL certificates to $BOLD$nginx_folder$END_C"
+echo -e " _ if using Breeze-DB you need to copy appropriated files to $BOLD$breezedb_folder$END_C, and run the breeze-db" \
+" container before running Breeze"
 echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
 echo -e $GREEN"DONE"$END_C

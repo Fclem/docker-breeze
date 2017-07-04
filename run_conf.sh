@@ -15,6 +15,8 @@ SHDOL=$GREEN$BOLD"$"$END_C" "
 # local_root_path=`pwd`
 
 cd $local_root_path
+nginx_folder=$local_root_path/nginx
+nginx_conf_file=$nginx_folder/nginx.conf
 ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`
