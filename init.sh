@@ -34,8 +34,8 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 }
 # ask most of the question here for no more attending :
 # run_mode
-choose_line="Choose a run-mode (dev | pharma | pharma_dev | prod)? "
-echo -n "${choose_line}"
+choose_line=$GREEN"Choose a run-mode between "$END_C" dev | pharma | pharma_dev | prod : "
+echo -n -e "${choose_line}"
 run_mode=''
 read run_mode
 while [ "$run_mode" != 'dev' ] && [ "$run_mode" != 'pharma' ] && [ "$run_mode" != 'pharma_dev' ] && [ "$run_mode" != 'prod' ]
@@ -45,14 +45,21 @@ do
 	read run_mode
 done
 # download repo
-
+if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
+	do_git_clone=y                      # In batch mode => Default is Yes
+	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ?"$END_C
+	[[ -t 0 ]] &&                  # If tty => prompt the question
+	read -n 1 -p $'(Y/n) ' do_git_clone
+	echo
+fi
 # SQL conf
 echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
 read site_domain
-echo
 echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
+
+echo -e $L_CYAN"Init might take some minutes to complete and will run, from here-on, unattended."$END_C
 
 # APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
@@ -115,12 +122,6 @@ print_and_do "ln -s $rel_shiny_folder $shiny_ln"
 if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	echo -e $L_YELL"$actual_code_folder is not empty, if you which to clone isbio into it, clear it first"$END_C
 else
-	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ? "$END_C
-	[[ -t 0 ]] &&                  # If tty => prompt the question
-	read -n 1 -p \
-	$'(Y/n) ' do_git_clone
-	echo
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
 		print_and_do "git clone $git_repo $actual_code_folder"
