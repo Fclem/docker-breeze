@@ -44,6 +44,17 @@ do
 	echo -n -e "$choose_line"
 	read run_mode
 done
+# run_env
+choose_line=$GREEN"Choose a run-environement between "$END_C" azurecloud | fimm  : "
+echo -n -e "${choose_line}"
+run_env=''
+read run_env
+while [ "$run_env" != 'azurecloud' ] && [ "$run_env" != 'fimm' ]
+do
+	echo -e  $RED"Invalid run-environement"$END_C" '$run_env'"
+	echo -n -e "$choose_line"
+	read run_env
+done
 # download repo
 if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
@@ -144,6 +155,8 @@ chmod ugo+r breeze.sql
 
 # save the run mode in .run_mode into the code folder
 print_and_do "echo '$run_mode'>$actual_code_folder/.run_mode"
+# save the run env in .run_env into the code folder
+print_and_do "echo '$run_env'>$actual_code_folder/.run_env"
 
 # GPG
 echo -e $L_CYAN"Getting GPG public keys ..."$END_C
