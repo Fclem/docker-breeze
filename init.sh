@@ -34,6 +34,7 @@ if [ ! -f $mysql_secret_file ]; then
 	rnd_pass=`pwqgen random=85`
 	echo $rnd_pass > $mysql_secret_file
 	rnd_pass=''
+	mysql_secret=`cat $mysql_secret_file`
 fi
 
 # TODO improve & finnish. Make a python shell script instead ?
@@ -75,9 +76,6 @@ else
 	echo -e $L_YELL"Already exists : "$actual_code_folder$END_C
 fi
 
-echo -e $SHDOL"'prod'>$actual_code_folder/.run_mode"
-echo 'prod'>$actual_code_folder/.run_mode
-
 # creates shiny folder if non existant
 if [ ! -d "$shiny_folder" ] ; then
 	mkdir $shiny_folder_list && \
@@ -91,7 +89,7 @@ ln -s $shiny_folder $shiny_ln
 
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
-	echo -e $L_YELL"$actual_code_folder is not empty, if you whish to clone isbio into it, clear it first"$END_C
+	echo -e $L_YELL"$actual_code_folder is not empty, if you which to clone isbio into it, clear it first"$END_C
 else
 	do_git_clone=y                      # In batch mode => Default is Yes
 	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ? "$END_C
@@ -120,6 +118,20 @@ else
 	ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file
 fi
 chmod ugo+r breeze.sql
+
+# save the run mode in .run_mode into the code folder
+choose_line="Choose a run-mode (dev | pharma | pharma_dev | prod)? "
+echo -n "$choose_line"
+run_mode=''
+read run_mode
+while [ "$run_mode" != 'dev' ] && [ "$run_mode" != 'pharma' ] && [ "$run_mode" != 'pharma_dev' ] && [ "$run_mode" != 'prod' ]
+do
+	echo "Invalid run-mode '$run_mode'"
+	echo -n "$choose_line"
+	read run_mode
+done
+echo -e $SHDOL"'"$run_mode"'>$actual_code_folder/.run_mode"
+echo $run_mode>$actual_code_folder/.run_mode
 
 echo -e $L_CYAN"Getting GPG public keys ..."$END_C
 
