@@ -55,6 +55,7 @@ fi
 # SQL conf
 echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
 read site_domain
+# TODO check that entered FQDN match public ip
 echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
@@ -151,7 +152,7 @@ print_and_do "gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
 print_and_do "gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
 
 # SQL conf
-sql_line="INSERT INTO \`django_site\` SET \`domain\`='$site_domain', \`name\`='$site_name';"
+sql_line="INSERT INTO \`django_site\` SET \`domain\`=\''$site_domain'\', \`name\`=\''$site_name'\';"
 print_and_do "echo '$sql_line' >> ./breeze.sql"
 
 # static content
