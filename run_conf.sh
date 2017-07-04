@@ -56,7 +56,11 @@ ssh_remote_port=4243
 shiny_image=fimm/shiny # this is an un-edited copy of default docker shiny image
 mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
-mysql_secret=`cat $mysql_secret_file`
+if [ -f $mysql_secret_file ]; then
+	mysql_secret=`cat $mysql_secret_file`
+else
+	mysql_secret=''
+fi
 breeze_image=$repo_name/$img_name
 full_img_name=$repo_name/$img_name # change image name here
 
