@@ -341,7 +341,7 @@ CREATE TABLE `breeze_institute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `institute` varchar(32) NOT NULL,
   `url` varchar(64) NOT NULL,
-  `domain` varchar(32) NOT NULL,
+  `domain` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `institute_UNIQUE` (`institute`),
   UNIQUE KEY `domain_UNIQUE` (`domain`)
@@ -726,6 +726,10 @@ CREATE TABLE `breeze_script_categories` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+INSERT INTO `breeze_script_categories` (`id`,`category`,`description`) VALUES (1,'visualization','');
+INSERT INTO `breeze_script_categories` (`id`,`category`,`description`) VALUES (2,'screening','');
+INSERT INTO `breeze_script_categories` (`id`,`category`,`description`) VALUES (3,'general','');
 
 --
 -- Table structure for table `breeze_user_date`
