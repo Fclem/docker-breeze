@@ -33,6 +33,11 @@ shiny_folder_list="${shiny_folder} ${shiny_log_folder} ${shiny_serv_folder} ${sh
 
 source ssh_enabled.sh
 
+FQDN=`hostname -f`
+site_domain=""
+FQDN_TXT=""
+PUB_IP=`curl ipinfo.io/ip 2>/dev/null`
+
 if [ -f ${mysql_secret_file} ]; then
 	mysql_secret=`cat ${mysql_secret_file}`
 else

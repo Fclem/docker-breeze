@@ -81,9 +81,23 @@ if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	echo
 fi
 # SQL conf
-echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
-read site_domain
-# TODO check that entered FQDN match public ip
+if [ "" != "${FQDN}" ]; then
+	echo -e $GREEN"Auto-detected FQDN : ${END_C}${BOLD}${FQDN}${END_C}"
+	FQDN_TXT="(or leave blank for auto-detected one) "
+fi
+while [ "${site_domain}" = "" ]
+do
+	echo -n -e $GREEN"Enter the FQDN of this host ${FQDN_TXT}: "$END_C
+	read site_domain
+	if [ "" = "${site_domain}" ]; then
+		site_domain="${FQDN}"
+	fi
+done
+FQDN_IP=`dig +short ${site_domain}`
+if [ "$FQDN_IP" != "${PUB_IP}" ]; then
+	echo -e ${RED}"WARNING: FQDN does not resolve to this server public ip (${PUB_IP})"${END_C}
+	# TODO else write FQDN and PUB_IP in a file to passon to Breeze
+fi
 echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
