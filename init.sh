@@ -32,6 +32,15 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 		print_already $1
 	fi
 }
+# check if user is in docker group, adds it if not
+username=${USER}
+if getent group docker | grep &>/dev/null "\b${username}\b"; then
+    echo -n -e "$L_CYAN${username} already in group docker"$END_C
+else
+	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
+    logout 2>/dev/null
+fi
+
 # ask most of the question here for no more attending :
 # run_mode
 choose_line=$GREEN"Choose a run-mode between "$END_C" dev | pharma | pharma_dev | prod : "
@@ -58,7 +67,7 @@ done
 # download repo
 if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ?"$END_C
+	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ? "$END_C
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p $'(Y/n) ' do_git_clone
 	echo
