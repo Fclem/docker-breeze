@@ -15,9 +15,12 @@ Check related isbio repository at https://github.com/Fclem/isbio
 How-to :
 
 ```console
-git clone https://github.com/Fclem/docker-breeze.git
-
-./init.sh
+git clone https://github.com/Fclem/docker-breeze.git dockerb && \
+	cd dockerb && exec ./init.sh
+```
+If not logged-out, log-out and login again then
+```console
+cd dockerb && ./init.sh
 ```
 
 Copy private and public key, config, know_host in a ```.ssh``` folder.
