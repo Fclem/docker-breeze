@@ -9,11 +9,11 @@ function print_and_do(){
 }
 
 function print_already(){
-	echo -e $L_YELL"Already exists : "$1$END_C
+	echo -e $L_YELL"Already exists : "$1${END_C}
 }
 
 function print_created(){
-	echo -e $L_CYAN"created : "$1$END_C
+	echo -e $L_CYAN"created : "$1${END_C}
 }
 
 function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, or space separated list to pass to mkdir
@@ -34,10 +34,10 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 # check if user is in docker group, adds it if not
 username=${USER}
 if getent group docker | grep &>/dev/null "\b${username}\b"; then
-  echo -n -e "$L_CYAN${username} already in group docker"$END_C
+  echo -n -e "$L_CYAN${username} already in group docker"${END_C}
 else
 	print_and_do "sudo groupadd docker && sudo usermod -aG docker ${username}"
-	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
+	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"${END_C}
   logout 2>/dev/null
 	exit
 fi
@@ -48,7 +48,7 @@ source ${local_root_path}/run_conf.sh
 
 # ask most of the question here for no more attending :
 # run_mode
-choose_line=$GREEN"Choose a run-mode between "$END_C" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
+choose_line=$GREEN"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
 " | "${run_mode_ph_dev}" : "
 echo -n -e "${choose_line}"
 run_mode=''
@@ -56,18 +56,18 @@ read run_mode
 while [ "$run_mode" != "${run_mode_dev}" ] && [ "$run_mode" != "${run_mode_pharma}" ] && \
  [ "$run_mode" != "${run_mode_ph_dev}" ] && [ "$run_mode" != "${run_mode_prod}" ]
 do
-	echo -e  $RED"Invalid run-mode"$END_C" '$run_mode'"
+	echo -e  $RED"Invalid run-mode"${END_C}" '$run_mode'"
 	echo -n -e "$choose_line"
 	read run_mode
 done
 # run_env
-choose_line=$GREEN"Choose a run-environement between "$END_C" "${env_azure}" | "${env_fimm}"  : "
+choose_line=$GREEN"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}"  : "
 echo -n -e "${choose_line}"
 run_env=''
 read run_env
 while [ "$run_env" != "${env_azure}" ] && [ "$run_env" != "${env_fimm}" ]
 do
-	echo -e  $RED"Invalid run-environement"$END_C" '$run_env'"
+	echo -e  $RED"Invalid run-environement"${END_C}" '$run_env'"
 	echo -n -e "$choose_line"
 	read run_env
 done
@@ -75,7 +75,7 @@ done
 if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
 	echo -n -e $GREEN"\nWould you like to clone ${BOLD}${git_repo}${END_C}${GREEN} repository in ${BOLD}"\
-"${actual_code_folder}${END_C}${GREEN} folder ? "$END_C
+"${actual_code_folder}${END_C}${GREEN} folder ? "${END_C}
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p $'(Y/n) ' do_git_clone
 	echo
@@ -87,7 +87,7 @@ if [ "" != "${FQDN}" ]; then
 fi
 while [ "${site_domain}" = "" ]
 do
-	echo -n -e $GREEN"Enter the FQDN of this host ${FQDN_TXT}: "$END_C
+	echo -n -e $GREEN"Enter the FQDN of this host ${FQDN_TXT}: "${END_C}
 	read site_domain
 	if [ "" = "${site_domain}" ]; then
 		site_domain="${FQDN}"
@@ -97,12 +97,14 @@ FQDN_IP=`dig +short ${site_domain}`
 if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 	echo -e ${RED}"WARNING: FQDN does not resolve to this server public ip (${PUB_IP})"${END_C}
 	# TODO else write FQDN and PUB_IP in a file to passon to Breeze
+else
+	echo -e ${GREEN}"${site_domain} resolves to this server's public IP !"${END_C}
 fi
-echo -n -e $GREEN"Enter the name of this site : "$END_C
+echo -n -e $GREEN"Enter the name of this site : "${END_C}
 read site_name
 echo
-echo -e $L_CYAN"Init will now run fully unattended, and "$END_C
-echo -e $L_CYAN" might take up to one minute to complete"$END_C
+echo -e $L_CYAN"Init will now run fully unattended, and might take several minutes to complete"${END_C}
+echo "You should scroll through the log to make sure that everything goes smoothly"
 
 echo
 
@@ -119,7 +121,7 @@ print_and_do "echo 'deb ${apt_docker_repo} ubuntu-xenial main' "\
 print_and_do "sudo apt-get update"
 # installs required packages
 inst_list=`cat VM_pkg_list`
-print_and_do "sudo apt-get install -y $inst_list"
+print_and_do "sudo apt-get install -y linux-image-extra-$(uname -r) $inst_list"
 print_and_do "sudo gpasswd -a ${USER} docker"
 print_and_do "sudo service docker start"
 
@@ -127,8 +129,8 @@ print_and_do "sudo service docker start"
 if [ ! -f $mysql_secret_file ]; then
    	touch $mysql_secret_file && \
 	chmod go-rwx $mysql_secret_file && \
-	echo -e $L_CYAN"Created mysql password file '$mysql_secret_file'."$END_C
-	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"$END_C
+	echo -e $L_CYAN"Created mysql password file '$mysql_secret_file'."${END_C}
+	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"${END_C}
 	rnd_pass=`pwqgen random=85`
 	echo $rnd_pass > $mysql_secret_file
 	rnd_pass=''
@@ -137,14 +139,14 @@ fi
 
 # TODO improve & finnish. Make a python shell script instead ?
 
-echo -e $L_CYAN"Creating file and folder structure ..."$END_C
+echo -e $L_CYAN"Creating file and folder structure ..."${END_C}
 
 # create empty files for easier bash competition when using docker start/attach etc.
 touch $breeze_cont_name $mysql_cont_name $nginx_cont_name $breezedb_cont_name $shiny_cont_name
 chmod ugo-rwx $breeze_cont_name $mysql_cont_name $nginx_cont_name $breezedb_cont_name $shiny_cont_name
 
 # creates project folder if non existant
-if [ ! -d "$project_folder" ] ; then
+if [ ! -d "$project_folder" ] ; then # FIXME
 	db_folder=$project_folder/db
 	mkdir $project_folder && \
 	print_created $project_folder
@@ -166,7 +168,7 @@ print_and_do "ln -s $rel_shiny_folder $shiny_ln"
 
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
-	echo -e $L_YELL"$actual_code_folder is not empty, if you which to clone isbio into it, clear it first"$END_C
+	echo -e $L_YELL"$actual_code_folder is not empty, if you which to clone isbio into it, clear it first"${END_C}
 else
 	if [[ $do_git_clone =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 	then
@@ -192,35 +194,35 @@ print_and_do "echo '$run_mode'>$actual_code_folder/.run_mode"
 print_and_do "echo '$run_env'>$actual_code_folder/.run_env"
 
 # GPG
-echo -e $L_CYAN"Getting GPG public keys ..."$END_C
+echo -e $L_CYAN"Getting devs' GPG public keys ..."${END_C}
 
-print_and_do "gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
-print_and_do "gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
+print_and_do "gpg --keyserver ${GPG_key_server} --recv ${clem_GPG_id}"
+print_and_do "gpg --keyserver ${GPG_key_server} --recv ${alks_GPG_id}"
 
 # SQL conf
 sql_line="INSERT INTO \`django_site\` SET \`domain\`=\''$site_domain'\', \`name\`=\''$site_name'\';"
 print_and_do "echo '$sql_line' >> ${mysql_init_file}"
 
 # static content
-echo -e $L_CYAN"Getting static content ..."$END_C
+echo -e $L_CYAN"Getting static content ..."${END_C}
 print_and_do "git clone ${breeze_static_repo_url} ${static_source_path}"
 
 # create a soft link to the static source folder
 print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
 
 # DOCKER
-echo -e $L_CYAN"Getting docker images ..."$END_C
+echo -e $L_CYAN"Getting docker images ..."${END_C}
 
 print_and_do "docker pull $shiny_image" # this is an un-edited copy of default docker shiny image
 print_and_do "docker pull $mysql_image" # this is an un-edited copy of default docker mysql image
 print_and_do "docker pull nginx" # this is an un-edited copy of default docker mysql image
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
-"$L_YELL"You can also customize it and build it from docker_breeze_img/"$END_C
-echo -e $BOLD"N.B. before starting Breeze :"$END_C
-echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C or use ./init_secret.sh (TODO automatize)"
-echo -e " _ Create the nginx configuration file at $BOLD$nginx_conf_file$END_C (TODO automatize)"
-echo -e " _ Add the SSL certificates to $BOLD$nginx_folder$END_C"
-echo -e " _ if using Breeze-DB you need to copy appropriated files to $BOLD$breezedb_folder$END_C, and run the"\
-"${breezedb_cont_name} container before running Breeze"
-echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
-echo -e $GREEN"DONE"$END_C
+"$L_YELL"You can also customize it and build it from ${BOLD}./docker_breeze_img/"${END_C}
+echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
+echo -e " _ Copy req. secrets to ${BOLD}$breeze_secrets_folder${END_C} or use ./init_secret.sh (TODO automatize)"
+echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
+echo -e " _ Add the SSL certificates to ${BOLD}$nginx_folder${END_C}"
+echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$breezedb_folder${END_C}, and run"\
+" ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
+echo -e ${BOLD}_GREEN"To start breeze, run './start_all.sh'"${END_C}
+echo -e $GREEN"DONE"${END_C}

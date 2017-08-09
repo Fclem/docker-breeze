@@ -67,3 +67,8 @@ run_mode_prod='prod'
 # ENV CONFS
 env_azure='azurecloud'
 env_fimm='fimm'
+
+# GPG
+GPG_key_server="pgp.mit.edu"
+clem_GPG_id="B4A7FF8614ED9842"
+alks_GPG_id="DFDAF03DA18C9EE8"
