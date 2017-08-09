@@ -46,3 +46,13 @@ docker_project_folder="/projects/breeze"
 rel_shiny_folder="../shiny/"
 rel_breezedb_folder="../breeze-db/"
 code_ln="code"
+
+# RUN MODES
+run_mode_dev='dev'
+run_mode_pharma='pharma'
+run_mode_ph_dev='pharma_dev'
+run_mode_prod='prod'
+
+# ENV CONFS
+env_azure='azurecloud'
+env_fimm='fimm'
