@@ -39,6 +39,7 @@ if getent group docker | grep &>/dev/null "\b${username}\b"; then
 else
 	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
     logout 2>/dev/null
+		exit
 fi
 
 # ask most of the question here for no more attending :
