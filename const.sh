@@ -12,7 +12,17 @@ SHDOL=${GREEN}${BOLD}"$"${END_C}" "
 # # # # # # # #
 # env defined #
 # # # # # # # #
+
+# GIT
+git_url_base="https://github.com/"
+git_user_name="Fclem"
 git_repo_name="isbio2"
+breeze_static_repo_name="breeze-static"
+
+# DOCKER SOURCES
+apt_docker_key_server="hkp://ha.pool.sks-keyservers.net:80"
+apt_docker_key_id="58118E89F3A912897C070ADBF76221572C52609D"
+apt_docker_repo="https://apt.dockerproject.org/repo"
 
 # CONTAINERS NAMES
 # empty file with these name will be created for bash auto completion while using docker start/attach etc.
@@ -38,6 +48,7 @@ shiny_image='fimm/shiny' # an un-edited copy of default docker shiny image
 # MYSQL CONFIGS
 mysql_image='fimm/mysql' # an un-edited copy of default docker mysql image
 mysql_secret_file='.mysql_root_secret'
+mysql_init_file='./breeze.sql'
 
 # FOLDER STRUCTURE CONFIGS
 static_source_name='static_source'

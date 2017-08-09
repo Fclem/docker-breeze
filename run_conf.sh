@@ -2,7 +2,10 @@ local_root_path=$(readlink -f $(dirname "$0"))
 source docker_breeze_img/build.conf
 source ${local_root_path}/const.sh
 source ${local_root_path}/docker_breeze_img/build.conf
-git_repo="https://github.com/Fclem/${git_repo_name}.git"
+
+# GIT
+git_repo="${git_url_base}/${git_user_name}/${git_repo_name}.git"
+breeze_static_repo_url="${git_url_base}/${git_user_name}/${breeze_static_repo_name}.git"
 
 cd ${local_root_path}
  # FOLDER STRUCTURE

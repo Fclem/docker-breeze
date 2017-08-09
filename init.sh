@@ -48,11 +48,13 @@ source ${local_root_path}/run_conf.sh
 
 # ask most of the question here for no more attending :
 # run_mode
-choose_line=$GREEN"Choose a run-mode between "$END_C" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}" | "${run_mode_ph_dev}" : "
+choose_line=$GREEN"Choose a run-mode between "$END_C" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
+" | "${run_mode_ph_dev}" : "
 echo -n -e "${choose_line}"
 run_mode=''
 read run_mode
-while [ "$run_mode" != "${run_mode_dev}" ] && [ "$run_mode" != "${run_mode_pharma}" ] && [ "$run_mode" != "${run_mode_ph_dev}" ] && [ "$run_mode" != "${run_mode_prod}" ]
+while [ "$run_mode" != "${run_mode_dev}" ] && [ "$run_mode" != "${run_mode_pharma}" ] && \
+ [ "$run_mode" != "${run_mode_ph_dev}" ] && [ "$run_mode" != "${run_mode_prod}" ]
 do
 	echo -e  $RED"Invalid run-mode"$END_C" '$run_mode'"
 	echo -n -e "$choose_line"
@@ -72,7 +74,8 @@ done
 # download repo
 if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
-	echo -n -e $GREEN"\nWould you like to clone ${git_repo} repository in ${actual_code_folder} folder ? "$END_C
+	echo -n -e $GREEN"\nWould you like to clone ${BOLD}${git_repo}${END_C}${GREEN} repository in ${BOLD}"\
+"${actual_code_folder}${END_C}${GREEN} folder ? "$END_C
 	[[ -t 0 ]] &&                  # If tty => prompt the question
 	read -n 1 -p $'(Y/n) ' do_git_clone
 	echo
@@ -84,8 +87,9 @@ read site_domain
 echo -n -e $GREEN"Enter the name of this site : "$END_C
 read site_name
 echo
-echo -e $L_CYAN"Init might take some minutes to complete"$END_C
-echo -e $L_CYAN"Init will now run fully unattended"$END_C
+echo -e $L_CYAN"Init will now run fully unattended, and "$END_C
+echo -e $L_CYAN" might take up to one minute to complete"$END_C
+
 echo
 
 # APT update
@@ -93,10 +97,11 @@ print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
 print_and_do "sudo apt-get install apt-transport-https ca-certificates"
 # docker repos keys
 print_and_do "sudo apt-key adv \
-               --keyserver hkp://ha.pool.sks-keyservers.net:80 \
-               --recv-keys 58118E89F3A912897C070ADBF76221572C52609D"
+               --keyserver ${apt_docker_key_server} \
+               --recv-keys ${apt_docker_key_id}"
 # docker repo
-print_and_do "echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list"
+print_and_do "echo 'deb ${apt_docker_repo} ubuntu-xenial main' "\
+"| sudo tee /etc/apt/sources.list.d/docker.list"
 print_and_do "sudo apt-get update"
 # installs required packages
 inst_list=`cat VM_pkg_list`
@@ -180,11 +185,11 @@ print_and_do "gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
 
 # SQL conf
 sql_line="INSERT INTO \`django_site\` SET \`domain\`=\''$site_domain'\', \`name\`=\''$site_name'\';"
-print_and_do "echo '$sql_line' >> ./breeze.sql"
+print_and_do "echo '$sql_line' >> ${mysql_init_file}"
 
 # static content
 echo -e $L_CYAN"Getting static content ..."$END_C
-print_and_do "git clone https://github.com/Fclem/breeze-static.git $static_source_path"
+print_and_do "git clone ${breeze_static_repo_url} ${static_source_path}"
 
 # create a soft link to the static source folder
 print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
@@ -201,7 +206,7 @@ echo -e $BOLD"N.B. before starting Breeze :"$END_C
 echo -e " _ Copy req. secrets to $BOLD$breeze_secrets_folder$END_C or use ./init_secret.sh (TODO automatize)"
 echo -e " _ Create the nginx configuration file at $BOLD$nginx_conf_file$END_C (TODO automatize)"
 echo -e " _ Add the SSL certificates to $BOLD$nginx_folder$END_C"
-echo -e " _ if using Breeze-DB you need to copy appropriated files to $BOLD$breezedb_folder$END_C, and run the breeze-db" \
-" container before running Breeze"
+echo -e " _ if using Breeze-DB you need to copy appropriated files to $BOLD$breezedb_folder$END_C, and run the"\
+"${breezedb_cont_name} container before running Breeze"
 echo -e $BOLD_GREEN"To start breeze, run './start_all.sh'"$END_C
 echo -e $GREEN"DONE"$END_C
