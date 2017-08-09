@@ -1,21 +1,7 @@
 #!/bin/bash
 local_root_path=$(readlink -f $(dirname "$0"))
-
-# check if user is in docker group, adds it if not
-username=${USER}
-if getent group docker | grep &>/dev/null "\b${username}\b"; then
-  echo -n -e "$L_CYAN${username} already in group docker"$END_C
-else
-	sudo groupadd docker && sudo usermod -aG docker ${username}
-	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
-  logout 2>/dev/null
-	exit
-fi
-
-source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
-source run_conf.sh # IDE hack for var resolution
-source ${local_root_path}/run_conf.sh
-# git_repo=https://github.com/Fclem/isbio2.git
+source const.sh # IDE hack for var resolution
+source ${local_root_path}/const.sh
 
 function print_and_do(){
 	echo -e $SHDOL$1
@@ -45,26 +31,39 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 	fi
 }
 
+# check if user is in docker group, adds it if not
+username=${USER}
+if getent group docker | grep &>/dev/null "\b${username}\b"; then
+  echo -n -e "$L_CYAN${username} already in group docker"$END_C
+else
+	print_and_do "sudo groupadd docker && sudo usermod -aG docker ${username}"
+	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
+  logout 2>/dev/null
+	exit
+fi
 
+source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
+source run_conf.sh # IDE hack for var resolution
+source ${local_root_path}/run_conf.sh
 
 # ask most of the question here for no more attending :
 # run_mode
-choose_line=$GREEN"Choose a run-mode between "$END_C" dev | pharma | pharma_dev | prod : "
+choose_line=$GREEN"Choose a run-mode between "$END_C" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}" | "${run_mode_ph_dev}" : "
 echo -n -e "${choose_line}"
 run_mode=''
 read run_mode
-while [ "$run_mode" != 'dev' ] && [ "$run_mode" != 'pharma' ] && [ "$run_mode" != 'pharma_dev' ] && [ "$run_mode" != 'prod' ]
+while [ "$run_mode" != "${run_mode_dev}" ] && [ "$run_mode" != "${run_mode_pharma}" ] && [ "$run_mode" != "${run_mode_ph_dev}" ] && [ "$run_mode" != "${run_mode_prod}" ]
 do
 	echo -e  $RED"Invalid run-mode"$END_C" '$run_mode'"
 	echo -n -e "$choose_line"
 	read run_mode
 done
 # run_env
-choose_line=$GREEN"Choose a run-environement between "$END_C" azurecloud | fimm  : "
+choose_line=$GREEN"Choose a run-environement between "$END_C" "${env_azure}" | "${env_fimm}"  : "
 echo -n -e "${choose_line}"
 run_env=''
 read run_env
-while [ "$run_env" != 'azurecloud' ] && [ "$run_env" != 'fimm' ]
+while [ "$run_env" != "${env_azure}" ] && [ "$run_env" != "${env_fimm}" ]
 do
 	echo -e  $RED"Invalid run-environement"$END_C" '$run_env'"
 	echo -n -e "$choose_line"

@@ -1,6 +1,7 @@
 # takes care of conditional ssh initialization
 # lies in a separate files so as to provide option to enable it later
 local_root_path=$(readlink -f $(dirname "$0"))
+source $local_root_path/const.sh
 source $local_root_path/run_conf.sh
 enable_ssh="N"                      # In batch mode => Default is Yes
 echo -n -e $GREEN"\nWould you like to enable ssh-tunneling (you can also do it at a later time using init_ssh.sh) ? "$END_C

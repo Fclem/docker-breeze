@@ -1,68 +1,35 @@
 local_root_path=$(readlink -f $(dirname "$0"))
 source docker_breeze_img/build.conf
+source ${local_root_path}/const.sh
 source ${local_root_path}/docker_breeze_img/build.conf
-git_repo_name="isbio2"
-git_repo=https://github.com/Fclem/${git_repo_name}.git
-
-END_C="\e[0m"
-RED="\e[91m"
-L_CYAN="\e[96m"
-BOLD_GREEN="\e[1;32m"
-L_YELL="\e[93m"
-GREEN="\e[32m"
-BOLD="\e[1m"
-SHDOL=${GREEN}${BOLD}"$"${END_C}" "
-
-# local_root_path=`pwd`
+git_repo="https://github.com/Fclem/${git_repo_name}.git"
 
 cd ${local_root_path}
-nginx_folder=${local_root_path}/nginx
-nginx_conf_file=${nginx_folder}/nginx.conf
-ssh_folder=${local_root_path}/.ssh/
-code_folder=${local_root_path}/code # the root folder of your code (i.e. the one that has requirement.txt)
-rel_actual_code_folder=../${git_repo_name}/
+ # FOLDER STRUCTURE
+nginx_folder="${local_root_path}/nginx"
+nginx_conf_file="${nginx_folder}/nginx.conf"
+ssh_folder="${local_root_path}/.ssh/"
+code_folder="${local_root_path}/code" # the root folder of your code (i.e. the one that has requirement.txt)
+rel_actual_code_folder="../${git_repo_name}/"
 actual_code_folder=`readlink -f ${rel_actual_code_folder}`
-project_folder=${local_root_path}/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
-home_folder=/root
-static_source_name='static_source'
-rel_static_source_path=../${static_source_name}/
+# the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
+project_folder="${local_root_path}/breeze_data"
+rel_static_source_path="../${static_source_name}/"
 static_source_path=`readlink -f ${rel_static_source_path}`
-docker_root_folder=$home_folder/code
-docker_project_folder=/projects/breeze
-breeze_secrets_folder=${code_folder}/configs
-rel_shiny_folder=../shiny/
+docker_root_folder="$home_folder/code"
+breeze_secrets_folder="${code_folder}/configs"
 shiny_folder=`readlink -f ${rel_shiny_folder}`
-shiny_log_folder=${shiny_folder}/.log
-shiny_serv_folder=${shiny_folder}/shiny
-shiny_app_folder=${shiny_serv_folder}/breeze
-shiny_pub_folder=${shiny_serv_folder}/pub
-shiny_ln=${local_root_path}/shiny
-code_ln="code"
-rel_breezedb_folder=../breeze-db/
+shiny_log_folder="${shiny_folder}/.log"
+shiny_serv_folder="${shiny_folder}/shiny"
+shiny_app_folder="${shiny_serv_folder}/breeze"
+shiny_pub_folder="${shiny_serv_folder}/pub"
+shiny_ln="${local_root_path}/shiny"
 breezedb_folder=`readlink -f ${rel_breezedb_folder}`
 
 shiny_folder_list="${shiny_folder} ${shiny_log_folder} ${shiny_serv_folder} ${shiny_app_folder} ${shiny_pub_folder}"
 
-ssh_cont_name=breeze-ssh		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-breeze_cont_name=breeze-one		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-mysql_cont_name=breeze-sql		# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-breezedb_cont_name=breeze-db	# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-nginx_cont_name=breeze-nginx	# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-shiny_cont_name=breeze-shiny	# empty file with this name will be created for bash auto completion while using docker start/attach etc.
-
-ssh_image=kingsquare/tunnel:forward
-ssh_user=breeze
-# ssh_server=breeze.northeurope.cloudapp.azure.com
-# ssh_enabled=0
 source ssh_enabled.sh
-ssh_server=10.0.1.4
-ssh_local_port=3945
-ssh_forwarded_ip=127.0.0.1
-ssh_remote_port=4243
 
-shiny_image=fimm/shiny # this is an un-edited copy of default docker shiny image
-mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
-mysql_secret_file=.mysql_root_secret
 if [ -f ${mysql_secret_file} ]; then
 	mysql_secret=`cat ${mysql_secret_file}`
 else
@@ -110,7 +77,7 @@ link_param="--link $mysql_cont_name:mysql \
 	$breezedb_sup_link	$ssh_sup_link"
 
 # file system mounts for shiny apps and logs
-shiny_param="-v $shiny_serv_folder/:/srv/shiny-server/ \
-    -v $shiny_log_folder/:/var/log/"
+shiny_param="-v ${shiny_serv_folder}/:${shiny_container_folder} \
+    -v ${shiny_log_folder}/:/var/log/"
 
 # --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com
