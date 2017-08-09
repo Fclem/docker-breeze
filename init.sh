@@ -1,5 +1,17 @@
 #!/bin/bash
 local_root_path=$(readlink -f $(dirname "$0"))
+
+# check if user is in docker group, adds it if not
+username=${USER}
+if getent group docker | grep &>/dev/null "\b${username}\b"; then
+  echo -n -e "$L_CYAN${username} already in group docker"$END_C
+else
+	usermod -aG docker ${username}
+	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
+  logout 2>/dev/null
+	exit
+fi
+
 source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
 source run_conf.sh # IDE hack for var resolution
 source ${local_root_path}/run_conf.sh
@@ -32,15 +44,8 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 		print_already $1
 	fi
 }
-# check if user is in docker group, adds it if not
-username=${USER}
-if getent group docker | grep &>/dev/null "\b${username}\b"; then
-    echo -n -e "$L_CYAN${username} already in group docker"$END_C
-else
-	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"$END_C
-    logout 2>/dev/null
-		exit
-fi
+
+
 
 # ask most of the question here for no more attending :
 # run_mode
