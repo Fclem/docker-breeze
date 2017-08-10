@@ -100,12 +100,14 @@ if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 else
 	echo -e ${BOLD}"${site_domain}${END_C}${GREEN} resolves to this server's public IP (${PUB_IP}) !"${END_C}
 fi
-echo -n -e $GREEN"Enter the name of this site : "${END_C}
-read site_name
+while [ "${site_name}" = "" ]
+do
+	echo -n -e $GREEN"Enter the name of this site : "${END_C}
+	read site_name
+done
 echo
 echo -e $L_CYAN"Init will now run fully unattended, and might take several minutes to complete"${END_C}
 echo "You should scroll through the log to make sure that everything goes smoothly"
-
 echo
 
 # APT update
