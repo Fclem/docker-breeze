@@ -17,6 +17,7 @@ SHDOL=${GREEN}${BOLD}"$"${END_C}" "
 git_url_base="https://github.com"
 git_user_name="Fclem"
 git_repo_name="isbio2"
+git_ssh_url="git@github.com:${git_user_name}"
 breeze_static_repo_name="breeze-static"
 breeze_r_code_repo_name="DSRT-v2"
 
