@@ -70,6 +70,7 @@ env_azure='azurecloud'
 env_fimm='fimm'
 site_name=''
 locale_gen='en_US.UTF-8'
+time_zone="Europe/Helsinki"
 
 # GPG
 GPG_key_server="pgp.mit.edu"

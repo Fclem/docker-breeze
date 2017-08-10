@@ -218,6 +218,12 @@ export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
 locale-gen ${locale_gen}
 sudo dpkg-reconfigure locales
+sudo echo "${time_zone}" > /etc/timezone && \
+	sudo dpkg-reconfigure -f noninteractive tzdata && \
+	sed -i -e "s/# ${locale_gen} UTF-8/${locale_gen} UTF-8/" /etc/locale.gen && \
+	sudo echo "LANG=\"${locale_gen}\"">/etc/default/locale && \
+	sudo dpkg-reconfigure --frontend=noninteractive locales && \
+	sudo update-locale LANG=${locale_gen}
 ### APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
 print_and_do "sudo apt-get install apt-transport-https ca-certificates"
