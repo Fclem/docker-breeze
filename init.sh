@@ -3,11 +3,6 @@ local_root_path=$(readlink -f $(dirname "$0"))
 source const.sh # IDE hack for var resolution
 source ${local_root_path}/const.sh
 
-function print_and_do(){
-	echo -e $SHDOL$1
-	eval $1
-}
-
 function print_already(){
 	echo -e $L_YELL"Already exists : "$1${END_C}
 }
