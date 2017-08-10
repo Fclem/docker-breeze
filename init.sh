@@ -314,9 +314,11 @@ echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
 echo -e " _ Copy req. secrets to ${BOLD}${breeze_secrets_folder}${END_C} or use ./init_secret.sh (TODO automatize)"
 # echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
 echo -e " _ Add the SSL certificates to ${BOLD}${nginx_folder}${END_C}"
-echo -e " _ Add the SSH key to GitHub to be able to download R sources (use ${BOLD}cat ~/.ssh/id_rsa.pub, then run ${BOLD}./load_r_code.sh${END_C}"
+echo -e " _ Add the following SSH key to GitHub to be able to download R sources then run ${BOLD}./load_r_code.sh${END_C}"
 echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}${breezedb_folder}${END_C}, and run"\
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
+echo "THE SSH KEY :"
+cat ~/.ssh/id_rsa.pub
 echo -e ${GREEN}"DONE"${END_C}
 fish
