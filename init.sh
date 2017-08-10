@@ -24,7 +24,7 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 	fi
 	# creates folders if non existent
 	if [ ! -d "$1" ] ; then
-		mkdir ${sec} && \
+		mkdir -p ${sec} && \
 	    print_created ${sec}
 	else
 		print_already $1
@@ -68,7 +68,7 @@ function create_folders_if_not_existant(){
 	for var in "$@"
 	do
 		if [ ! -d "$var" ] ; then
-			mkdir $var && print_created $var
+			mkdir -p $var && print_created $var
 		else
 			print_already $var
 		fi
