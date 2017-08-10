@@ -106,22 +106,18 @@ run_mode_auto=''
 if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-dev"
 then # dev
 	run_mode_auto="${run_mode_dev}"
-	run_sup="(leave blank for ${run_mode_auto}) "
 else
 	if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-ph"
 	then
 		run_mode_auto="${run_mode_pharma}"
-		run_sup="(default to ${BOLD}${run_mode_auto}${END_C}${GREEN}) "
 	else
 		run_mode_auto="${run_mode_prod}"
 	fi
 fi
-run_sup="(leave blank for ${run_mode_auto}) "
+run_sup="(default to ${BOLD}${run_mode_auto}${END_C}${GREEN}) "
 function ask_run_mode(){
-	choose_line="${GREEN}Choose a run-mode between ${END_C} ${run_mode_prod} | ${run_mode_dev} | ${run_mode_pharma} |"\
-	" ${run_mode_ph_dev} ${run_sup}: "
+	choose_line="${GREEN}Choose a run-mode between ${END_C} ${run_mode_prod} | ${run_mode_dev} | ${run_mode_pharma} |  ${run_mode_ph_dev} ${run_sup}: "
 	echo -n -e "${choose_line}"
-	# run_mode="${run_mode_prod}"
 	read run_mode
 }
 ask_run_mode
@@ -144,7 +140,7 @@ run_env_auto=''
 if printf -- '%s' "${FQDN}" | egrep -q -- "cloudapp.net"
 then # Azure
 	run_env_auto="${env_azure}"
-	env_sup="(leave blank for ${run_env_auto}) "
+	env_sup="(default to ${BOLD}${run_env_auto}${END_C}${GREEN}) "
 else
 	if printf -- '%s' "${FQDN}" | egrep -q -- "gui.fi"
 	then
