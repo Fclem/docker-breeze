@@ -246,6 +246,8 @@ print_and_do "git clone ${breeze_static_repo_url} ${static_source_path}"
 print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
 ### Generate the nginx config file
 gen_nginx_conf
+### set fish as the default shell
+sudo chsh -s /usr/bin/fish ${username}
 ### Get the DOCKER images
 echo -e $L_CYAN"Getting docker images ..."${END_C}
 print_and_do "docker pull $shiny_image" # this is an un-edited copy of default docker shiny image
@@ -264,6 +266,4 @@ echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$br
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
 echo -e $GREEN"DONE"${END_C}
-# set fish as the default shell
-sudo chsh -s /usr/bin/fish ${username}
 fish

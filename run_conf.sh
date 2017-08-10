@@ -14,12 +14,12 @@ nginx_template_file="${nginx_folder}/nginx_template.conf"
 nginx_conf_file="${nginx_folder}/nginx.conf"
 ssh_folder="${local_root_path}/.ssh/"
 code_folder="${local_root_path}/code" # the root folder of your code (i.e. the one that has requirement.txt)
-rel_actual_code_folder="../${git_repo_name}/"
+rel_actual_code_folder="../${git_repo_name}"
 actual_code_folder=`readlink -f ${rel_actual_code_folder}`
 # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 project_folder="${local_root_path}/breeze_data"
 report_cache_folder="${project_folder}/db/reports/_cache"
-rel_static_source_path="../${static_source_name}/"
+rel_static_source_path="../${static_source_name}"
 static_source_path=`readlink -f ${rel_static_source_path}`
 docker_root_folder="$home_folder/code"
 breeze_secrets_folder="${code_folder}/configs"

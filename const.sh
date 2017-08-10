@@ -54,8 +54,8 @@ mysql_init_file='./breeze.sql'
 static_source_name='static_source'
 home_folder="/root"
 docker_project_folder="/projects/breeze"
-rel_shiny_folder="../shiny/"
-rel_breezedb_folder="../breeze-db/"
+rel_shiny_folder="../shiny"
+rel_breezedb_folder="../breeze-db"
 code_ln="code"
 
 # RUN MODES
