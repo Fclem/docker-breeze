@@ -98,7 +98,7 @@ if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 	echo -e ${RED}"WARNING: FQDN does not resolve to this server public ip (${PUB_IP})"${END_C}
 	# TODO else write FQDN and PUB_IP in a file to passon to Breeze
 else
-	echo -e ${GREEN}"${site_domain} resolves to this server's public IP !"${END_C}
+	echo -e ${BOLD}"${site_domain}${END_C}${GREEN} resolves to this server's public IP (${PUB_IP}) !"${END_C}
 fi
 echo -n -e $GREEN"Enter the name of this site : "${END_C}
 read site_name
@@ -122,7 +122,7 @@ print_and_do "sudo apt-get update"
 # installs required packages
 inst_list=`cat VM_pkg_list`
 print_and_do "sudo apt-get install -y linux-image-extra-$(uname -r) $inst_list"
-print_and_do "sudo gpasswd -a ${USER} docker"
+print_and_do "sudo gpasswd -a ${USER} docker" # FIXME useless
 print_and_do "sudo service docker start"
 
 # creates mysql password file if absent
@@ -224,5 +224,5 @@ echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_
 echo -e " _ Add the SSL certificates to ${BOLD}$nginx_folder${END_C}"
 echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$breezedb_folder${END_C}, and run"\
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
-echo -e ${BOLD}_GREEN"To start breeze, run './start_all.sh'"${END_C}
+echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
 echo -e $GREEN"DONE"${END_C}
