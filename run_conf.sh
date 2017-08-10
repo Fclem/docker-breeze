@@ -3,11 +3,6 @@ source docker_breeze_img/build.conf
 source ${local_root_path}/const.sh
 source ${local_root_path}/docker_breeze_img/build.conf
 
-function print_and_do(){
-	echo -e $SHDOL$1
-	eval $1
-}
-
 # GIT
 git_repo="${git_url_base}/${git_user_name}/${git_repo_name}.git"
 breeze_static_repo_url="${git_url_base}/${git_user_name}/${breeze_static_repo_name}.git"

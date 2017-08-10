@@ -9,6 +9,11 @@ GREEN="\e[32m"
 BOLD="\e[1m"
 SHDOL=${GREEN}${BOLD}"$"${END_C}" "
 
+function print_and_do(){
+	echo -e $SHDOL$1
+	eval $1
+}
+
 # # # # # # # #
 # env defined #
 # # # # # # # #
