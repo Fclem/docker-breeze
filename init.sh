@@ -200,8 +200,8 @@ print_and_do "gpg --keyserver ${GPG_key_server} --recv ${clem_GPG_id}"
 print_and_do "gpg --keyserver ${GPG_key_server} --recv ${alks_GPG_id}"
 
 # SQL conf
-sql_line="INSERT INTO \`django_site\` SET \`domain\`=\''$site_domain'\', \`name\`=\''$site_name'\';"
-print_and_do "echo '$sql_line' >> ${mysql_init_file}"
+sql_line="INSERT INTO \\\`django_site\\\` SET \\\`domain\\\`='${site_domain}', \\\`name\\\`='${site_name}';"
+print_and_do "echo \"${sql_line}\" >> ${mysql_init_file}"
 
 # static content
 echo -e $L_CYAN"Getting static content ..."${END_C}
