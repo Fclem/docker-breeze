@@ -44,6 +44,7 @@ ${db_folder}/configs/engine ${db_folder}/configs/exec ${db_folder}/configs/targe
 source ssh_enabled.sh
 
 FQDN=`hostname -f`
+site_name_auto=`hostname`
 site_domain=""
 FQDN_TXT=""
 PUB_IP=`curl ipinfo.io/ip 2>/dev/null`

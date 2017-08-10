@@ -60,8 +60,8 @@ function gen_nginx_conf(){
 
 # clem 10/08/2017
 function check_sudo(){
-	echo -e "${L_CYAN}Checking for root access ${END_C}(if prompted please enter your root password)${L_CYAN} ...${END_C}"
-	sudo echo "${GREEN}OK${END_C}"
+	echo -e "${L_CYAN}Checking for root access ${END_C}(if prompted please enter the root password)${L_CYAN} ...${END_C}"
+	sudo echo -e "${GREEN}OK${END_C}"
 }
 
 function create_folders_if_not_existant(){
@@ -187,6 +187,7 @@ do
 		site_domain="${FQDN}"
 	fi
 done
+# Check if FQDN resolve to this public ip
 FQDN_IP=`dig +short ${site_domain}`
 if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 	echo -e ${RED}"WARNING: FQDN does not resolve to this server public ip (${PUB_IP})"${END_C}
@@ -194,12 +195,20 @@ if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 else
 	echo -e ${BOLD}"${site_domain}${END_C}${GREEN} resolves to this server's public IP (${PUB_IP}) !"${END_C}
 fi
+# auto-detect site_name from local hostname
+site_name_sup=''
+if [ "${site_name_auto}" != "" ]; then
+	site_name_sup=", default to${BOLD}${site_name_auto}${END_C}${GREEN}"
+fi
 while [ "${site_name}" = "" ]
 do
-	echo -n -e ${GREEN}"Enter the name of this site (no space) : "${END_C}
+	echo -n -e ${GREEN}"Enter the name of this site (no space, default to${site_name_sup}) : ${END_C}"
 	read site_name
+	if [ "${site_name_auto}" != "" ] && [ "${site_name}" = "" ]; then
+		site_name=${site_name_auto}
+	fi
 done
-### Creating SSH keys
+### Creating SSH keys if non-existant
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
 	echo -e ${L_CYAN}"Creating SSH keys ..."${END_C}
 	ssh-keygen -t rsa -b 4096 -C "${site_name}@${site_domain}"
