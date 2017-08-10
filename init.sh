@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 local_root_path=$(readlink -f $(dirname "$0"))
 source const.sh # IDE hack for var resolution
 source ${local_root_path}/const.sh
