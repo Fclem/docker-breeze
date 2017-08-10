@@ -31,6 +31,31 @@ function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, o
 	fi
 }
 
+# clem 10/08/2017
+function gen_nginx_conf(){
+	# small templating engine that reads NGINX configuration template and replaces any %var_name% by the content of
+	# the corresponding ${var_name}
+	# inspired from https://stackoverflow.com/a/26509635/5094389 by wich (https://stackoverflow.com/users/251414/wich)
+	echo -e $L_CYAN"Generating NGINX configuration file from template ..."${END_C}
+	old_IFS=$IFS
+	IFS=$'\n'
+	echo "" > ${nginx_conf_file}
+	regex="%(\w+?)%"
+	for line in `cat ${nginx_template_file}`; do
+		if [[ "$line" =~ $regex ]]
+		then
+			name="${BASH_REMATCH[1]}"
+			name="${name}"
+			line=${line//${BASH_REMATCH[0]}/${!name}}
+			if [ "${!name}" = "" ]; then
+				echo -e "${RED}ERROR: ${BOLD}${name}${END_C}${RED} WAS NOT SET${END_C}" >> /dev/stderr
+			fi
+		fi
+		echo $line >> ${nginx_conf_file}
+	done
+	IFS=$old_IFS
+}
+
 # check if user is in docker group, adds it if not
 username=${USER}
 if getent group docker | grep &>/dev/null "\b${username}\b"; then
@@ -220,6 +245,9 @@ print_and_do "git clone ${breeze_static_repo_url} ${static_source_path}"
 # create a soft link to the static source folder
 print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
 
+# nginx config file
+gen_nginx_conf
+
 # DOCKER
 echo -e $L_CYAN"Getting docker images ..."${END_C}
 
@@ -230,7 +258,7 @@ docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downl
 "$L_YELL"You can also customize it and build it from ${BOLD}./docker_breeze_img/"${END_C}
 echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
 echo -e " _ Copy req. secrets to ${BOLD}$breeze_secrets_folder${END_C} or use ./init_secret.sh (TODO automatize)"
-echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
+# echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
 echo -e " _ Add the SSL certificates to ${BOLD}$nginx_folder${END_C}"
 echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$breezedb_folder${END_C}, and run"\
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"

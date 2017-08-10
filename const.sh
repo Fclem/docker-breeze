@@ -1,4 +1,4 @@
-# helpers
+# bash coloring helpers
 username=${USER}
 END_C="\e[0m"
 RED="\e[91m"
@@ -74,3 +74,8 @@ locale_gen='en_US.UTF-8'
 GPG_key_server="pgp.mit.edu"
 clem_GPG_id="B4A7FF8614ED9842"
 alks_GPG_id="DFDAF03DA18C9EE8"
+
+# nginx
+nginx_static_base="/www/data" # user for NGINX
+nginx_static_mount="${nginx_static_base}/static"
+nginx_report_cache_mount="/www/data/reports"

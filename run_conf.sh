@@ -10,6 +10,7 @@ breeze_static_repo_url="${git_url_base}/${git_user_name}/${breeze_static_repo_na
 cd ${local_root_path}
  # FOLDER STRUCTURE
 nginx_folder="${local_root_path}/nginx"
+nginx_template_file="${nginx_folder}/nginx_template.conf"
 nginx_conf_file="${nginx_folder}/nginx.conf"
 ssh_folder="${local_root_path}/.ssh/"
 code_folder="${local_root_path}/code" # the root folder of your code (i.e. the one that has requirement.txt)
@@ -17,6 +18,7 @@ rel_actual_code_folder="../${git_repo_name}/"
 actual_code_folder=`readlink -f ${rel_actual_code_folder}`
 # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 project_folder="${local_root_path}/breeze_data"
+report_cache_folder="${project_folder}/db/reports/_cache"
 rel_static_source_path="../${static_source_name}/"
 static_source_path=`readlink -f ${rel_static_source_path}`
 docker_root_folder="$home_folder/code"
@@ -88,4 +90,11 @@ link_param="--link $mysql_cont_name:mysql \
 shiny_param="-v ${shiny_serv_folder}/:${shiny_container_folder} \
     -v ${shiny_log_folder}/:/var/log/"
 
+# file system mounts and containers links for nginx
+nginx_param="-v $nginx_folder/:/root:ro \
+	-v $nginx_conf_file:/etc/nginx/nginx.conf:ro \
+	-v $static_source_path/:$nginx_static_mount:ro \
+	-v $report_cache_folder/:$nginx_report_cache_mount:ro \
+	--link $breeze_cont_name:$breeze_cont_name \
+	--link $shiny_cont_name:$shiny_cont_name"
 # --link $breezedb_cont_name:breeze.northeurope.cloudapp.azure.com
