@@ -200,8 +200,10 @@ do
 	read site_name
 done
 ### Creating SSH keys
-echo -e ${L_CYAN}"Creating SSH keys ..."${END_C}
-ssh-keygen -t rsa -b 4096 -C "${site_name}@${site_domain}"
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+	echo -e ${L_CYAN}"Creating SSH keys ..."${END_C}
+	ssh-keygen -t rsa -b 4096 -C "${site_name}@${site_domain}"
+fi
 echo
 echo -e ${L_CYAN}"Init will now run fully unattended, and might take several minutes to complete"${END_C}
 echo "You should scroll through the log to make sure that everything goes smoothly"
@@ -218,6 +220,7 @@ export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
 locale-gen ${locale_gen}
 # sudo dpkg-reconfigure locales
+# TODO check if this works
 sudo echo "${time_zone}" > /etc/timezone && \
 	sudo dpkg-reconfigure -f noninteractive tzdata && \
 	sed -i -e "s/# ${locale_gen} UTF-8/${locale_gen} UTF-8/" /etc/locale.gen && \
