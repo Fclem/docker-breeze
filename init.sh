@@ -217,7 +217,7 @@ export LANGUAGE=${locale_gen}
 export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
 locale-gen ${locale_gen}
-sudo dpkg-reconfigure locales
+# sudo dpkg-reconfigure locales
 sudo echo "${time_zone}" > /etc/timezone && \
 	sudo dpkg-reconfigure -f noninteractive tzdata && \
 	sed -i -e "s/# ${locale_gen} UTF-8/${locale_gen} UTF-8/" /etc/locale.gen && \
