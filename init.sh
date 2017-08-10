@@ -118,8 +118,8 @@ else
 fi
 run_sup="(leave blank for ${run_mode_auto}) "
 function ask_run_mode(){
-	choose_line=${GREEN}"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
-	" | "${run_mode_ph_dev}" ${run_sup}: "
+	choose_line="${GREEN}Choose a run-mode between ${END_C} ${run_mode_prod} | ${run_mode_dev} | ${run_mode_pharma} |"\
+	" ${run_mode_ph_dev} ${run_sup}: "
 	echo -n -e "${choose_line}"
 	# run_mode="${run_mode_prod}"
 	read run_mode
@@ -154,7 +154,7 @@ else
 fi
 # ask the user
 function ask_run_env(){
-	choose_line=${GREEN}"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}" ${env_sup}: "
+	choose_line="${GREEN}Choose a run-environement between ${END_C} ${env_azure} | ${env_fimm} ${env_sup}: "
 	echo -n -e "${choose_line}"
 	read run_env
 }
