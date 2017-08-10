@@ -200,7 +200,7 @@ echo -e ${L_CYAN}"Creating file and folder structure ..."${END_C}
 touch ${containers_list}
 chmod ugo-rwx ${containers_list}
 # creates project folder if non existant
-create_folder_if_not_existant ${folders_to_create}
+create_folders_if_not_existant ${folders_to_create}
 # creates code folder if non existent
 create_if_non_existent "${actual_code_folder}"
 # creates shiny folder if non existent
