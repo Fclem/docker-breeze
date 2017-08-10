@@ -98,7 +98,9 @@ source ${local_root_path}/run_conf.sh
 #  Gather all required information from user so that the script does not require later attending :
 ###
 
+###
 ### run_mode ?
+###
 run_mode=''
 # trying to autodetect based on FQDN
 run_sup=''
@@ -132,7 +134,10 @@ do
 	echo -e  ${RED}"Invalid run-mode"${END_C}" '${run_mode}'"
 	ask_run_mode
 done
+
+###
 ### run_env ?
+###
 run_env=''
 # trying to autodetect based on FQDN
 env_sup=''
@@ -165,7 +170,10 @@ do
 	echo -e  ${RED}"Invalid run-environement"${END_C}" '${run_env}'"
 	ask_run_env
 done
+
+###
 ### Should download code repo from github ?
+###
 if [ ! "$(ls -A ${actual_code_folder} 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
 	echo -n -e ${GREEN}"\nWould you like to clone ${BOLD}${git_repo}${END_C}${GREEN} repository in ${BOLD}"\
@@ -174,7 +182,10 @@ if [ ! "$(ls -A ${actual_code_folder} 2>/dev/null)" ]; then
 	read -n 1 -p $'(Y/n) ' do_git_clone
 	echo
 fi
+
+###
 ### FQDN / host configuration (useful for site table in db, and nginx conf file)
+###
 if [ "" != "${FQDN}" ]; then
 	echo -e ${GREEN}"Auto-detected FQDN : ${END_C}${BOLD}${FQDN}${END_C}"
 	FQDN_TXT="(leave blank for auto-detected one) "
@@ -195,6 +206,10 @@ if [ "$FQDN_IP" != "${PUB_IP}" ]; then
 else
 	echo -e ${BOLD}"${site_domain}${END_C}${GREEN} resolves to this server's public IP (${PUB_IP}) !"${END_C}
 fi
+
+###
+### Site name
+###
 # auto-detect site_name from local hostname
 site_name_sup=''
 if [ "${site_name_auto}" != "" ]; then
@@ -208,7 +223,10 @@ do
 		site_name=${site_name_auto}
 	fi
 done
+
+###
 ### Creating SSH keys if non-existant
+###
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
 	echo -e ${L_CYAN}"Creating SSH keys ..."${END_C}
 	ssh-keygen -t rsa -b 4096 -C "${site_name}@${site_domain}"
@@ -285,12 +303,10 @@ else
 	then
 		print_and_do "git clone ${git_repo} ${actual_code_folder}"
 	fi
-
 	# create a softlink to the code repo tld
 	if [ ! -d "${actual_code_folder}" ] ; then
 		print_and_do "ln -s ${actual_code_folder} ${code_ln}"
 	fi
-
 	# create the secrets folder
 	print_and_do "mkdir ${breeze_secrets_folder} 2>/dev/null"
 	# create hard links for mysql passd
