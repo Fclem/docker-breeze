@@ -64,23 +64,24 @@ function check_sudo(){
 	sudo echo "${GREEN}OK${END_C}"
 }
 
-# check if user is in docker group, adds it if not
+### check if user is in docker group, adds it if not
 username=${USER}
 if getent group docker | grep &>/dev/null "\b${username}\b"; then
-  echo -n -e "$L_CYAN${username} already in group docker"${END_C}
+  echo -n -e "$L_YELL${username} already in group docker"${END_C}
 else
 	print_and_do "sudo groupadd docker && sudo usermod -aG docker ${username}"
-	echo -e "$L_CYAN${username} added to group docker, please log in again, and run ./init again"${END_C}
+	echo -e "$L_YELL${username} added to group docker, please log in again, and run ./init again"${END_C}
   logout 2>/dev/null
 	exit
 fi
 
+# load config files
 source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
 source run_conf.sh # IDE hack for var resolution
 source ${local_root_path}/run_conf.sh
 
-# ask most of the question here for no more attending :
-# run_mode
+# gather all required information from user so that the script does not require later attending :
+### run_mode ?
 choose_line=$GREEN"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
 " | "${run_mode_ph_dev}" : "
 echo -n -e "${choose_line}"
@@ -93,7 +94,7 @@ do
 	echo -n -e "$choose_line"
 	read run_mode
 done
-# run_env
+### run_env ?
 choose_line=$GREEN"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}"  : "
 echo -n -e "${choose_line}"
 run_env=''
@@ -104,7 +105,7 @@ do
 	echo -n -e "$choose_line"
 	read run_env
 done
-# download repo
+### Should download code repo from github ?
 if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	do_git_clone=y                      # In batch mode => Default is Yes
 	echo -n -e $GREEN"\nWould you like to clone ${BOLD}${git_repo}${END_C}${GREEN} repository in ${BOLD}"\
@@ -113,7 +114,7 @@ if [ ! "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	read -n 1 -p $'(Y/n) ' do_git_clone
 	echo
 fi
-# SQL conf
+### FQDN / host configuration (useful for site table in db, and nginx conf file)
 if [ "" != "${FQDN}" ]; then
 	echo -e $GREEN"Auto-detected FQDN : ${END_C}${BOLD}${FQDN}${END_C}"
 	FQDN_TXT="(or leave blank for auto-detected one) "
@@ -143,32 +144,34 @@ echo -e $L_CYAN"Init will now run fully unattended, and might take several minut
 echo "You should scroll through the log to make sure that everything goes smoothly"
 echo
 
-# Fix locale
+###
+#  END OF ATTENDED PART
+###
+
+### Fix locale
 locale-gen ${locale_gen}
 export LANGUAGE=${locale_gen}
 export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
 locale-gen ${locale_gen}
 sudo dpkg-reconfigure locales
-
-# APT update
+### APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
 print_and_do "sudo apt-get install apt-transport-https ca-certificates"
-# docker repos keys
+### Get docker repos keys
 print_and_do "sudo apt-key adv \
                --keyserver ${apt_docker_key_server} \
                --recv-keys ${apt_docker_key_id}"
-# docker repo
+### Add apt docker repo
 print_and_do "echo 'deb ${apt_docker_repo} ubuntu-xenial main' "\
 "| sudo tee /etc/apt/sources.list.d/docker.list"
 print_and_do "sudo apt-get update"
-# installs required packages
+### installs required packages from list
 inst_list=`cat VM_pkg_list`
 print_and_do "sudo apt-get install -y linux-image-extra-$(uname -r) $inst_list"
 print_and_do "sudo gpasswd -a ${USER} docker" # FIXME useless
 print_and_do "sudo service docker start"
-
-# creates mysql password file if absent
+### creates mysql password file if absent
 if [ ! -f $mysql_secret_file ]; then
    	touch $mysql_secret_file && \
 	chmod go-rwx $mysql_secret_file && \
@@ -179,15 +182,12 @@ if [ ! -f $mysql_secret_file ]; then
 	rnd_pass=''
 	mysql_secret=`cat $mysql_secret_file`
 fi
-
+### Folder structure creation
 # TODO improve & finnish. Make a python shell script instead ?
-
 echo -e $L_CYAN"Creating file and folder structure ..."${END_C}
-
 # create empty files for easier bash competition when using docker start/attach etc.
 touch $breeze_cont_name $mysql_cont_name $nginx_cont_name $breezedb_cont_name $shiny_cont_name
 chmod ugo-rwx $breeze_cont_name $mysql_cont_name $nginx_cont_name $breezedb_cont_name $shiny_cont_name
-
 # creates project folder if non existant
 if [ ! -d "$project_folder" ] ; then # FIXME
 	db_folder=$project_folder/db
@@ -201,14 +201,12 @@ if [ ! -d "$project_folder" ] ; then # FIXME
 else
 	print_already ${project_folder}
 fi
-
 # creates code folder if non existent
 create_if_non_existent "$actual_code_folder"
 # creates shiny folder if non existent
 create_if_non_existent "$shiny_folder" $shiny_folder_list
 # soft link for shiny folder
 print_and_do "ln -s $rel_shiny_folder $shiny_ln"
-
 # if code folder is empty, offer to clone isbio repo
 if [ "$(ls -A $actual_code_folder 2>/dev/null)" ]; then
 	echo -e $L_YELL"$actual_code_folder is not empty, if you which to clone isbio into it, clear it first"${END_C}
@@ -228,42 +226,36 @@ else
 	# create hard links for mysql passd
 	print_and_do "ln $mysql_secret_file $breeze_secrets_folder/$mysql_secret_file"
 fi
-
+# just in case
 chmod ugo+r breeze.sql
-
 # save the run mode in .run_mode into the code folder
 print_and_do "echo '$run_mode'>$actual_code_folder/.run_mode"
 # save the run env in .run_env into the code folder
 print_and_do "echo '$run_env'>$actual_code_folder/.run_env"
-
-# GPG
+### getting devlopers GPG keys for pipeline source code, and breeze git auto-update code signature authentication
 echo -e $L_CYAN"Getting devs' GPG public keys ..."${END_C}
-
 print_and_do "gpg --keyserver ${GPG_key_server} --recv ${clem_GPG_id}"
 print_and_do "gpg --keyserver ${GPG_key_server} --recv ${alks_GPG_id}"
-
-# SQL conf
+# Add the site to the SQL conf file
 sql_line="INSERT INTO \\\`django_site\\\` SET \\\`domain\\\`='${site_domain}', \\\`name\\\`='${site_name}';"
 print_and_do "echo \"${sql_line}\" >> ${mysql_init_file}"
-
-# static content
+### Get the static content from the github repo
 echo -e $L_CYAN"Getting static content ..."${END_C}
 print_and_do "git clone ${breeze_static_repo_url} ${static_source_path}"
-
 # create a soft link to the static source folder
 print_and_do "ln -s $rel_static_source_path $code_folder/$static_source_name"
-
-# nginx config file
+### Generate the nginx config file
 gen_nginx_conf
-
-# DOCKER
+### Get the DOCKER images
 echo -e $L_CYAN"Getting docker images ..."${END_C}
-
 print_and_do "docker pull $shiny_image" # this is an un-edited copy of default docker shiny image
 print_and_do "docker pull $mysql_image" # this is an un-edited copy of default docker mysql image
 print_and_do "docker pull nginx" # this is an un-edited copy of default docker mysql image
 docker pull $breeze_image && echo -e $L_CYAN"Breeze docker image have been downloaded from dockerhub.
 "$L_YELL"You can also customize it and build it from ${BOLD}./docker_breeze_img/"${END_C}
+###
+#  DONE
+###
 echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
 echo -e " _ Copy req. secrets to ${BOLD}$breeze_secrets_folder${END_C} or use ./init_secret.sh (TODO automatize)"
 # echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
@@ -272,3 +264,4 @@ echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$br
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
 echo -e $GREEN"DONE"${END_C}
+fish
