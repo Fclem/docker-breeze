@@ -202,7 +202,7 @@ if [ "${site_name_auto}" != "" ]; then
 fi
 while [ "${site_name}" = "" ]
 do
-	echo -n -e ${GREEN}"Enter the name of this site (no space, default to${site_name_sup}) : ${END_C}"
+	echo -n -e ${GREEN}"Enter the name of this site (no space${site_name_sup}) : ${END_C}"
 	read site_name
 	if [ "${site_name_auto}" != "" ] && [ "${site_name}" = "" ]; then
 		site_name=${site_name_auto}
