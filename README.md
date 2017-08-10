@@ -15,7 +15,7 @@ Check related isbio repository at https://github.com/Fclem/isbio
 How-to :
 
 ```console
-curl https://goo.gl/VLroxR && ./bootstrap.sh
+source <(curl -L https://goo.gl/VLroxR)
 ```
 If not logged-out, log-out and login again then
 ```console
