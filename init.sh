@@ -254,8 +254,8 @@ print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
 print_and_do "sudo apt-get install apt-transport-https ca-certificates"
 ### Get docker repos keys
 print_and_do "sudo apt-key adv \
-               --keyserver ${apt_docker_key_server} \
-               --recv-keys ${apt_docker_key_id}"
+			--keyserver ${apt_docker_key_server} \
+			--recv-keys ${apt_docker_key_id}"
 ### Add apt docker repo
 print_and_do "echo 'deb ${apt_docker_repo} ubuntu-xenial main' "\
 "| sudo tee /etc/apt/sources.list.d/docker.list"
@@ -267,7 +267,7 @@ print_and_do "sudo gpasswd -a ${USER} docker" # FIXME useless
 print_and_do "sudo service docker start"
 ### creates mysql password file if absent
 if [ ! -f ${mysql_secret_file} ]; then
-   	touch ${mysql_secret_file} && \
+	touch ${mysql_secret_file} && \
 	chmod go-rwx ${mysql_secret_file} && \
 	echo -e ${L_CYAN}"Created mysql password file '${mysql_secret_file}'."${END_C}
 	# echo -e $RED"YOU MUST STORE A VALID PASSWORD FOR MYSQL ROOT USER IN THIS FILE"${END_C}
@@ -304,8 +304,12 @@ else
 	fi
 	# create the secrets folder
 	print_and_do "mkdir ${breeze_secrets_folder} 2>/dev/null"
-	# create hard links for mysql passd
-	print_and_do "ln ${mysql_secret_file} ${breeze_secrets_folder}/${mysql_secret_file}"
+	if [ ! -f ${breeze_secrets_folder}/${mysql_secret_file} ]; then
+		# print_and_do "rm ${breeze_secrets_folder}/${mysql_secret_file} 2>/dev/null"
+		# create hard links for mysql passd
+		# FIXME may be overwritten while db already created
+		print_and_do "ln ${mysql_secret_file} ${breeze_secrets_folder}/${mysql_secret_file}"
+	fi
 fi
 # just in case
 chmod ugo+r breeze.sql
