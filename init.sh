@@ -110,6 +110,14 @@ echo -e $L_CYAN"Init will now run fully unattended, and might take several minut
 echo "You should scroll through the log to make sure that everything goes smoothly"
 echo
 
+# Fix locale
+locale-gen ${locale_gen}
+export LANGUAGE=${locale_gen}
+export LANG=${locale_gen}
+export LC_ALL=${locale_gen}
+locale-gen ${locale_gen}
+dpkg-reconfigure locales
+
 # APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
 print_and_do "sudo apt-get install apt-transport-https ca-certificates"

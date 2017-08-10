@@ -67,6 +67,8 @@ run_mode_prod='prod'
 # ENV CONFS
 env_azure='azurecloud'
 env_fimm='fimm'
+site_name=''
+locale_gen='en_US.UTF-8'
 
 # GPG
 GPG_key_server="pgp.mit.edu"
