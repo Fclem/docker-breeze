@@ -99,59 +99,75 @@ source ${local_root_path}/run_conf.sh
 ###
 
 ### run_mode ?
+run_mode=''
 # trying to autodetect based on FQDN
-run_mode=""
 run_sup=''
+run_mode_auto=''
 if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-dev"
 then # dev
-	run_mode="${run_mode_dev}"
-	run_sup="(leave blank for ${run_mode}) "
+	run_mode_auto="${run_mode_dev}"
+	run_sup="(leave blank for ${run_mode_auto}) "
 else
 	if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-ph"
 	then
-		run_mode="${run_mode_pharma}"
-		run_sup="(leave blank for ${run_mode}) "
+		run_mode_auto="${run_mode_pharma}"
+		run_sup="(default to ${BOLD}${run_mode_auto}${END_C}${GREEN}) "
 	else
-		run_mode="${run_mode_prod}"
+		run_mode_auto="${run_mode_prod}"
 	fi
 fi
-run_sup="(leave blank for ${run_mode}) "
-choose_line=${GREEN}"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
-" | "${run_mode_ph_dev}" ${run_sup}: "
-echo -n -e "${choose_line}"
-# run_mode="${run_mode_prod}"
-read run_mode
+run_sup="(leave blank for ${run_mode_auto}) "
+function ask_run_mode(){
+	choose_line=${GREEN}"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
+	" | "${run_mode_ph_dev}" ${run_sup}: "
+	echo -n -e "${choose_line}"
+	# run_mode="${run_mode_prod}"
+	read run_mode
+}
+ask_run_mode
+# fill with auto-detected value if input is null
+if [ "${run_mode_auto}" != "" ] && [ "${run_mode}" = "" ]; then
+	run_mode="${run_mode_auto}"
+done
+# check if properly filled
 while [ "${run_mode}" != "${run_mode_dev}" ] && [ "${run_mode}" != "${run_mode_pharma}" ] && \
  [ "${run_mode}" != "${run_mode_ph_dev}" ] && [ "${run_mode}" != "${run_mode_prod}" ]
 do
 	echo -e  ${RED}"Invalid run-mode"${END_C}" '${run_mode}'"
-	echo -n -e "${choose_line}"
-	read run_mode
+	ask_run_mode
 done
 ### run_env ?
-# trying to autodetect based on FQDN
 run_env=''
+# trying to autodetect based on FQDN
 env_sup=''
+run_env_auto=''
 if printf -- '%s' "${FQDN}" | egrep -q -- "cloudapp.net"
 then # Azure
-	run_env="${env_azure}"
-	env_sup="(leave blank for ${run_env}) "
+	run_env_auto="${env_azure}"
+	env_sup="(leave blank for ${run_env_auto}) "
 else
 	if printf -- '%s' "${FQDN}" | egrep -q -- "gui.fi"
 	then
-		run_env="${env_fimm}"
-		env_sup="(leave blank for ${run_env}) "
+		run_env_auto="${env_fimm}"
+		env_sup="(default to ${BOLD}${run_env_auto}${END_C}${GREEN}) "
 	fi
 fi
 # ask the user
-choose_line=${GREEN}"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}" ${env_sup}: "
-echo -n -e "${choose_line}"
-read run_env
+function ask_run_env(){
+	choose_line=${GREEN}"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}" ${env_sup}: "
+	echo -n -e "${choose_line}"
+	read run_env
+}
+ask_run_env
+# fill with auto-detected value if input is null
+if [ "${run_env_auto}" != "" ] && [ "${run_env}" = "" ]; then
+	run_env="${run_env_auto}"
+done
+# check if properly filled
 while [ "${run_env}" != "${env_azure}" ] && [ "${run_env}" != "${env_fimm}" ]
 do
 	echo -e  ${RED}"Invalid run-environement"${END_C}" '${run_env}'"
-	echo -n -e "${choose_line}"
-	read run_env
+	ask_run_env
 done
 ### Should download code repo from github ?
 if [ ! "$(ls -A ${actual_code_folder} 2>/dev/null)" ]; then
@@ -165,7 +181,7 @@ fi
 ### FQDN / host configuration (useful for site table in db, and nginx conf file)
 if [ "" != "${FQDN}" ]; then
 	echo -e ${GREEN}"Auto-detected FQDN : ${END_C}${BOLD}${FQDN}${END_C}"
-	FQDN_TXT="(or leave blank for auto-detected one) "
+	FQDN_TXT="(leave blank for auto-detected one) "
 fi
 while [ "${site_domain}" = "" ]
 do
@@ -302,7 +318,7 @@ echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
 echo -e " _ Copy req. secrets to ${BOLD}${breeze_secrets_folder}${END_C} or use ./init_secret.sh (TODO automatize)"
 # echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
 echo -e " _ Add the SSL certificates to ${BOLD}${nginx_folder}${END_C}"
-echo -e " _ Add the SSH key to GitHub to be able to download R sources (use ${BOLD}cat ~/.ssh/id_rsa.pub${END_C}"
+echo -e " _ Add the SSH key to GitHub to be able to download R sources (use ${BOLD}cat ~/.ssh/id_rsa.pub, then run ${BOLD}./load_r_code.sh${END_C}"
 echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}${breezedb_folder}${END_C}, and run"\
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
