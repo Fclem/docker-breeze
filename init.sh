@@ -114,7 +114,7 @@ else
 		run_mode_auto="${run_mode_prod}"
 	fi
 fi
-run_sup="(default to ${BOLD}${run_mode_auto}${END_C}${GREEN}) "
+run_sup="(default to ${BOLD}${run_mode_auto}${END_C}) "
 function ask_run_mode(){
 	choose_line="${GREEN}Choose a run-mode between ${END_C} ${run_mode_prod} | ${run_mode_dev} | ${run_mode_pharma} |  ${run_mode_ph_dev} ${run_sup}: "
 	echo -n -e "${choose_line}"
@@ -140,12 +140,12 @@ run_env_auto=''
 if printf -- '%s' "${FQDN}" | egrep -q -- "cloudapp.net"
 then # Azure
 	run_env_auto="${env_azure}"
-	env_sup="(default to ${BOLD}${run_env_auto}${END_C}${GREEN}) "
+	env_sup="(default to ${BOLD}${run_env_auto}${END_C}) "
 else
 	if printf -- '%s' "${FQDN}" | egrep -q -- "gui.fi"
 	then
 		run_env_auto="${env_fimm}"
-		env_sup="(default to ${BOLD}${run_env_auto}${END_C}${GREEN}) "
+		env_sup="(default to ${BOLD}${run_env_auto}${END_C}) "
 	fi
 fi
 # ask the user
