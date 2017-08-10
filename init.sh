@@ -54,6 +54,14 @@ function gen_nginx_conf(){
 		echo $line >> ${nginx_conf_file}
 	done
 	IFS=$old_IFS
+	# delete the template
+	print_and_do "rm ${nginx_template_file}"
+}
+
+# clem 10/08/2017
+function check_sudo(){
+	echo -e "${L_CYAN}Checking for root access ${END_C}(if prompted please enter your root password)${L_CYAN} ...${END_C}"
+	sudo echo "${GREEN}OK${END_C}"
 }
 
 # check if user is in docker group, adds it if not
@@ -141,7 +149,7 @@ export LANGUAGE=${locale_gen}
 export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
 locale-gen ${locale_gen}
-dpkg-reconfigure locales
+sudo dpkg-reconfigure locales
 
 # APT update
 print_and_do "sudo apt-get update && sudo apt-get upgrade -y"
