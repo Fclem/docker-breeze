@@ -75,6 +75,9 @@ function create_folders_if_not_existant(){
 	done
 }
 
+### check sudo access
+check_sudo
+
 ### check if user is in docker group, adds it if not
 username=${USER}
 if getent group docker | grep &>/dev/null "\b${username}\b"; then
@@ -86,17 +89,37 @@ else
 	exit
 fi
 
-# load config files
+### load config files
 source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
 source run_conf.sh # IDE hack for var resolution
 source ${local_root_path}/run_conf.sh
 
-# gather all required information from user so that the script does not require later attending :
+###
+#  Gather all required information from user so that the script does not require later attending :
+###
+
 ### run_mode ?
+# trying to autodetect based on FQDN
+run_mode=""
+run_sup=''
+if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-dev"
+then # dev
+	run_mode="${run_mode_dev}"
+	run_sup="(leave blank for ${run_mode}) "
+else
+	if printf -- '%s' "${FQDN}" | egrep -q -- "breeze-ph"
+	then
+		run_mode="${run_mode_pharma}"
+		run_sup="(leave blank for ${run_mode}) "
+	else
+		run_mode="${run_mode_prod}"
+	fi
+fi
+run_sup="(leave blank for ${run_mode}) "
 choose_line=${GREEN}"Choose a run-mode between "${END_C}" "${run_mode_prod}" | "${run_mode_dev}" | "${run_mode_pharma}\
-" | "${run_mode_ph_dev}" : "
+" | "${run_mode_ph_dev}" ${run_sup}: "
 echo -n -e "${choose_line}"
-run_mode=''
+# run_mode="${run_mode_prod}"
 read run_mode
 while [ "${run_mode}" != "${run_mode_dev}" ] && [ "${run_mode}" != "${run_mode_pharma}" ] && \
  [ "${run_mode}" != "${run_mode_ph_dev}" ] && [ "${run_mode}" != "${run_mode_prod}" ]
@@ -106,9 +129,23 @@ do
 	read run_mode
 done
 ### run_env ?
-choose_line=${GREEN}"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}"  : "
-echo -n -e "${choose_line}"
+# trying to autodetect based on FQDN
 run_env=''
+env_sup=''
+if printf -- '%s' "${FQDN}" | egrep -q -- "cloudapp.net"
+then # Azure
+	run_env="${env_azure}"
+	env_sup="(leave blank for ${run_env}) "
+else
+	if printf -- '%s' "${FQDN}" | egrep -q -- "gui.fi"
+	then
+		run_env="${env_fimm}"
+		env_sup="(leave blank for ${run_env}) "
+	fi
+fi
+# ask the user
+choose_line=${GREEN}"Choose a run-environement between "${END_C}" "${env_azure}" | "${env_fimm}" ${env_sup}: "
+echo -n -e "${choose_line}"
 read run_env
 while [ "${run_env}" != "${env_azure}" ] && [ "${run_env}" != "${env_fimm}" ]
 do
@@ -147,9 +184,12 @@ else
 fi
 while [ "${site_name}" = "" ]
 do
-	echo -n -e ${GREEN}"Enter the name of this site : "${END_C}
+	echo -n -e ${GREEN}"Enter the name of this site (no space) : "${END_C}
 	read site_name
 done
+### Creating SSH keys
+echo -e ${L_CYAN}"Creating SSH keys ..."${END_C}
+ssh-keygen -t rsa -b 4096 -C "${site_name}@${site_domain}"
 echo
 echo -e ${L_CYAN}"Init will now run fully unattended, and might take several minutes to complete"${END_C}
 echo "You should scroll through the log to make sure that everything goes smoothly"
