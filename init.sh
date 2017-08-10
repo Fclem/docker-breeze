@@ -128,7 +128,7 @@ ask_run_mode
 # fill with auto-detected value if input is null
 if [ "${run_mode_auto}" != "" ] && [ "${run_mode}" = "" ]; then
 	run_mode="${run_mode_auto}"
-done
+fi
 # check if properly filled
 while [ "${run_mode}" != "${run_mode_dev}" ] && [ "${run_mode}" != "${run_mode_pharma}" ] && \
  [ "${run_mode}" != "${run_mode_ph_dev}" ] && [ "${run_mode}" != "${run_mode_prod}" ]
@@ -162,7 +162,7 @@ ask_run_env
 # fill with auto-detected value if input is null
 if [ "${run_env_auto}" != "" ] && [ "${run_env}" = "" ]; then
 	run_env="${run_env_auto}"
-done
+fi
 # check if properly filled
 while [ "${run_env}" != "${env_azure}" ] && [ "${run_env}" != "${env_fimm}" ]
 do
