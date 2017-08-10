@@ -55,7 +55,7 @@ function gen_nginx_conf(){
 	done
 	IFS=$old_IFS
 	# delete the template
-	print_and_do "rm ${nginx_template_file}"
+	# print_and_do "rm ${nginx_template_file}"
 }
 
 # clem 10/08/2017
