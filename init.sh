@@ -264,4 +264,6 @@ echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}$br
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
 echo -e $GREEN"DONE"${END_C}
+# set fish as the default shell
+chsh -s /usr/bin/fish ${username}
 fish
