@@ -18,7 +18,8 @@ rel_actual_code_folder="../${git_repo_name}"
 actual_code_folder=`readlink -f ${rel_actual_code_folder}`
 # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
 project_folder="${local_root_path}/breeze_data"
-report_cache_folder="${project_folder}/db/reports/_cache"
+db_folder="${project_folder}/db"
+report_cache_folder="${db_folder}/reports/_cache"
 rel_static_source_path="../${static_source_name}"
 static_source_path=`readlink -f ${rel_static_source_path}`
 docker_root_folder="$home_folder/code"
@@ -32,6 +33,12 @@ shiny_ln="${local_root_path}/shiny"
 breezedb_folder=`readlink -f ${rel_breezedb_folder}`
 
 shiny_folder_list="${shiny_folder} ${shiny_log_folder} ${shiny_serv_folder} ${shiny_app_folder} ${shiny_pub_folder}"
+
+folders_to_create="${db_folder} ${project_folder}/code \
+${db_folder}/configs ${db_folder}/datasets ${db_folder}/jobs ${db_folder}/mould \
+${db_folder}/pipelines ${report_cache_folder} ${db_folder}/scripts ${db_folder}/shinyReports \
+${db_folder}/shinyTags ${db_folder}/swap ${db_folder}/upload_temp \
+${db_folder}/configs/engine ${db_folder}/configs/exec ${db_folder}/configs/target"
 
 source ssh_enabled.sh
 
