@@ -6,6 +6,7 @@ source ${local_root_path}/docker_breeze_img/build.conf
 # GIT
 git_repo="${git_url_base}/${git_user_name}/${git_repo_name}.git"
 breeze_static_repo_url="${git_url_base}/${git_user_name}/${breeze_static_repo_name}.git"
+breeze_r_code_repo_url="${git_url_base}/${git_user_name}/${breeze_r_code_repo_name}.git"
 
 cd ${local_root_path}
  # FOLDER STRUCTURE
