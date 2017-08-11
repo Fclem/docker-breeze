@@ -12,7 +12,7 @@ docker inspect $mysql_cont_name > /dev/null 2>/dev/null
 if [ $? -eq 1 ]; then
 	# check if there is a restore file
 	mysql_restore_sup=''
-	if [ ! -f $local_root_path/restore.sql ]; then
+	if [ -f $local_root_path/restore.sql ]; then
 		mysql_restore_sup="-v $local_root_path/restore.sql:/docker-entrypoint-initdb.d/restore.sql"
 	fi
 	# container does not exist, we create a new one
