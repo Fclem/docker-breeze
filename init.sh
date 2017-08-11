@@ -212,7 +212,7 @@ if [ "${site_name_auto}" != "" ]; then
 fi
 while [ "${site_name}" = "" ]
 do
-	echo -n -e ${GREEN}"Enter the name of this site (no space${site_name_sup}) : ${END_C}"
+	echo -n -e ${GREEN}"Enter the name of this site (no space ${site_name_sup}) : ${END_C}"
 	read site_name
 	if [ "${site_name_auto}" != "" ] && [ "${site_name}" = "" ]; then
 		site_name=${site_name_auto}
@@ -348,6 +348,7 @@ echo -e " _ Copy req. secrets to ${BOLD}${breeze_secrets_folder}${END_C} or use 
 # echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
 echo -e " _ Add the SSL certificates to ${BOLD}${nginx_folder}${END_C}"
 echo -e " _ Add the following SSH key to GitHub to be able to download R sources then run ${BOLD}./load_r_code.sh${END_C}"
+echo -e " _ if you'd like to restore any data into MySql, just store SQL query into ${BOLD}restore.sql${END_C} and they will be executed right after DB init"
 echo -e " _ if using Breeze-DB you need to copy appropriated files to ${BOLD}${breezedb_folder}${END_C}, and run"\
 " ${BOLD}${breezedb_cont_name}${END_C} container ${BOLD}before${END_C} running Breeze"
 echo -e ${BOLD_GREEN}"To start breeze, run './start_all.sh'"${END_C}
