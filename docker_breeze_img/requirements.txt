@@ -57,3 +57,4 @@ django-suit==0.2.22
 ipython[notebook]
 django_extensions
 django-cas-ng
+python-swiftclient
