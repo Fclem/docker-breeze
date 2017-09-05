@@ -1,5 +1,6 @@
 local_root_path=$(readlink -f $(dirname "$0"))
 source docker_breeze_img/build.conf
+source const.sh
 source ${local_root_path}/const.sh
 source ${local_root_path}/docker_breeze_img/build.conf
 

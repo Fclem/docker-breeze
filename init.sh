@@ -236,11 +236,11 @@ echo
 ###
 
 ### Fix locale
-locale-gen ${locale_gen}
+sudo locale-gen ${locale_gen}
 export LANGUAGE=${locale_gen}
 export LANG=${locale_gen}
 export LC_ALL=${locale_gen}
-locale-gen ${locale_gen}
+sudo locale-gen ${locale_gen}
 # sudo dpkg-reconfigure locales
 # TODO check if this works
 sudo echo "${time_zone}" > /etc/timezone && \
@@ -345,7 +345,6 @@ docker pull ${breeze_image} && echo -e ${L_CYAN}"Breeze docker image have been d
 ###
 echo -e ${BOLD}"N.B. before starting Breeze :"${END_C}
 echo -e " _ Copy req. secrets to ${BOLD}${breeze_secrets_folder}${END_C} or use ./init_secret.sh (TODO automatize)"
-# echo -e " _ Create the nginx configuration file at ${BOLD}$nginx_conf_file${END_C} (TODO automatize)"
 echo -e " _ Add the SSL certificates to ${BOLD}${nginx_folder}${END_C}"
 echo -e " _ Add the following SSH key to GitHub to be able to download R sources then run ${BOLD}./load_r_code.sh${END_C}"
 echo -e " _ if you'd like to restore any data into MySql, just store SQL query into ${BOLD}restore.sql${END_C} and they will be executed right after DB init"

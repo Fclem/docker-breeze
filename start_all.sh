@@ -21,6 +21,7 @@ echo -e $SHDOL"./start_nginx.sh" && ./start_nginx.sh && echo -e $GREEN"GENERAL S
 echo "something went wrong, system state is lickly to be inconsistent"
 echo -e $RED"FAILURE"$END_C
 exit 1
+# TODO should wait for django to get started befor triggering  next
 # echo -e $SHDOL"$breezedb_folder/start_mysql.sh" && $breezedb_folder/start_mysql.sh && \
 # TODO
 # docker logs breeze-one | tail -n 1
