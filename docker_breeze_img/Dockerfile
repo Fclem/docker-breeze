@@ -68,9 +68,4 @@ RUN gpg --keyserver pgp.mit.edu --recv-keys 0xB4A7FF8614ED9842 0xDFDAF03DA18C9EE
 	echo "trusted-key 0xDFDAF03DA18C9EE8">>~/.gnupg/gpg.conf && mkdir ~/.ssh
 RUN touch ~/.ssh/known_hosts && echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==">>~/.ssh/known_hosts
 
-RUN groupadd -g 876916667 sg_breeze_pharma && useradd -c 'breeze user' -u 8585873 -g 876916667 -G sudo  -m -d /home/breeze -s /bin/bash breeze && \
-	mkdir -p /var/log/breeze && chown breeze /var/log/breeze && umask 0007
-# RUN chown -R node.node /src
-USER breeze
-ENV HOME /home/breeze
 
