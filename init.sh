@@ -230,21 +230,6 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
 	print_and_do "ssh-keygen -t rsa -b 4096 -C \"${site_name}@${site_domain}\""
 fi
 
-# TODO ask for project folder path
-echo -e ${GREEN}"Enter the path for the project folder on this host (NO trailling slash)${END_C}"
-echo -n -e ${GREEN}"leave blank for default ${BOLD}${project_folder_default}${END_C}${GREEN} : ${END_C}"
-read project_folder_input
-if [ "${project_folder_input}" != "" ]; then
-	# create_if_non_existent ${project_folder_input}
-	project_folder=${project_folder_input}
-else
-	project_folder=${project_folder_default}
-fi
-# saves the folder path in const.sh
-print_and_do "echo \"project_folder='${project_folder}'\">>${local_root_path}/const.sh"
-# reloads configs
-source ${local_root_path}/run_conf.sh
-
 echo
 echo -e ${L_CYAN}"Init will now run fully unattended, and might take several minutes to complete"${END_C}
 echo "You should scroll through the log to make sure that everything goes smoothly"

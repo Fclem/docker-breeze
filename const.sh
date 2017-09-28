@@ -87,3 +87,5 @@ alks_GPG_id="DFDAF03DA18C9EE8"
 nginx_static_base="/www/data" # user for NGINX
 nginx_static_mount="${nginx_static_base}/static"
 nginx_report_cache_mount="/www/data/reports/"
+
+# init.sh generated :

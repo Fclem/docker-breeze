@@ -47,7 +47,8 @@ source ssh_enabled.sh
 
 FQDN=`hostname -f`
 site_name_auto=`hostname`
-site_domain=""
+# site_domain=""
+site_domain_in=""
 FQDN_TXT=""
 PUB_IP=`curl ipinfo.io/ip 2>/dev/null`
 
