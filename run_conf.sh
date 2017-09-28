@@ -19,7 +19,8 @@ code_folder="${local_root_path}/code" # the root folder of your code (i.e. the o
 rel_actual_code_folder="../${git_repo_name}"
 actual_code_folder=`readlink -f ${rel_actual_code_folder}`
 # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
-project_folder="${local_root_path}/breeze_data"
+# project_folder moved to const.sh with user input
+project_folder_default="${local_root_path}/breeze_data"
 db_folder="${project_folder}/db"
 report_cache_folder="${db_folder}/reports/_cache"
 rel_static_source_path="../${static_source_name}"

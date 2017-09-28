@@ -79,7 +79,7 @@ locale_gen='en_US.UTF-8'
 time_zone="Europe/Helsinki"
 
 # GPG
-GPG_key_server="pgp.mit.edu"
+GPG_key_server="hkp://keyserver.ubuntu.com:80" # using port 80 prevents issues with oubound firewall
 clem_GPG_id="B4A7FF8614ED9842"
 alks_GPG_id="DFDAF03DA18C9EE8"
 
