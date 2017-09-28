@@ -356,6 +356,7 @@ print_and_do "ln -s ${rel_static_source_path} ${code_folder}/${static_source_nam
 gen_nginx_conf
 ### set fish as the default shell
 sudo chsh -s /usr/bin/fish ${username}
+sudo chsh -s /usr/bin/fish # also for root user
 ### Get the DOCKER images
 echo -e ${L_CYAN}"Getting docker images ..."${END_C}
 print_and_do "docker pull ${shiny_image}" # this is an un-edited copy of default docker shiny image
