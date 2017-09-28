@@ -3,29 +3,6 @@ local_root_path=$(readlink -f $(dirname "$0"))
 source const.sh # IDE hack for var resolution
 source ${local_root_path}/const.sh
 
-function print_already(){
-	echo -e $L_YELL"Already exists : "$1${END_C}
-}
-
-function print_created(){
-	echo -e $L_CYAN"created : "$1${END_C}
-}
-
-function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, or space separated list to pass to mkdir
-	# second arg is optional and will be filled with first if absent
-	sec="$2"
-	if [ "" = "${sec}" ]; then
-		sec="$1"
-	fi
-	# creates folders if non existent
-	if [ ! -d "$1" ] ; then
-		mkdir -p ${sec} && \
-	    print_created ${sec}
-	else
-		print_already $1
-	fi
-}
-
 # clem 10/08/2017
 function gen_nginx_conf(){
 	# small templating engine that reads NGINX configuration template and replaces any %var_name% by the content of

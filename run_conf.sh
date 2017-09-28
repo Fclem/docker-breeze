@@ -22,6 +22,7 @@ actual_code_folder=`readlink -f ${rel_actual_code_folder}`
 # project_folder moved to const.sh with user input
 project_folder_default="${local_root_path}/breeze_data"
 db_folder="${project_folder}/db"
+R_code_folder="${project_folder}/code"
 report_cache_folder="${db_folder}/reports/_cache"
 rel_static_source_path="../${static_source_name}"
 static_source_path=`readlink -f ${rel_static_source_path}`
@@ -37,7 +38,7 @@ breezedb_folder=`readlink -f ${rel_breezedb_folder}`
 
 shiny_folder_list="${shiny_folder} ${shiny_log_folder} ${shiny_serv_folder} ${shiny_app_folder} ${shiny_pub_folder}"
 
-folders_to_create="${db_folder} ${project_folder}/code \
+folders_to_create="${db_folder} ${R_code_folder} \
 ${db_folder}/configs ${db_folder}/datasets ${db_folder}/jobs ${db_folder}/mould \
 ${db_folder}/pipelines ${report_cache_folder} ${db_folder}/scripts ${db_folder}/shinyReports \
 ${db_folder}/shinyTags ${db_folder}/swap ${db_folder}/upload_temp \

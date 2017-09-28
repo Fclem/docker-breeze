@@ -14,6 +14,29 @@ function print_and_do(){
 	eval $1
 }
 
+function print_already(){
+	echo -e $L_YELL"Already exists : "$1${END_C}
+}
+
+function print_created(){
+	echo -e $L_CYAN"created : "$1${END_C}
+}
+
+function create_if_non_existent(){ # arg1 is folder to test, arg2 is a folder, or space separated list to pass to mkdir
+	# second arg is optional and will be filled with first if absent
+	sec="$2"
+	if [ "" = "${sec}" ]; then
+		sec="$1"
+	fi
+	# creates folders if non existent
+	if [ ! -d "$1" ] ; then
+		mkdir -p ${sec} && \
+	    print_created ${sec}
+	else
+		print_already $1
+	fi
+}
+
 # # # # # # # #
 # env defined #
 # # # # # # # #
