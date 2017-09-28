@@ -75,7 +75,6 @@ run_mode_prod='prod'
 env_azure='azurecloud'
 env_fimm='fimm'
 site_name=''
-site_name_in=''
 locale_gen='en_US.UTF-8'
 time_zone="Europe/Helsinki"
 
