@@ -185,12 +185,14 @@ if [ "" != "${FQDN}" ]; then
 	echo -e ${GREEN}"Auto-detected FQDN : ${END_C}${BOLD}${FQDN}${END_C}"
 	FQDN_TXT="(leave blank for auto-detected one) "
 fi
-while [ "${site_domain}" = "" ]
+while [[ -z "${site_domain// }" ]]
 do
 	echo -n -e ${GREEN}"Enter the FQDN of this host ${FQDN_TXT}: "${END_C}
-	read site_domain
-	if [ "" = "${site_domain}" ]; then
+	read site_domain_in
+	if [[ -z "${site_domain_in}" ]]; then
 		site_domain="${FQDN}"
+	else
+		site_domain="${site_domain_in}"
 	fi
 done
 # Check if FQDN resolve to this public ip
