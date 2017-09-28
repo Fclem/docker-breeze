@@ -3,7 +3,7 @@ local_root_path=$(readlink -f $(dirname "$0"))
 source ${local_root_path}/run_conf.sh
 
 if [ -f ~/.ssh/id_rsa.pub ]; then
-	if [ ! -d "${R_code_folder}" ] ; then
+	if [ -d "${R_code_folder}" ] ; then
 		echo -e "${L_YELL}The R source code folder ${BOLD}${R_code_folder}${END_C}${L_YELL} already exists,${END_C}"
 		do_rm=y                      # In batch mode => Default is Yes
 		echo -e -n "${GREEN}Would you like to delete it ($ rm -fr ${R_code_folder}), and clone the repository once again ? ${END_C}"
