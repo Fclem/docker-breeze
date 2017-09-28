@@ -302,8 +302,8 @@ create_folders_if_not_existant ${folders_to_create}
 # if project folder is different than default, makes a soft link for default to actual path
 if [ "${project_folder}" != "${project_folder_default}" ]; then
 	# makes sure target folder is writable
-	project_target=$(readlink -f $(dirname "${project_folder}"))
-	print_and_do "sudo chmod g+w ${project_target} && sudo chown root:${username} ${project_target}"
+	# project_target=$(readlink -f $(dirname "${project_folder}"))
+	print_and_do "sudo chmod g+w ${project_folder} && sudo chown root:${username} ${project_folder}"
 	# deletes the default project folder with error suppression, for if non existent
 	print_and_do "rm -f ${project_folder_default} 2>/dev/null"
 	print_and_do "ln -s ${project_folder} ${project_folder_default}"
