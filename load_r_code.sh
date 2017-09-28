@@ -13,6 +13,8 @@ if [ -f ~/.ssh/id_rsa.pub ]; then
 		if [[ ${do_rm} =~ ^(y|Y|)$ ]]  # Do if 'y', 'Y' or empty
 		then
 			print_and_do "rm -fr ${R_code_folder}"
+		else
+			exit
 		fi
 	fi
 	create_if_non_existent ${R_code_folder}
