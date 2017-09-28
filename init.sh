@@ -90,6 +90,20 @@ source ${local_root_path}/init_ssh.sh # will ask if should be enabled or not
 source run_conf.sh # IDE hack for var resolution
 source ${local_root_path}/run_conf.sh
 
+echo -e ${GREEN}"Enter the path for the project folder on this host (NO trailling slash)${END_C}"
+echo -n -e ${GREEN}"leave blank for default ${BOLD}${project_folder_default}${END_C}${GREEN} : ${END_C}"
+read project_folder_input
+if [ "${project_folder_input}" != "" ]; then
+	# create_if_non_existent ${project_folder_input}
+	project_folder=${project_folder_input}
+else
+	project_folder=${project_folder_default}
+fi
+# saves the folder path in const.sh
+print_and_do "echo \"project_folder='${project_folder}'\">>${local_root_path}/const.sh"
+# reloads configs
+source ${local_root_path}/run_conf.sh
+
 ###
 #  Gather all required information from user so that the script does not require later attending :
 ###
