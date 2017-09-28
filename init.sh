@@ -297,8 +297,6 @@ echo -e ${L_CYAN}"Creating file and folder structure ..."${END_C}
 # create empty files for easier bash competition when using docker start/attach etc.
 touch ${containers_list}
 chmod ugo-rwx ${containers_list}
-# creates project folder if non existant
-create_folders_if_not_existant ${folders_to_create}
 # if project folder is different than default, makes a soft link for default to actual path
 if [ "${project_folder}" != "${project_folder_default}" ]; then
 	# makes sure target folder is writable
@@ -308,6 +306,8 @@ if [ "${project_folder}" != "${project_folder_default}" ]; then
 	print_and_do "rm -f ${project_folder_default} 2>/dev/null"
 	print_and_do "ln -s ${project_folder} ${project_folder_default}"
 fi
+# creates project folder if non existant
+create_folders_if_not_existant ${folders_to_create}
 # creates code folder if non existent
 create_if_non_existent "${actual_code_folder}"
 # creates shiny folder if non existent
