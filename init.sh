@@ -123,9 +123,9 @@ chmod ugo+r breeze.sql
 
 echo -e $L_CYAN"Getting GPG public keys ..."$END_C
 
-echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842"
+echo -e $SHDOL"gpg --keyserver hkp://pgp.mit.edu:80 --recv B4A7FF8614ED9842"
 gpg --keyserver pgp.mit.edu --recv B4A7FF8614ED9842
-echo -e $SHDOL"gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8"
+echo -e $SHDOL"gpg --keyserver hkp://pgp.mit.edu:80 --recv DFDAF03DA18C9EE8"
 gpg --keyserver pgp.mit.edu --recv DFDAF03DA18C9EE8
 
 echo -n -e $GREEN"Enter the FQDN of this host : "$END_C
