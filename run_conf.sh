@@ -19,6 +19,7 @@ ssh_folder=$local_root_path/.ssh/
 code_folder=$local_root_path/code # the root folder of your code (i.e. the one that has requirement.txt)
 actual_code_folder=`readlink -f ../$git_repo_name/`
 project_folder=$local_root_path/breeze_data # the breeze project folder (i.e. the one that contains the db/ folder, and the code/ for R code)
+shared_storage_folder="${project_folder}/storage"
 home_folder=/home/breeze
 static_source_name='static_source'
 static_source_path=`readlink -f ../$static_source_name/`
@@ -58,7 +59,7 @@ mysql_image=fimm/mysql # this is an un-edited copy of default docker mysql image
 mysql_secret_file=.mysql_root_secret
 mysql_secret=`cat $mysql_secret_file`
 breeze_image=$repo_name/$img_name
-full_img_name=$repo_name/$img_name:ph1 # change image name here
+full_img_name=$repo_name/$img_name:ph2 # change image name here
 
 # TODO FIXME use docker-compose or else
 
@@ -100,6 +101,7 @@ fs_param="-v $code_folder:$docker_root_folder \
 	-v $static_source_path:$home_folder/$static_source_name:ro \
 	-v $project_folder/:$docker_project_folder \
 	-v $project_folder/:$docker_project_folder-ph2 \
+	-v $shared_storage_folder/:/storage \
 	$ssh_sup_fs \
 	$pharma \
 	-w $docker_root_folder"
